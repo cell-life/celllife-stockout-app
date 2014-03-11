@@ -1,10 +1,6 @@
 package org.celllife.stockout.app.activities;
 
-import java.util.Date;
-
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.adapters.AlertListViewAdapter;
-import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.fragments.OrderFragment;
 import org.celllife.stockout.app.fragments.ReceivedFragment;
 
@@ -14,11 +10,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -32,22 +25,18 @@ public class MainActivity extends Activity {
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		OrderFragment orderFrag = new OrderFragment();
-		View orderView = findViewById(R.layout.order);
-		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new OrderListener(orderFrag, orderView)));
+		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new ATabListener(orderFrag)));
 
 		ReceivedFragment receivedFrag = new ReceivedFragment();
-		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ReceivedListener(receivedFrag)));
+		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ATabListener(receivedFrag)));
 
 	}
 
-	public static class OrderListener implements ActionBar.TabListener {
+	public static class ATabListener implements ActionBar.TabListener {
 		private final Fragment mFragment;
-		View view;
 
-		public OrderListener(Fragment fragment, View view) {
+		public ATabListener(Fragment fragment) {
 			this.mFragment = fragment;
-			this.view = view;
-			//setupOrder();
 		}
 
 		@Override
@@ -66,47 +55,6 @@ public class MainActivity extends Activity {
 			if (null != mFragment)
 				ft.remove(mFragment);
 		}
-
-		private void setupOrder() {
-			Log.w("MainActivity", "view="+view);
-		    final ListView listview = (ListView) view.findViewById(R.id.drug_alert);		    
-		    Alert[] values = new Alert[] {
-		    		new Alert(new Date(), 3, "Panado", null, null, null),
-		    		new Alert(new Date(), 3, "Disprin", null, null, null),
-		    		new Alert(new Date(), 2, "Grandpa", null, null, null),
-		    		new Alert(new Date(), 2, "Myprodol", null, null, null),
-		    		new Alert(new Date(), 1, "Allergex", null, null, null),
-		    		new Alert(new Date(), 1, "Texa 10", null, null, null)
-		    };
-		    final AlertListViewAdapter adapter = new AlertListViewAdapter(view.getContext(), R.id.drug_alert, values);
-		    listview.setAdapter(adapter);
-		}
-	}
-
-	public static class ReceivedListener implements ActionBar.TabListener {
-		private final Fragment mFragment;
-
-		public ReceivedListener(Fragment fragment) {
-			mFragment = fragment;
-		}
-
-		@Override
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		}
-
-		@Override
-		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			if (null != mFragment) {
-				ft.replace(R.id.main_tabs, mFragment);
-			}
-		}
-		
-		@Override
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			if (null != mFragment)
-				ft.remove(mFragment);
-		}
-
 	}
 
 	@Override

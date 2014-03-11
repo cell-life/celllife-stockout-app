@@ -8,5 +8,8 @@
     <string name="orders">Orders</string>
     <string name="received">Received</string>
     <string name="hello">Hello</string>
+    
+
+    <string name="empty"></string>
 
 </resources>
