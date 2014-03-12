@@ -12,10 +12,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.content.Intent;
 import android.widget.Toast;
 
 
@@ -35,21 +31,12 @@ public class MainActivity extends Activity {
 
 		ReceivedFragment receivedFrag = new ReceivedFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ATabListener(receivedFrag)));
-
-        Button startScanBtn = (Button) findViewById (R.id.start_scan_activity);
-        startScanBtn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                startScanActivity();
-            }
-
-        });
     }
 
-
-	public static class ATabListener implements ActionBar.TabListener {
+	/**
+	 * Listener to handle tab switching
+	 */
+	public class ATabListener implements ActionBar.TabListener {
 		private final Fragment mFragment;
 
 		public ATabListener(Fragment fragment) {
@@ -89,11 +76,5 @@ public class MainActivity extends Activity {
 				return super.onOptionsItemSelected(item);
 		}
 	}
-
-    private void startScanActivity() {
-
-        Intent intent = new Intent(this,ScanActivity.class);
-        startActivity(intent);
-    }
 }
 

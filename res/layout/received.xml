@@ -20,7 +20,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:text="Please begin scanning of stock received"
+            android:text="@string/stock_received_instruction"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
