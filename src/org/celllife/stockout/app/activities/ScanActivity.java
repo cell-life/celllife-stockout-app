@@ -18,7 +18,7 @@ import com.google.zxing.integration.android.IntentResult;
 public class ScanActivity extends Activity {
 
 	private Button scanBtn;
-	private TextView formatTxt, contentTxt;
+	private TextView contentTxt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,22 @@ public class ScanActivity extends Activity {
 
 		// listen for clicks
 		scanBtn.setOnClickListener((OnClickListener) this);
-	}
+
+        Button getScanBtn = (Button) findViewById(R.id.scan_button);
+        getScanBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+
+        });
+
+        }
+
+
+
+
 
 	public void onClick(View v) {
 		// check for scan button
@@ -54,7 +69,6 @@ public class ScanActivity extends Activity {
 			// get format name of data scanned
 			String scanFormat = scanningResult.getFormatName();
 			// output to UI
-			formatTxt.setText("FORMAT: " + scanFormat);
 			contentTxt.setText("CONTENT: " + scanContent);
 		} else {
 			// invalid scan data or scan canceled
