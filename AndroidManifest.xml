@@ -26,6 +26,12 @@
             android:name="org.celllife.stockout.app.activities.ScanActivity"
             android:label="@string/app_name" >
          </activity>
+        <uses-library android:name="android.test.runner" />
     </application>
+
+    <instrumentation
+    android:name="android.test.InstrumentationTestRunner"
+    android:label="@string/app_name"
+    android:targetPackage="org.celllife.stockout.app" />
 
 </manifest>

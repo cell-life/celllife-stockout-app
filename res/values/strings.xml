@@ -6,10 +6,16 @@
     <string name="scan">Scan</string>
 
     <string name="orders">Orders</string>
+    <string name="stock_take_heading">Requires Stock Take</string>
+        
     <string name="received">Received</string>
-    <string name="hello">Hello</string>
+    <string name="stock_received_instruction">Please begin scanning of stock received</string>
     
-
+    <string name="hello">Hello</string>
     <string name="empty"></string>
+
+    <string name="scan">Scan</string>
+    <string name="loading_scanner">Loading&#8230;&#8230;&#8230;</string>
+    <string name="no_barcode">No barcode received.</string>
 
 </resources>
