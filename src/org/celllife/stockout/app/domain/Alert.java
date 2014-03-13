@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Domain object to represent Alerts in the system - they are associated with Users and are for a specific Drug.
+ * Domain object to represent Alerts in the system - they are for a specific Drug.
  * Alerts have a level indicating importance and a status {@see AlertStatus} to indicate the lifecycle of the Alert
  */
 public class Alert implements Serializable {
@@ -21,21 +21,18 @@ public class Alert implements Serializable {
 	
 	private AlertStatus status;
 	
-	private User user;
-	
 	private Drug drug;
 	
 	public Alert() {
 		
 	}
 	
-	public Alert(Date date, Integer level, String message, AlertStatus status, User user, Drug drug) {
+	public Alert(Date date, Integer level, String message, AlertStatus status, Drug drug) {
 		super();
 		this.date = date;
 		this.level = level;
 		this.message = message;
 		this.status = status;
-		this.user = user;
 		this.drug = drug;
 	}
 
@@ -79,14 +76,6 @@ public class Alert implements Serializable {
 		this.status = status;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Drug getDrug() {
 		return drug;
 	}
@@ -98,7 +87,7 @@ public class Alert implements Serializable {
 	@Override
 	public String toString() {
 		return "Alert [id=" + id + ", date=" + date + ", level=" + level + ", message=" + message + ", status="
-				+ status + ", user=" + user + ", drug=" + drug + "]";
+				+ status + ", drug=" + drug + "]";
 	}
 
 	@Override
