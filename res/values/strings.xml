@@ -14,7 +14,6 @@
     <string name="hello">Hello</string>
     <string name="empty"></string>
 
-    <string name="scan">Scan</string>
     <string name="loading_scanner">Loading&#8230;&#8230;&#8230;</string>
     <string name="no_barcode">No barcode received.</string>
 

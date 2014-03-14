@@ -3,7 +3,8 @@ package org.celllife.stockout.app.fragments;
 import java.util.Date;
 
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.activities.ScanActivity;
+import org.celllife.stockout.app.activities.PinActivity;
+
 import org.celllife.stockout.app.adapters.AlertListViewAdapter;
 import org.celllife.stockout.app.domain.Alert;
 
@@ -27,7 +28,7 @@ public class OrderFragment extends Fragment {
         orderView = inflater.inflate(R.layout.order, container, false);
         // setup the view
         setupOrder(orderView);
-        setupScanButton(orderView);
+        setupPinButton(orderView);
 
         return orderView;
     }
@@ -35,30 +36,32 @@ public class OrderFragment extends Fragment {
 	private void setupOrder(View orderView) {
 	    final ListView listview = (ListView) orderView.findViewById(R.id.drug_alert_list);		    
 	    Alert[] values = new Alert[] {
-	    		new Alert(new Date(), 3, "Panado", null, null, null),
-	    		new Alert(new Date(), 3, "Disprin", null, null, null),
-	    		new Alert(new Date(), 2, "Grandpa", null, null, null),
-	    		new Alert(new Date(), 2, "Myprodol", null, null, null),
-	    		new Alert(new Date(), 1, "Allergex", null, null, null),
-	    		new Alert(new Date(), 1, "Texa 10", null, null, null)
+	    		new Alert(new Date(), 3, "Panado", null, null),
+	    		new Alert(new Date(), 3, "Disprin", null, null),
+	    		new Alert(new Date(), 2, "Grandpa", null, null),
+	    		new Alert(new Date(), 2, "Myprodol", null, null),
+	    		new Alert(new Date(), 1, "Allergex", null, null),
+	    		new Alert(new Date(), 1, "Texa 10", null, null)
 	    };
 	    final AlertListViewAdapter adapter = new AlertListViewAdapter(orderView.getContext(), R.id.drug_alert_list, values);
 	    listview.setAdapter(adapter);
 	}
-	
-	private void setupScanButton(final View orderView) {
-        Button startScanBtn = (Button) orderView.findViewById (R.id.scan_button);
-        startScanBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	Toast.makeText(orderView.getContext(), R.string.loading_scanner, Toast.LENGTH_LONG).show();
-                startScanActivity();
+
+    private void setupPinButton(final View orderView) {
+      Button startScanBtn = (Button) orderView.findViewById (R.id.scan_button);
+      startScanBtn.setOnClickListener(new OnClickListener() {
+          @Override
+        public void onClick(View v) {
+          	Toast.makeText(orderView.getContext(), R.string.loading_scanner, Toast.LENGTH_LONG).show();
+              startPinActivity();
             }
         });
-	}
-
-    private void startScanActivity() {
-        Intent intent = new Intent(orderView.getContext(), ScanActivity.class);
-        startActivity(intent);
     }
+
+    private void startPinActivity() {
+     Intent intent = new Intent(orderView.getContext(), PinActivity.class);
+     startActivity(intent);
+    }
+
+
 }

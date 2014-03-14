@@ -9,12 +9,30 @@
         android:inputType="numberPassword"
         android:password="true"
         android:ems="10"
-        android:maxLength="10"
         android:id="@+id/pin"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="132dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancel_button"
+        android:layout_marginBottom="36dp"
+        android:layout_marginRight="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:id="@+id/confirm_button"
+        android:layout_marginLeft="44dp"
+        android:layout_alignTop="@+id/cancel_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
