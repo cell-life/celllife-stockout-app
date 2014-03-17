@@ -1,6 +1,7 @@
 package org.celllife.stockout.app.database.framework;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -24,6 +25,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
 	// List of all the tables in this database
 	private List<TableHelper<?>> tables;
+	
+	private SQLiteDatabase database;
 
 	
 	public DatabaseOpenHelper(Context context, List<TableHelper<?>> tables) {
@@ -32,12 +35,20 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		for (TableHelper<?> table : tables) {
 			table.setDatabaseOpenHelper(this);
 		}
+		open();
+	}
+	
+	public void open() {
+		if (database == null) {
+			database = this.getWritableDatabase();
+		}
 	}
 	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		for (TableHelper<?> table : tables) {
 			db.execSQL(table.getCreateTableSql());
+	        initialise(table);
 		}
 	}
 
@@ -60,11 +71,11 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	 * Inserts the specified data (row), for the specified table, into the database
 	 */
 	public <T extends Serializable> void addContent(TableHelper<T> table, ContentValues values){
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = database; //this.getWritableDatabase();
 		try {
 			db.insert(table.getTableName(), null, values);
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -72,11 +83,14 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	 * Deletes the specified content from the specified table
 	 */
 	public <T extends Serializable> void deleteContent(TableHelper<T> table, Long id) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		try {
-			db.delete(table.getTableName(), "WHERE id = ?", new String[] { id.toString() } );
+		SQLiteDatabase db = database; //this.getWritableDatabase();
+		db.beginTransaction();
+	    try {
+			db.delete(table.getTableName(), "id = ?", new String[] { id.toString() } );
+			db.setTransactionSuccessful();
 		} finally {
-			db.close();
+			//db.close();
+			db.endTransaction();
 		}
 	}
 
@@ -84,11 +98,14 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	 * Deletes the specified content from the specified table
 	 */
 	public <T extends Serializable> void updateContent(TableHelper<T> table, Long id, ContentValues values) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = database; //this.getWritableDatabase();
+		db.beginTransaction();
 		try {
 			db.update(table.getTableName(), values, "id = ?", new String[] { id.toString() } );
+			db.setTransactionSuccessful();
 		} finally {
-			db.close();
+			//db.close();
+			db.endTransaction();
 		}
 	}
 
@@ -96,7 +113,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	 * Finds some data from the specified table, given a query and the parameters
 	 */
 	public <T extends Serializable> T find(TableHelper<T> table, String query, String[] values) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = database; // this.getReadableDatabase();
 		try {
 			Cursor c = db.rawQuery(query, values);
 		    if (c != null) {
@@ -106,8 +123,29 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		    	return null;
 		    }
 		} finally {
-			db.close();
+			//db.close();
 		}		
+	}
+
+	/**
+	 * Finds some data from the specified table, given a query and the parameters
+	 */
+	public <T extends Serializable> List<T> findMany(TableHelper<T> table, String query, String[] values) {
+		List<T> entities = new ArrayList<T>();
+		SQLiteDatabase db = database; // this.getWritableDatabase();
+		try {
+			Cursor c = db.rawQuery(query, values);
+		    if (c != null) {
+		        c.moveToFirst();
+		        do {
+		        	T entity = table.readFromCursor(c);
+		        	entities.add(entity);
+		        } while (c.moveToNext());
+		    }
+		} finally {
+			//db.close();
+		}
+		return entities;
 	}
 
 	// initialises the data for all the tables in the database

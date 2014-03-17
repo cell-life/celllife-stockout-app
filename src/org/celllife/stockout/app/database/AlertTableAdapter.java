@@ -11,6 +11,7 @@ import org.celllife.stockout.app.domain.Drug;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 /**
  * This is the Data Access Object (DAO) for the Alert table. All methods
@@ -60,7 +61,12 @@ public class AlertTableAdapter extends TableAdapter<Alert> {
 
 	@Override
 	public List<ContentValues> getInitialData() {
+		Log.w("AlertTableAdapter", "Initialising Alerts");
 		List<ContentValues> initialData = new ArrayList<ContentValues>();
+		Drug panado = drugTableAdapter.findByBarcode("60011053");
+		initialData.add(createContentValues(new Alert(new Date(), 3, "Panado", AlertStatus.NEW, panado)));
+		Drug grandpa = drugTableAdapter.findByBarcode("60015204");
+		initialData.add(createContentValues(new Alert(new Date(), 1, "Grandpa", AlertStatus.NEW, grandpa)));		
 		return initialData;
 	}
 	
@@ -99,5 +105,5 @@ public class AlertTableAdapter extends TableAdapter<Alert> {
 
 	public Alert findByDrug(Drug drug) {
 		return db.find(this, QUERY_FINDBY_DRUG, new String[] { drug.getId().toString() });
-	}	
+	}
 }

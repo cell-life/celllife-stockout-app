@@ -8,6 +8,7 @@ import org.celllife.stockout.app.domain.Drug;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 /**
  * This is the Data Access Object (DAO) for the Drug table. All methods
@@ -49,9 +50,12 @@ public class DrugTableAdapter extends TableAdapter<Drug> {
 
 	@Override
 	public List<ContentValues> getInitialData() {
+		Log.w("DrugTableAdapter", "Initialising Drugs");
 		List<ContentValues> initialData = new ArrayList<ContentValues>();
-		Drug grandpa = new Drug("Grandpa tablets", "122344556654");
+		Drug grandpa = new Drug("Grandpa 24 tablets", "60015204");
+		Drug panado = new Drug("Panado 500mg 24 tablets", "60011053");
 		initialData.add(createContentValues(grandpa));
+		initialData.add(createContentValues(panado));
 		return initialData;
 	}
 	
@@ -78,6 +82,9 @@ public class DrugTableAdapter extends TableAdapter<Drug> {
 	// Add the table specific CRUD operations here
 
 	public Drug findByBarcode(String barcode) {
-		return db.find(this, QUERY_FINDBY_BARCODE, new String[] { barcode });
+		if (barcode != null) {
+			return db.find(this, QUERY_FINDBY_BARCODE, new String[] { barcode });
+		}
+		return null;
 	}	
 }
