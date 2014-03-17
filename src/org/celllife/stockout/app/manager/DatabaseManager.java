@@ -26,53 +26,40 @@ public class DatabaseManager {
 	private static StockTakeTableAdapter stockTakeDb;
 	private static StockHistoryTableAdapter stockHistoryDb;
 	
-	public static DrugTableAdapter getDrugTableAdapter(Context context) {
-		if (db == null) {
-			initialiseDatabase(context);
-		}
+	public static DrugTableAdapter getDrugTableAdapter() {
 		return drugDb;
 	}
 
-	public static UserTableAdapter getUserTableAdapter(Context context) {
-		if (db == null) {
-			initialiseDatabase(context);
-		}
+	public static UserTableAdapter getUserTableAdapter() {
 		return userDb;
 	}
 
-	public static AlertTableAdapter getAlertTableAdapter(Context context) {
-		if (db == null) {
-			initialiseDatabase(context);
-		}
+	public static AlertTableAdapter getAlertTableAdapter() {
 		return alertDb;
 	}
 
-	public static StockTakeTableAdapter getStockTakeTableAdapter(Context context) {
-		if (db == null) {
-			initialiseDatabase(context);
-		}
+	public static StockTakeTableAdapter getStockTakeTableAdapter() {
 		return stockTakeDb;
 	}
 
-	public static StockHistoryTableAdapter getStockHistoryTableAdapter(Context context) {
-		if (db == null) {
-			initialiseDatabase(context);
-		}
+	public static StockHistoryTableAdapter getStockHistoryTableAdapter() {
 		return stockHistoryDb;
 	}
 	
-	private static void initialiseDatabase(Context context) {
-		List<TableHelper<?>> tables = new ArrayList<TableHelper<?>>();
-		userDb = new UserTableAdapter();
-		tables.add(userDb);
-		drugDb = new DrugTableAdapter();
-		tables.add(drugDb);
-		alertDb = new AlertTableAdapter(drugDb);
-		tables.add(alertDb);
-		stockTakeDb = new StockTakeTableAdapter(drugDb);
-		tables.add(stockTakeDb);
-		stockHistoryDb = new StockHistoryTableAdapter(drugDb);
-		tables.add(stockHistoryDb);
-		db = new DatabaseOpenHelper(context, tables);
+	public static void initialise(Context context) {
+		if (db == null) {
+			List<TableHelper<?>> tables = new ArrayList<TableHelper<?>>();
+			userDb = new UserTableAdapter();
+			tables.add(userDb);
+			drugDb = new DrugTableAdapter();
+			tables.add(drugDb);
+			alertDb = new AlertTableAdapter(drugDb);
+			tables.add(alertDb);
+			stockTakeDb = new StockTakeTableAdapter(drugDb);
+			tables.add(stockTakeDb);
+			stockHistoryDb = new StockHistoryTableAdapter(drugDb);
+			tables.add(stockHistoryDb);
+			db = new DatabaseOpenHelper(context, tables);
+		}
 	}
 }
