@@ -1,22 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/received_linear_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:orientation="vertical" >
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:textAlignment="center" >
 
-    <LinearLayout
-        android:id="@+id/received_text_linear_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/received_stock_message"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_above="@+id/scan_button"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
@@ -24,12 +22,13 @@
             android:paddingTop="10dp"
             android:text="@string/stock_received_instruction"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/scan_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/scan" />
+        <Button
+            android:id="@+id/scan_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/scan" />
+    </RelativeLayout>
 
 </LinearLayout>

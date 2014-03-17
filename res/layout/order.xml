@@ -1,85 +1,90 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/order_linear_layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/alert_linear_layout"
+        android:id="@+id/order_linear_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/alert_heading"
-            style="@style/AppBaseTheme"
+        <LinearLayout
+            android:id="@+id/alert_linear_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/alert_heading"
+                style="@style/AppBaseTheme"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/requires_stock_take_heading"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:id="@+id/alert_underline"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#000000" />
+
+            <ListView
+                android:id="@+id/drug_alert_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:scrollbars="vertical" >
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/stock_linear_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/stock_heading"
+                style="@style/AppBaseTheme"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/completed_stock_take_heading"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:id="@+id/stock_underline"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#000000" />
+
+            <ListView
+                android:id="@+id/stock_alert_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:scrollbars="vertical" >
+            </ListView>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/scan_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/requires_stock_take_heading"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <View
-            android:id="@+id/alert_underline"
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="#000000" />
-
-        <ListView
-            android:id="@+id/drug_alert_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:scrollbars="vertical" >
-        </ListView>
+            android:text="@string/scan" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/stock_linear_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/stock_heading"
-            style="@style/AppBaseTheme"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/completed_stock_take_heading"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <View
-            android:id="@+id/stock_underline"
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="#000000" />
-
-        <ListView
-            android:id="@+id/stock_alert_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:scrollbars="vertical" >
-        </ListView>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/scan_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/scan" />
-
-</LinearLayout>
+</RelativeLayout>
