@@ -48,7 +48,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		for (TableHelper<?> table : tables) {
 			db.execSQL(table.getCreateTableSql());
-	        initialise(table);
+	        initialise(db, table);
 		}
 	}
 
@@ -62,16 +62,15 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	        db.execSQL(table.getCreateTableSql());
 			
 	        // Initialise the database
-	        initialise(table);
+	        initialise(db, table);
 		}
 	}
 	
 	
 	/**
-	 * Inserts the specified data (row), for the specified table, into the database
+	 * Inserts the specified data (row), for the specified table, into the specified database
 	 */
-	public <T extends Serializable> void addContent(TableHelper<T> table, ContentValues values){
-		SQLiteDatabase db = database; //this.getWritableDatabase();
+	public <T extends Serializable> void addContent(SQLiteDatabase db, TableHelper<T> table, ContentValues values) {
 		try {
 			db.insert(table.getTableName(), null, values);
 		} finally {
@@ -80,10 +79,18 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * Inserts the specified data (row), for the specified table, into the known database (if it is available)
+	 */
+	public <T extends Serializable> void addContent(TableHelper<T> table, ContentValues values) {
+		if (database != null) {
+			addContent(database, table, values);
+		}
+	}
+
+	/**
 	 * Deletes the specified content from the specified table
 	 */
-	public <T extends Serializable> void deleteContent(TableHelper<T> table, Long id) {
-		SQLiteDatabase db = database; //this.getWritableDatabase();
+	public <T extends Serializable> void deleteContent(SQLiteDatabase db, TableHelper<T> table, Long id) {
 		db.beginTransaction();
 	    try {
 			db.delete(table.getTableName(), "id = ?", new String[] { id.toString() } );
@@ -95,10 +102,18 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * Deletes the specified content from the specified table, into the known database (if it is available)
+	 */
+	public <T extends Serializable> void deleteContent(TableHelper<T> table, Long id) {
+		if (database != null) {
+			deleteContent(database, table, id);
+		}
+	}
+
+	/**
 	 * Deletes the specified content from the specified table
 	 */
-	public <T extends Serializable> void updateContent(TableHelper<T> table, Long id, ContentValues values) {
-		SQLiteDatabase db = database; //this.getWritableDatabase();
+	public <T extends Serializable> void updateContent(SQLiteDatabase db, TableHelper<T> table, Long id, ContentValues values) {
 		db.beginTransaction();
 		try {
 			db.update(table.getTableName(), values, "id = ?", new String[] { id.toString() } );
@@ -110,10 +125,18 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * Deletes the specified content from the specified table, into the known database (if it is available)
+	 */
+	public <T extends Serializable> void updateContent(TableHelper<T> table, Long id, ContentValues values) {
+		if (database != null) {
+			updateContent(database, table, id, values);
+		}
+	}
+
+	/**
 	 * Finds some data from the specified table, given a query and the parameters
 	 */
-	public <T extends Serializable> T find(TableHelper<T> table, String query, String[] values) {
-		SQLiteDatabase db = database; // this.getReadableDatabase();
+	public <T extends Serializable> T find(SQLiteDatabase db, TableHelper<T> table, String query, String[] values) {
 		try {
 			Cursor c = db.rawQuery(query, values);
 		    if (c != null) {
@@ -128,11 +151,20 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * Finds some data from the specified table, given a query and the parameters, into the known database (if it is available)
+	 */
+	public <T extends Serializable> T find(TableHelper<T> table, String query, String[] values) {
+		if (database != null) {
+			return find(database, table, query, values);
+		}
+		return null;
+	}
+
+	/**
 	 * Finds some data from the specified table, given a query and the parameters
 	 */
-	public <T extends Serializable> List<T> findMany(TableHelper<T> table, String query, String[] values) {
+	public <T extends Serializable> List<T> findMany(SQLiteDatabase db, TableHelper<T> table, String query, String[] values) {
 		List<T> entities = new ArrayList<T>();
-		SQLiteDatabase db = database; // this.getWritableDatabase();
 		try {
 			Cursor c = db.rawQuery(query, values);
 		    if (c != null) {
@@ -148,11 +180,22 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		return entities;
 	}
 
+	/**
+	 * Finds some data from the specified table, given a query and the parameters, into the known database (if it is available)
+	 */
+	public <T extends Serializable> List<T> findMany(TableHelper<T> table, String query, String[] values) {
+		List<T> entities = new ArrayList<T>();
+		if (database != null) {
+			entities = findMany(database, table, query, values);
+		}
+		return entities;
+	}
+
 	// initialises the data for all the tables in the database
-	private <T extends Serializable> void initialise(TableHelper<T> table) {
+	private <T extends Serializable> void initialise(SQLiteDatabase db, TableHelper<T> table) {
 		List<ContentValues> initialData = table.getInitialData();
 		for (ContentValues values : initialData) {
-			addContent(table, values);
+			addContent(db, table, values);
 		}
 	}
 }
