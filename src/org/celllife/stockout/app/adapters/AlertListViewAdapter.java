@@ -4,7 +4,6 @@ import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Alert;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ public class AlertListViewAdapter extends ArrayAdapter<Alert> {
 		TextView textView = (TextView) view.findViewById(R.id.alert_name);
 
 		Alert alert = values[position];
-		Log.w("AlertListViewAdapter", "postition="+position+" alert=" + alert);
 		if (alert != null) {
 			textView.setText(values[position].getMessage());
 			Integer level = values[position].getLevel();

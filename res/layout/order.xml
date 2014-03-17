@@ -4,51 +4,90 @@
 
     <LinearLayout
         android:id="@+id/order_linear_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerVertical="true"
-        android:orientation="vertical" >
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/alert_heading"
-        style="@style/AppBaseTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/stock_take_heading"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:orientation="vertical" >
 
-    <View
-        android:id="@+id/alert_underline"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:layout_alignBottom="@+id/alert_heading"
-        android:layout_alignParentLeft="true"
-        android:background="#000000" />
+	    <LinearLayout
+	        android:id="@+id/alert_linear_layout"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+	
+	            <TextView
+			        android:id="@+id/alert_heading"
+			        style="@style/AppBaseTheme"
+			        android:layout_width="fill_parent" 
+			        android:textAlignment="center"
+			        android:gravity="center"
+			        android:layout_height="wrap_content"
+			        android:text="@string/requires_stock_take_heading"
+			        android:textAppearance="?android:attr/textAppearanceMedium" />
+			
+			    <View
+			        android:id="@+id/alert_underline"
+			        android:layout_width="fill_parent"
+			        android:layout_height="1dip"
+			        android:background="#000000" />
+			
+			    <ListView
+			        android:id="@+id/drug_alert_list"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:paddingBottom="10dp"
+			        android:paddingLeft="10dp"
+			        android:paddingRight="10dp"
+			        android:paddingTop="10dp"
+			        android:scrollbars="vertical" >
+			    </ListView>
+	    
+	    </LinearLayout>
+	
+	    <LinearLayout
+	        android:id="@+id/stock_linear_layout"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/drug_alert_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/order_linear_layout"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/alert_underline"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:scrollbars="horizontal" >
-    </ListView>
+		    <TextView
+		        android:id="@+id/stock_heading"
+		        style="@style/AppBaseTheme"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:textAlignment="center"
+		        android:gravity="center"
+		        android:text="@string/completed_stock_take_heading"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		    <View
+		        android:id="@+id/stock_underline"
+		        android:layout_width="fill_parent"
+		        android:layout_height="1dip"
+		        android:background="#000000" />
+		
+		    <ListView
+		        android:id="@+id/stock_alert_list"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:paddingBottom="10dp"
+		        android:paddingLeft="10dp"
+		        android:paddingRight="10dp"
+		        android:paddingTop="10dp"
+		        android:scrollbars="vertical" >
+		    </ListView>
+	    </LinearLayout>
+	
+	    <Button
+	        android:id="@+id/scan_button"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/scan" />
 
-    <Button
-        android:id="@+id/scan_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="@string/scan" />
+	 </LinearLayout>
+
 
 </RelativeLayout>

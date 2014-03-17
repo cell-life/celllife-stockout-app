@@ -6,7 +6,8 @@
     <string name="scan">Scan</string>
 
     <string name="orders">Orders</string>
-    <string name="stock_take_heading">Requires Stock Take</string>
+    <string name="requires_stock_take_heading">Requires Stock Take</string>
+    <string name="completed_stock_take_heading">Completed Stock Take</string>
         
     <string name="received">Received</string>
     <string name="stock_received_instruction">Please begin scanning of stock received</string>
@@ -16,5 +17,9 @@
 
     <string name="loading_scanner">Loading&#8230;&#8230;&#8230;</string>
     <string name="no_barcode">No barcode received.</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="scan_heading">You have scanned</string>
 
 </resources>
