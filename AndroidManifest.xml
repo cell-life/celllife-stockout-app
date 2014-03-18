@@ -22,14 +22,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="org.celllife.stockout.app.activities.PinActivity"
             android:label="@string/app_name" >
          </activity>
-
          <activity
             android:name="org.celllife.stockout.app.activities.ScanActivity"
+            android:label="@string/app_name" >
+         </activity>
+         <activity
+            android:name="org.celllife.stockout.app.activities.CrashHandlerActivity"
             android:label="@string/app_name" >
          </activity>
         <uses-library android:name="android.test.runner" />

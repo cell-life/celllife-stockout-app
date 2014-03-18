@@ -1,5 +1,8 @@
 package org.celllife.stockout.app.activities;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Date;
 
 import org.celllife.stockout.app.R;
@@ -17,7 +20,10 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,6 +31,8 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+	
+	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,9 @@ public class MainActivity extends Activity {
 
 		ReceivedFragment receivedFrag = new ReceivedFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ATabListener(receivedFrag)));
+
+		// setup exception handling
+		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
     }
 
 	// FIXME: remove this once we have alerts coming from the server
@@ -95,6 +106,50 @@ public class MainActivity extends Activity {
 				Toast.makeText(this,  R.string.hello , Toast.LENGTH_LONG).show();
 			default:
 				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	/**
+	 * Default handling of exceptions
+	 */
+	private class StockApplicationCrashExceptionHandler implements UncaughtExceptionHandler {
+		@Override
+		public void uncaughtException(Thread thread, Throwable ex) {
+			Log.e("MainActivity", "Main PosApplication exeption handler");
+			try {
+				String errorReport = getErrorReport(thread, ex);
+				Log.e("MainActivity", errorReport);
+				Log.e("MainActivity", "Starting crashedIntent...");
+				Intent crashedIntent = new Intent(MainActivity.this, CrashHandlerActivity.class);
+				crashedIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+				crashedIntent.putExtra("error", errorReport);
+				startActivity(crashedIntent);
+			} catch (Throwable t) {
+				Log.e("MainActivity", "Exception caught while handling exception: ", t);
+			} finally {
+				android.os.Process.killProcess(android.os.Process.myPid());
+				System.exit(1);
+			}
+		}
+
+		protected String getErrorReport(Thread thread, Throwable exception) {
+			StringWriter stackTrace = new StringWriter();
+			exception.printStackTrace(new PrintWriter(stackTrace));
+			StringBuilder errorReport = new StringBuilder();
+			errorReport.append("DEVICE INFORMATION").append(System.getProperty("line.separator"));
+			errorReport.append("Brand: ").append(Build.BRAND).append(System.getProperty("line.separator"));
+			errorReport.append("Device: ").append(Build.DEVICE).append(System.getProperty("line.separator"));
+			errorReport.append("Model: ").append(Build.MODEL).append(System.getProperty("line.separator"));
+			errorReport.append("Id: ").append(Build.ID).append(System.getProperty("line.separator"));
+			errorReport.append("Product: ").append(Build.PRODUCT).append(System.getProperty("line.separator"));
+			errorReport.append("SDK: ").append(Build.VERSION.SDK_INT).append(System.getProperty("line.separator"));
+			errorReport.append("Release: ").append(Build.VERSION.RELEASE).append(System.getProperty("line.separator"));
+			errorReport.append("Incremental: ").append(Build.VERSION.INCREMENTAL).append(System.getProperty("line.separator"));
+			errorReport.append(System.getProperty("line.separator"));
+			errorReport.append("CAUSE OF ERROR").append(System.getProperty("line.separator"));
+			errorReport.append("Thread: ").append(thread).append(System.getProperty("line.separator"));
+			errorReport.append(stackTrace.toString());
+			return errorReport.toString();
 		}
 	}
 }
