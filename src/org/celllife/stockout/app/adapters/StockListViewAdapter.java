@@ -30,16 +30,18 @@ public class StockListViewAdapter extends ArrayAdapter<StockTake> {
 
 		ImageView imageView = (ImageView) view.findViewById(R.id.stock_icon);
 		TextView textView = (TextView) view.findViewById(R.id.drug_name);
+		TextView quantityView = (TextView) view.findViewById(R.id.drug_amount);
 
 		StockTake stock = values[position];
 		if (stock != null) {
-			textView.setText(values[position].getDrug().getDescription());
-			Boolean submitted = values[position].isSubmitted();
+			textView.setText(stock.getDrug().getDescription());
+			quantityView.setText(stock.getQuantity().toString());
+			Boolean submitted = stock.isSubmitted();
 			// change the icon if it hasn't been submitted
 			if (submitted) {
-				imageView.setImageResource(R.drawable.alert_green);
+				imageView.setImageResource(R.drawable.stocktake_sent);
 			} else {
-				imageView.setImageResource(R.drawable.alert_red);
+				imageView.setImageResource(R.drawable.stocktake_saved);
 			}
 		}
 		return view;

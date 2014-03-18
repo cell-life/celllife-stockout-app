@@ -1,15 +1,23 @@
 package org.celllife.stockout.app.activities;
 
+import java.util.Date;
+
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.manager.StockTakeManager;
 import org.celllife.stockout.app.manager.StockTakeManagerImpl;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -19,6 +27,8 @@ public class ScanActivity extends Activity {
 	private TextView contentTxt;
 	private StockTakeManager stockManager;
 
+	private Drug drug;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,6 +37,23 @@ public class ScanActivity extends Activity {
 		// instantiate UI items
 		contentTxt = (TextView) findViewById(R.id.scan_content);
 		stockManager = new StockTakeManagerImpl(contentTxt.getContext());
+		
+		final Button confirmButton = (Button) findViewById(R.id.confirm_button);
+		confirmButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				createAndSaveStockTake();
+				ScanActivity.this.finish();
+				
+			}
+		});
+		final Button cancelButton = (Button) findViewById(R.id.cancel_button);
+		cancelButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ScanActivity.this.finish();
+			}
+		});
 
 		// instantiate ZXing integration class
 		IntentIntegrator scanIntegrator = new IntentIntegrator(ScanActivity.this);
@@ -45,18 +72,41 @@ public class ScanActivity extends Activity {
 			// get format name of data scanned
 			// String scanFormat = scanningResult.getFormatName();
 			// output to UI
-			Drug drug = lookupDrug(scanContent);
-			contentTxt.setText("Content: " + scanContent+" Drug: "+drug);
+			drug = lookupDrug(scanContent);
+			if (drug != null) {
+				contentTxt.setText(drug.getDescription());
+			} else {
+				// no drug found
+				displayErrorMessage();
+			}
 			
 		} else {
 			// invalid scan data or scan canceled
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.no_barcode, Toast.LENGTH_SHORT);
-			toast.show();
+			displayErrorMessage();
 		}
 	}
 	
+	private void displayErrorMessage() {
+		new AlertDialog.Builder(this)
+		.setMessage("Please note: you have scanned an unknown item. Please scan a registered drug.")
+	    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            dialog.cancel();
+	            ScanActivity.this.finish();
+	        }
+	     })
+	     .show();
+	}
+	
 	private Drug lookupDrug(String barcode) {
-		return stockManager.findDrugByBarcode(barcode);
-		//return new Drug("60011053", "Panado");
+		return stockManager.findDrugByBarcode(barcode.trim());
+	}
+	
+	private void createAndSaveStockTake() {
+		final EditText quantityField = (EditText) findViewById(R.id.quantity_text);
+		Integer quantity = Integer.parseInt(quantityField.getText().toString());
+		StockTake stockTake = new StockTake(new Date(), drug, quantity, false);
+		StockTakeManager manager = new StockTakeManagerImpl(getApplicationContext());
+		manager.newStockTake(stockTake);
 	}
 }

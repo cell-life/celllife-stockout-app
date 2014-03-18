@@ -22,4 +22,6 @@
     <string name="enter_amount">Enter amount</string>
     <string name="scan_heading">You have scanned</string>
 
+    <string name="error_heading">An error occurred</string>
+
 </resources>

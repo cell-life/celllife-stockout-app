@@ -63,10 +63,6 @@ public class AlertTableAdapter extends TableAdapter<Alert> {
 	public List<ContentValues> getInitialData() {
 		Log.w("AlertTableAdapter", "Initialising Alerts");
 		List<ContentValues> initialData = new ArrayList<ContentValues>();
-		Drug panado = drugTableAdapter.findByBarcode("60011053");
-		initialData.add(createContentValues(new Alert(new Date(), 3, "Panado", AlertStatus.NEW, panado)));
-		Drug grandpa = drugTableAdapter.findByBarcode("60015204");
-		initialData.add(createContentValues(new Alert(new Date(), 1, "Grandpa", AlertStatus.NEW, grandpa)));		
 		return initialData;
 	}
 	

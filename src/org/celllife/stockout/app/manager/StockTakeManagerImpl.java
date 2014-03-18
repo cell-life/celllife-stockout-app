@@ -2,12 +2,15 @@ package org.celllife.stockout.app.manager;
 
 import java.util.List;
 
+import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.database.DrugTableAdapter;
 import org.celllife.stockout.app.database.StockTakeTableAdapter;
+import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockTake;
 
 import android.content.Context;
+import android.util.Log;
 
 public class StockTakeManagerImpl implements StockTakeManager {
 
@@ -27,10 +30,24 @@ public class StockTakeManagerImpl implements StockTakeManager {
 	@Override
 	public void newStockTake(StockTake stockTake) {
 		// Retrieves last StockTake for the drug
-		// Calculates new ADC + updates StockHistory
+		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
+		StockTake lastStockTake = stockAdapter.findByDrug(stockTake.getDrug());
+		if (lastStockTake != null) {
+			// TODO: Calculates new ADC + updates StockHistory
+			// Delete last StockTake
+			stockAdapter.deleteById(lastStockTake.getId());
+			
+		}
 		// Cancels Alerts
+		AlertTableAdapter alertAdapter = DatabaseManager.getAlertTableAdapter();
+		Alert alert = alertAdapter.findByDrug(stockTake.getDrug());
+		if (alert != null) {
+			Log.d("StockTakeManager", "Cancelling Alert "+alert);
+			alertAdapter.deleteById(alert.getId());
+		}
 		// Inserts new StockTake
-		// Sends StockTake to the server (on fail, start a task)
+		stockAdapter.insert(stockTake);
+		// TODO: Sends StockTake to the server (on fail, start a task)
 	}
 
 	@Override
