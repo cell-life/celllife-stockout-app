@@ -99,7 +99,10 @@ public class ScanActivity extends Activity {
 	}
 	
 	private Drug lookupDrug(String barcode) {
-		return stockManager.findDrugByBarcode(barcode.trim());
+		if (barcode != null) {
+			return stockManager.findDrugByBarcode(barcode.trim());
+		}
+		return null;
 	}
 	
 	private void createAndSaveStockTake() {
