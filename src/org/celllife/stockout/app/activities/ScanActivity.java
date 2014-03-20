@@ -42,8 +42,10 @@ public class ScanActivity extends Activity {
 		confirmButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				createAndSaveStockTake();
-				ScanActivity.this.finish();
+				boolean success = createAndSaveStockTake();
+				if (success) {
+					ScanActivity.this.finish();
+				}
 				
 			}
 		});
@@ -77,16 +79,16 @@ public class ScanActivity extends Activity {
 				contentTxt.setText(drug.getDescription());
 			} else {
 				// no drug found
-				displayErrorMessage();
+				displayScanErrorMessage();
 			}
 			
 		} else {
 			// invalid scan data or scan canceled
-			displayErrorMessage();
+			displayScanErrorMessage();
 		}
 	}
 	
-	private void displayErrorMessage() {
+	private void displayScanErrorMessage() {
 		new AlertDialog.Builder(this)
 		.setMessage(R.string.scan_error)
 	    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -105,15 +107,33 @@ public class ScanActivity extends Activity {
 		return null;
 	}
 	
-	private void createAndSaveStockTake() {
+	private boolean createAndSaveStockTake() {
 		final EditText quantityField = (EditText) findViewById(R.id.quantity_text);
 		if (quantityField.getText().toString() == null || quantityField.getText().toString().trim().equals("")) {
-			
+			displayQuantityErrorMessage(R.string.scan_quantity_error);
+			return false;
 		} else {
-			Integer quantity = Integer.parseInt(quantityField.getText().toString());
-			StockTake stockTake = new StockTake(new Date(), drug, quantity, false);
-			StockTakeManager manager = new StockTakeManagerImpl(getApplicationContext());
-			manager.newStockTake(stockTake);
+			try {
+				Integer quantity = Integer.parseInt(quantityField.getText().toString());
+				StockTake stockTake = new StockTake(new Date(), drug, quantity, false);
+				StockTakeManager manager = new StockTakeManagerImpl(getApplicationContext());
+				manager.newStockTake(stockTake);
+			} catch (NumberFormatException e) {
+				displayQuantityErrorMessage(R.string.scan_quantity_number_error);
+				return false;
+			}
 		}
+		return true;
+	}
+	
+	private void displayQuantityErrorMessage(int messageResource) {
+		new AlertDialog.Builder(this)
+		.setMessage(messageResource)
+	    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            dialog.cancel();
+	        }
+	     })
+	     .show();
 	}
 }
