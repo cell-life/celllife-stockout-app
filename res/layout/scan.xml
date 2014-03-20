@@ -52,13 +52,15 @@
 	
 		    <Button
 		        android:id="@+id/confirm_button"
+		        style="@style/Button.Blue"
 		        android:layout_weight="1"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:text="@string/confirm" />
-		
+
 		    <Button 
 		        android:id="@+id/cancel_button"
+		        style="@style/Button"
 		        android:layout_weight="1"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"

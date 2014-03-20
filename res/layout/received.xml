@@ -27,6 +27,7 @@
             android:id="@+id/scan_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            style="@style/Button.Blue"
             android:layout_alignParentBottom="true"
             android:text="@string/scan" />
     </RelativeLayout>
