@@ -6,12 +6,9 @@ import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 
-import android.content.Context;
-
 public class AlertManagerImpl implements AlertManager {
 	
-	public AlertManagerImpl(Context context) {
-		DatabaseManager.initialise(context);
+	public AlertManagerImpl() {
 	}
 
 	@Override

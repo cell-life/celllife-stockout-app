@@ -12,8 +12,8 @@ import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.fragments.OrderFragment;
 import org.celllife.stockout.app.fragments.ReceivedFragment;
 import org.celllife.stockout.app.manager.AlertManager;
-import org.celllife.stockout.app.manager.AlertManagerImpl;
 import org.celllife.stockout.app.manager.DatabaseManager;
+import org.celllife.stockout.app.manager.ManagerFactory;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
 
 	// FIXME: remove this once we have alerts coming from the server
 	private void insertAlerts() {
-		AlertManager alertManager = new AlertManagerImpl(this.getApplicationContext());
+		AlertManager alertManager = ManagerFactory.getAlertManager();
 		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
 		Alert panadoAlert = new Alert(new Date(), 3, panado.getDescription(), AlertStatus.NEW, panado);
 		alertManager.addAlert(panadoAlert);

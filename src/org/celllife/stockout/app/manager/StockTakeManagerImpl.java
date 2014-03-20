@@ -9,16 +9,11 @@ import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockTake;
 
-import android.content.Context;
 import android.util.Log;
 
 public class StockTakeManagerImpl implements StockTakeManager {
-
-	private Context context;
 	
-	public StockTakeManagerImpl(Context context) {
-		this.context = context;
-		DatabaseManager.initialise(this.context);
+	public StockTakeManagerImpl() {
 	}
 
 	@Override
@@ -58,9 +53,8 @@ public class StockTakeManagerImpl implements StockTakeManager {
 
 	@Override
 	public List<StockTake> getLatestStockTakes() {
-		// FIXME: only return stock takes from this session
 		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
-		return stockAdapter.findAll();
+		return stockAdapter.findLatestStockTakes();
 	}
 
 }

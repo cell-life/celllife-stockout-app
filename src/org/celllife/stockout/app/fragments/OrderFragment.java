@@ -9,9 +9,8 @@ import org.celllife.stockout.app.adapters.StockListViewAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.manager.AlertManager;
-import org.celllife.stockout.app.manager.AlertManagerImpl;
+import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
-import org.celllife.stockout.app.manager.StockTakeManagerImpl;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -47,7 +46,7 @@ public class OrderFragment extends Fragment {
 
 	private void setupOrder(View orderView) {
 	    final ListView listview = (ListView) orderView.findViewById(R.id.drug_alert_list);
-	    AlertManager alertManager = new AlertManagerImpl(orderView.getContext());
+	    AlertManager alertManager = ManagerFactory.getAlertManager();
 	    List<Alert> values = alertManager.getAlerts();
 	    Alert[] alerts = values.toArray(new Alert[values.size()]);
 	    /*Alert[] alerts = new Alert[] {
@@ -64,10 +63,9 @@ public class OrderFragment extends Fragment {
 
 	private void setupStock(View stockView) {
 	    final ListView listview = (ListView) stockView.findViewById(R.id.stock_alert_list);	
-	    StockTakeManager stockManager = new StockTakeManagerImpl(orderView.getContext());
+	    StockTakeManager stockManager = ManagerFactory.getStockTakeManager();
 	    List<StockTake> values = stockManager.getLatestStockTakes();
 	    StockTake[] stocks = values.toArray(new StockTake[values.size()]);
-	    //StockTake[] stocks = new StockTake[0];
 	    final StockListViewAdapter adapter = new StockListViewAdapter(stockView.getContext(), R.id.stock_alert_list, stocks);
 	    listview.setAdapter(adapter);
 	}

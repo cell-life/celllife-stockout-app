@@ -5,8 +5,8 @@ import java.util.Date;
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockTake;
+import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
-import org.celllife.stockout.app.manager.StockTakeManagerImpl;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,7 +25,6 @@ import com.google.zxing.integration.android.IntentResult;
 public class ScanActivity extends Activity {
 
 	private TextView contentTxt;
-	private StockTakeManager stockManager;
 
 	private Drug drug;
 
@@ -36,7 +35,6 @@ public class ScanActivity extends Activity {
 
 		// instantiate UI items
 		contentTxt = (TextView) findViewById(R.id.scan_content);
-		stockManager = new StockTakeManagerImpl(contentTxt.getContext());
 		
 		final Button confirmButton = (Button) findViewById(R.id.confirm_button);
 		confirmButton.setOnClickListener(new OnClickListener() {
@@ -102,6 +100,7 @@ public class ScanActivity extends Activity {
 	
 	private Drug lookupDrug(String barcode) {
 		if (barcode != null) {
+			StockTakeManager stockManager = ManagerFactory.getStockTakeManager();
 			return stockManager.findDrugByBarcode(barcode.trim());
 		}
 		return null;
@@ -116,8 +115,8 @@ public class ScanActivity extends Activity {
 			try {
 				Integer quantity = Integer.parseInt(quantityField.getText().toString());
 				StockTake stockTake = new StockTake(new Date(), drug, quantity, false);
-				StockTakeManager manager = new StockTakeManagerImpl(getApplicationContext());
-				manager.newStockTake(stockTake);
+				StockTakeManager stockManager = ManagerFactory.getStockTakeManager();
+				stockManager.newStockTake(stockTake);
 			} catch (NumberFormatException e) {
 				displayQuantityErrorMessage(R.string.scan_quantity_number_error);
 				return false;

@@ -1,5 +1,6 @@
 package org.celllife.stockout.app.database;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,7 @@ public class StockTakeTableAdapter extends TableAdapter<StockTake> {
 			
 	// StockTake Queries
 	private static final String QUERY_FINDBY_DRUG = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + DRUG + " = ?";
+	private static final String QUERY_FINDBY_DATE = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + DATE + " = ?";
 
 	String CREATE_STOCKTAKE_TABLE = 
 			"CREATE TABLE " + TABLE_STOCKTAKE +" ("
@@ -98,5 +100,10 @@ public class StockTakeTableAdapter extends TableAdapter<StockTake> {
 
 	public StockTake findByDrug(Drug drug) {
 		return db.find(this, QUERY_FINDBY_DRUG, new String[] { drug.getId().toString() });
-	}	
+	}
+
+	public List<StockTake> findLatestStockTakes() {
+		String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		return db.findMany(this, QUERY_FINDBY_DATE, new String[] { date });
+	}
 }
