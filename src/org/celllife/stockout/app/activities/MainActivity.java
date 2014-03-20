@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+		DatabaseManager.initialise(getApplicationContext());
 		insertAlerts();
 
 		final ActionBar tabBar = getActionBar();
@@ -58,10 +59,10 @@ public class MainActivity extends Activity {
 	private void insertAlerts() {
 		AlertManager alertManager = ManagerFactory.getAlertManager();
 		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
-		Alert panadoAlert = new Alert(new Date(), 3, panado.getDescription(), AlertStatus.NEW, panado);
+		Alert panadoAlert = new Alert(new Date(), 1, panado.getDescription(), AlertStatus.NEW, panado);
 		alertManager.addAlert(panadoAlert);
 		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
-		Alert grandpaAlert = new Alert(new Date(), 1, grandpa.getDescription(), AlertStatus.NEW, grandpa);
+		Alert grandpaAlert = new Alert(new Date(), 3, grandpa.getDescription(), AlertStatus.NEW, grandpa);
 		alertManager.addAlert(grandpaAlert);
 	}
 
