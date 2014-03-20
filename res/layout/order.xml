@@ -28,10 +28,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
-                android:id="@+id/alert_underline"
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
+                android:id="@+id/stock_underline"
+                style="@style/HR" />
 
             <ListView
                 android:id="@+id/drug_alert_list"
@@ -64,9 +62,7 @@
 
             <View
                 android:id="@+id/stock_underline"
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
+                style="@style/HR" />
 
             <ListView
                 android:id="@+id/stock_alert_list"
