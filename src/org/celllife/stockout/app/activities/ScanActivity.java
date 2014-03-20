@@ -88,7 +88,7 @@ public class ScanActivity extends Activity {
 	
 	private void displayErrorMessage() {
 		new AlertDialog.Builder(this)
-		.setMessage("Please note: you have scanned an unknown item. Please scan a registered drug.")
+		.setMessage(R.string.scan_error)
 	    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            dialog.cancel();
@@ -107,9 +107,13 @@ public class ScanActivity extends Activity {
 	
 	private void createAndSaveStockTake() {
 		final EditText quantityField = (EditText) findViewById(R.id.quantity_text);
-		Integer quantity = Integer.parseInt(quantityField.getText().toString());
-		StockTake stockTake = new StockTake(new Date(), drug, quantity, false);
-		StockTakeManager manager = new StockTakeManagerImpl(getApplicationContext());
-		manager.newStockTake(stockTake);
+		if (quantityField.getText().toString() == null || quantityField.getText().toString().trim().equals("")) {
+			
+		} else {
+			Integer quantity = Integer.parseInt(quantityField.getText().toString());
+			StockTake stockTake = new StockTake(new Date(), drug, quantity, false);
+			StockTakeManager manager = new StockTakeManagerImpl(getApplicationContext());
+			manager.newStockTake(stockTake);
+		}
 	}
 }
