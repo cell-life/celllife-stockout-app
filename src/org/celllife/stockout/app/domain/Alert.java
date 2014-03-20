@@ -4,29 +4,30 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Domain object to represent Alerts in the system - they are for a specific Drug.
- * Alerts have a level indicating importance and a status {@see AlertStatus} to indicate the lifecycle of the Alert
+ * Domain object to represent Alerts in the system - they are for a specific
+ * Drug. Alerts have a level indicating importance and a status {@see
+ * AlertStatus} to indicate the lifecycle of the Alert
  */
 public class Alert implements Serializable {
 
 	private static final long serialVersionUID = -6226563319400467361L;
 
-    private Long id;
-	
+	private Long id;
+
 	private Date date;
-	
+
 	private Integer level;
-	
+
 	private String message;
-	
+
 	private AlertStatus status;
-	
+
 	private Drug drug;
-	
+
 	public Alert() {
-		
+
 	}
-	
+
 	public Alert(Date date, Integer level, String message, AlertStatus status, Drug drug) {
 		super();
 		this.date = date;
