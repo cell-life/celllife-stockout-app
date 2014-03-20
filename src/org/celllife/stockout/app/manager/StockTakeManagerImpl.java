@@ -1,5 +1,6 @@
 package org.celllife.stockout.app.manager;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.celllife.stockout.app.database.AlertTableAdapter;
@@ -8,6 +9,7 @@ import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockTake;
+import org.celllife.stockout.app.domain.comparator.StockTakeComparator;
 
 import android.util.Log;
 
@@ -54,7 +56,9 @@ public class StockTakeManagerImpl implements StockTakeManager {
 	@Override
 	public List<StockTake> getLatestStockTakes() {
 		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
-		return stockAdapter.findLatestStockTakes();
+		List<StockTake> stocks = stockAdapter.findLatestStockTakes();
+		Collections.sort(stocks, new StockTakeComparator());
+		return stocks;
 	}
 
 }
