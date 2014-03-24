@@ -3,9 +3,9 @@ package org.celllife.stockout.app.domain;
 import java.io.Serializable;
 
 /**
- * Domain object to represent the User in the system - have a unique msisdn and belong to a clinic
+ * Domain object to represent the Phone in the system - have a unique msisdn and belong to a clinic
  */
-public class User implements Serializable {
+public class Phone implements Serializable {
 
 	private static final long serialVersionUID = 1963884212116602873L;
 
@@ -20,12 +20,16 @@ public class User implements Serializable {
 	private String clinicCode;
 	
 	private String clinicName;
+
+	private Integer drugLeadTime;
 	
-	public User() {
+	private Integer drugSafetyLevel;
+	
+	public Phone() {
 		
 	}
 
-	public User(String msisdn, String encryptedPassword, String salt, String clinicCode, String clinicName) {
+	public Phone(String msisdn, String encryptedPassword, String salt, String clinicCode, String clinicName) {
 		super();
 		this.msisdn = msisdn;
 		this.encryptedPassword = encryptedPassword;
@@ -82,6 +86,22 @@ public class User implements Serializable {
 		this.clinicName = clinicName;
 	}
 
+	public Integer getDrugLeadTime() {
+		return drugLeadTime;
+	}
+
+	public void setDrugLeadTime(Integer drugLeadTime) {
+		this.drugLeadTime = drugLeadTime;
+	}
+
+	public Integer getDrugSafetyLevel() {
+		return drugSafetyLevel;
+	}
+
+	public void setDrugSafetyLevel(Integer drugSafetyLevel) {
+		this.drugSafetyLevel = drugSafetyLevel;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,7 +119,7 @@ public class User implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Phone other = (Phone) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -115,7 +135,8 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", msisdn=" + msisdn + ", encryptedPassword=" + encryptedPassword + ", salt=" + salt
-				+ ", clinicCode=" + clinicCode + ", clinicName=" + clinicName + "]";
+		return "Phone [id=" + id + ", msisdn=" + msisdn + ", encryptedPassword=" + encryptedPassword + ", salt=" + salt
+				+ ", clinicCode=" + clinicCode + ", clinicName=" + clinicName + ", drugLeadTime=" + drugLeadTime
+				+ ", drugSafetyLevel=" + drugSafetyLevel + "]";
 	}
 }

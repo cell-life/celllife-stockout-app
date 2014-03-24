@@ -5,40 +5,40 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.celllife.stockout.app.database.UserTableAdapter;
+import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.database.framework.DatabaseOpenHelper;
 import org.celllife.stockout.app.database.framework.TableHelper;
-import org.celllife.stockout.app.domain.User;
+import org.celllife.stockout.app.domain.Phone;
 
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-public class UserTableAdapterTest extends AndroidTestCase {
-    private UserTableAdapter userDb;
+public class PhoneTableAdapterTest extends AndroidTestCase {
+    private PhoneTableAdapter phoneDb;
     DatabaseOpenHelper db;
 
     public void setUp(){
     	RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "test_");
         List<TableHelper<?>> tables = new ArrayList<TableHelper<?>>();
-        userDb = new UserTableAdapter();
-        tables.add(userDb);
+        phoneDb = new PhoneTableAdapter();
+        tables.add(phoneDb);
         db = new DatabaseOpenHelper(context, tables);
     }
 
     public void testAddEntryAndFindByMsisdn(){
-    	User u = new User("27768198075", "sdffffffffffffff", "1234", "0000", "Demo Clinic 1");
-    	userDb.insert(u);
-    	User u2 = userDb.findByMsisdn("27768198075");
-    	Assert.assertNotNull(u2);
-    	Assert.assertEquals(u.getMsisdn(), u2.getMsisdn());
+    	Phone p = new Phone("27768198075", "sdffffffffffffff", "1234", "0000", "Demo Clinic 1");
+    	phoneDb.insert(p);
+    	Phone p2 = phoneDb.findByMsisdn("27768198075");
+    	Assert.assertNotNull(p2);
+    	Assert.assertEquals(p.getMsisdn(), p2.getMsisdn());
     }
 
     public void testFindById(){
-    	User u = new User("27768198076", "sdffffffffffffff", "1234", "0000", "Demo Clinic 1");
-    	userDb.insert(u);
-    	User u2 = userDb.findById(1l);
-    	Assert.assertNotNull(u2);
-    	Assert.assertEquals(u.getMsisdn(), u2.getMsisdn());
+    	Phone p = new Phone("27768198076", "sdffffffffffffff", "1234", "0000", "Demo Clinic 1");
+    	phoneDb.insert(p);
+    	Phone p2 = phoneDb.findById(1l);
+    	Assert.assertNotNull(p2);
+    	Assert.assertEquals(p.getMsisdn(), p2.getMsisdn());
     }
 
     public void tearDown() throws Exception{
