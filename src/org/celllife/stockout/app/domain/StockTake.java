@@ -1,12 +1,13 @@
 package org.celllife.stockout.app.domain;
 
-import java.io.Serializable;
 import java.util.Date;
+
+import org.celllife.stockout.app.database.framework.Entity;
 
 /**
  * Domain object which describes the amount of stock counted for a particular drug at a particular time.
  */
-public class StockTake implements Serializable {
+public class StockTake implements Entity {
 
 	private static final long serialVersionUID = 4497991414545347704L;
 

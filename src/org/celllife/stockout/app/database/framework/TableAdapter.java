@@ -1,6 +1,5 @@
 package org.celllife.stockout.app.database.framework;
 
-import java.io.Serializable;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -11,7 +10,7 @@ import android.content.ContentValues;
  * 
  * Extend this for each table/domain entity. 
  */
-public abstract class TableAdapter<T extends Serializable> implements TableHelper<T> {
+public abstract class TableAdapter<T extends Entity> implements TableHelper<T> {
 	
 	protected DatabaseOpenHelper db;
 
@@ -38,6 +37,17 @@ public abstract class TableAdapter<T extends Serializable> implements TableHelpe
 	 */
 	public void update(Long id, T table){
 		db.updateContent(this, id, createContentValues(table));
+	}
+
+	/**
+	 * Checks the entity for a ID and then performs either an insert or an update
+	 */
+	public void insertOrUpdate(T table) {
+		if (table.getId() == null || table.getId().equals(Long.valueOf(0))) {
+			insert(table);
+		} else {
+			update(table.getId(), table);
+		}
 	}
 
 	/**

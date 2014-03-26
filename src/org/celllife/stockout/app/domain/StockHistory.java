@@ -1,11 +1,11 @@
 package org.celllife.stockout.app.domain;
 
-import java.io.Serializable;
+import org.celllife.stockout.app.database.framework.Entity;
 
 /**
  * Domain object that describes the Stock history for a specific Drug.
  */
-public class StockHistory implements Serializable {
+public class StockHistory implements Entity {
 
 	private static final long serialVersionUID = 6871132613107093258L;
 

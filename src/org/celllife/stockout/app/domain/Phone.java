@@ -1,11 +1,11 @@
 package org.celllife.stockout.app.domain;
 
-import java.io.Serializable;
+import org.celllife.stockout.app.database.framework.Entity;
 
 /**
  * Domain object to represent the Phone in the system - have a unique msisdn and belong to a clinic
  */
-public class Phone implements Serializable {
+public class Phone implements Entity {
 
 	private static final long serialVersionUID = 1963884212116602873L;
 

@@ -1,11 +1,11 @@
 package org.celllife.stockout.app.domain;
 
-import java.io.Serializable;
+import org.celllife.stockout.app.database.framework.Entity;
 
 /**
  * Domain object to represent Drugs in the system - they are uniquely identified by barcode
  */
-public class Drug implements Serializable {
+public class Drug implements Entity {
 
 	private static final long serialVersionUID = 5614601761140919135L;
 

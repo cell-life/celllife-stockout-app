@@ -1,14 +1,15 @@
 package org.celllife.stockout.app.domain;
 
-import java.io.Serializable;
 import java.util.Date;
+
+import org.celllife.stockout.app.database.framework.Entity;
 
 /**
  * Domain object to represent Alerts in the system - they are for a specific
  * Drug. Alerts have a level indicating importance and a status {@see
  * AlertStatus} to indicate the lifecycle of the Alert
  */
-public class Alert implements Serializable {
+public class Alert implements Entity {
 
 	private static final long serialVersionUID = -6226563319400467361L;
 
