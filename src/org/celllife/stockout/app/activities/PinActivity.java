@@ -1,16 +1,15 @@
 package org.celllife.stockout.app.activities;
 
-
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.activities.ScanActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.content.Intent;
+import android.widget.Toast;
+
+
 
 /**
  * Created by achmat on 2014/03/12.
@@ -24,26 +23,28 @@ public class PinActivity extends Activity {
 
         final EditText passwd = (EditText) findViewById(R.id.pin);
 
-    }
+        final Button confirmButton = (Button) findViewById(R.id.confirm_button);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
 
-    private void setupScanButton(final View orderView) {
-        Button confirmButton = (Button) orderView.findViewById(R.id.confirm_button);
-        confirmButton.setOnClickListener(new OnClickListener() {
-            @Override
             public void onClick(View v) {
-                startScanActivity();
+                if (passwd.getText().toString().equals("123456789")) {
+                    startScanActivity();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Please Enter Numeric Password", Toast.LENGTH_LONG).show();
+                }
             }
         });
-    }
 
-    private void setupCancelButton(final View orderView) {
-        Button cancelButton = (Button) orderView.findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startScanActivity();
-            }
-        });
+
+        final Button cancelButton = (Button) findViewById(R.id.cancel_button);
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View v) {
+                                PinActivity.this.finish();
+                        }
+                });
+
     }
 
     private void startScanActivity() {
@@ -53,5 +54,4 @@ public class PinActivity extends Activity {
 
 
 }
-
 
