@@ -7,7 +7,7 @@ import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.database.DrugTableAdapter;
 import org.celllife.stockout.app.database.StockHistoryTableAdapter;
 import org.celllife.stockout.app.database.StockTakeTableAdapter;
-import org.celllife.stockout.app.database.UserTableAdapter;
+import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.database.framework.DatabaseOpenHelper;
 import org.celllife.stockout.app.database.framework.TableHelper;
 
@@ -20,7 +20,7 @@ import android.content.Context;
 public class DatabaseManager {
 
 	private static DatabaseOpenHelper db;
-	private static UserTableAdapter userDb;
+	private static PhoneTableAdapter phoneDb;
 	private static DrugTableAdapter drugDb;
 	private static AlertTableAdapter alertDb;
 	private static StockTakeTableAdapter stockTakeDb;
@@ -30,8 +30,8 @@ public class DatabaseManager {
 		return drugDb;
 	}
 
-	public static UserTableAdapter getUserTableAdapter() {
-		return userDb;
+	public static PhoneTableAdapter getPhoneTableAdapter() {
+		return phoneDb;
 	}
 
 	public static AlertTableAdapter getAlertTableAdapter() {
@@ -49,8 +49,8 @@ public class DatabaseManager {
 	public static void initialise(Context context) {
 		if (db == null) {
 			List<TableHelper<?>> tables = new ArrayList<TableHelper<?>>();
-			userDb = new UserTableAdapter();
-			tables.add(userDb);
+			phoneDb = new PhoneTableAdapter();
+			tables.add(phoneDb);
 			drugDb = new DrugTableAdapter();
 			tables.add(drugDb);
 			alertDb = new AlertTableAdapter(drugDb);

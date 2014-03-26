@@ -6,6 +6,9 @@ public class SessionManagerImpl implements SessionManager {
 
 	public static final long SESSION_TIMEOUT = 15 * 60 * 1000; // milliseconds (15 minutes)
 
+	private String username;
+	private String password;
+
 	private Date sessionStart;
 	private static Date lastInteraction;
 
@@ -15,7 +18,9 @@ public class SessionManagerImpl implements SessionManager {
 	}
 
 	@Override
-	public void authenticated() {
+	public void authenticated(String username, String password) {
+		this.username = username;
+		this.password = password;
 		if (sessionStart == null) {
 			sessionStart = new Date();
 		}
@@ -44,8 +49,20 @@ public class SessionManagerImpl implements SessionManager {
 		return sessionStart;
 	}
 
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
 	private void invalidateSession() {
 		sessionStart = null;
 		lastInteraction = null;
+		username = null;
+		password = null;
 	}
 }

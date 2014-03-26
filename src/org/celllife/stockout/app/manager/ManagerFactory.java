@@ -2,13 +2,22 @@ package org.celllife.stockout.app.manager;
 
 import android.content.Context;
 
+/**
+ * This class is used to retrieve instances of the various Managers. It handles
+ * "dependency injection" in that it creates singleton instances of the various Managers
+ * used by the Stock App.
+ */
 public class ManagerFactory {
 
+	private static Context context;
 	private static AlertManager alertManager;
 	private static StockTakeManager stockTakeManager;
 	private static SessionManager sessionManager;
+	private static AuthenticationManager authenticationManager;
+	private static SettingManager settingManager;
 	
 	public static void initialise(Context context) {
+		ManagerFactory.context = context;
 		DatabaseManager.initialise(context);
 	}
 
@@ -35,4 +44,17 @@ public class ManagerFactory {
 		return sessionManager;
 	}
 
+	public static AuthenticationManager getAuthenticationManager() {
+		if (authenticationManager == null) {
+			authenticationManager = new AuthenticationManagerImpl();
+		}
+		return authenticationManager;
+	}
+
+	public static SettingManager getSettingManager() {
+		if (settingManager == null) {
+			settingManager = new SettingManagerImpl(context);
+		}
+		return settingManager;
+	}
 }

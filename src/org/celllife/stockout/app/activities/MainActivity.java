@@ -3,6 +3,7 @@ package org.celllife.stockout.app.activities;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.net.MalformedURLException;
 import java.util.Date;
 
 import org.celllife.stockout.app.R;
@@ -28,19 +29,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-
-
 public class MainActivity extends Activity {
-	
+
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
-		DatabaseManager.initialise(getApplicationContext());
+
+		ManagerFactory.initialise(getApplicationContext());
 		insertAlerts();
+		setupPhone();
 
 		final ActionBar tabBar = getActionBar();
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
 
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
-    }
+	}
 
 	// FIXME: remove this once we have alerts coming from the server
 	private void insertAlerts() {
@@ -65,6 +65,22 @@ public class MainActivity extends Activity {
 		Alert grandpaAlert = new Alert(new Date(), 3, grandpa.getDescription(), AlertStatus.NEW, grandpa);
 		alertManager.addAlert(grandpaAlert);
 	}
+
+	// FIXME: remove this once we have the setup wizard
+	private void setupPhone() {
+		try {
+			ManagerFactory.getSettingManager().setServerBaseUrl("http://sol.cell-life.org/stock");
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// FIXME: testing authentication
+	/*private void testAuthentication() {
+		Toast.makeText(MainActivity.this, "authenticating...", Toast.LENGTH_LONG).show(); 
+		boolean authentication = ManagerFactory.getAuthenticationManager().authenticate("27768198075", "1234");
+		Toast.makeText(MainActivity.this, "authentication="+authentication, Toast.LENGTH_LONG).show();
+	}*/
 
 	/**
 	 * Listener to handle tab switching
@@ -86,7 +102,7 @@ public class MainActivity extends Activity {
 				ft.replace(R.id.main_tabs, mFragment);
 			}
 		}
-		
+
 		@Override
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 			if (null != mFragment)
@@ -103,10 +119,10 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.action_settings:
-				Toast.makeText(this,  R.string.hello , Toast.LENGTH_LONG).show();
-			default:
-				return super.onOptionsItemSelected(item);
+		case R.id.action_settings:
+			Toast.makeText(this, R.string.hello, Toast.LENGTH_LONG).show();
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -145,7 +161,8 @@ public class MainActivity extends Activity {
 			errorReport.append("Product: ").append(Build.PRODUCT).append(System.getProperty("line.separator"));
 			errorReport.append("SDK: ").append(Build.VERSION.SDK_INT).append(System.getProperty("line.separator"));
 			errorReport.append("Release: ").append(Build.VERSION.RELEASE).append(System.getProperty("line.separator"));
-			errorReport.append("Incremental: ").append(Build.VERSION.INCREMENTAL).append(System.getProperty("line.separator"));
+			errorReport.append("Incremental: ").append(Build.VERSION.INCREMENTAL)
+					.append(System.getProperty("line.separator"));
 			errorReport.append(System.getProperty("line.separator"));
 			errorReport.append("CAUSE OF ERROR").append(System.getProperty("line.separator"));
 			errorReport.append("Thread: ").append(thread).append(System.getProperty("line.separator"));
@@ -154,4 +171,3 @@ public class MainActivity extends Activity {
 		}
 	}
 }
-

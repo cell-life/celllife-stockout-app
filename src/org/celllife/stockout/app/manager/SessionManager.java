@@ -14,9 +14,11 @@ public interface SessionManager {
 	void markInteraction();
 	
 	/**
-	 * Marks the user as authenticated. Call this methd
+	 * Marks the user as authenticated. Call this method after a successful authentication
+	 * @param username String msisdn
+	 * @param password String clear text pin
 	 */
-	void authenticated();
+	void authenticated(String username, String password);
 
 	/**
 	 * Indicates if the user's session has ended (or if it hasn't started yet).
@@ -36,4 +38,16 @@ public interface SessionManager {
 	 * @return Date/time of the start of the user's session, or null if they don't have a session
 	 */
 	Date getSessionStartDate();
+
+	/**
+	 * Retrieves the username associated with the current session
+	 * @return String msisdn
+	 */
+	String getUsername();
+
+	/**
+	 * Retrieves the clear text password associated with the current session
+	 * @return String clear text pin
+	 */
+	String getPassword();
 }
