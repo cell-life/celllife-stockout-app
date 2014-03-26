@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:orientation="vertical" >
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:layout_centerHorizontal="true"
+              android:layout_centerVertical="true"
+              android:orientation="vertical" >
 
     <TextView
         android:id="@+id/scan_heading"
@@ -41,31 +41,33 @@
         android:id="@+id/quantity_text"
         style="@style/EditBox.Medium"
         android:inputType="number" />
-    
-	    <LinearLayout
-	        android:id="@+id/linearLayout2"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:layout_gravity="bottom"
-	        android:gravity="bottom"
-	        android:orientation="horizontal" >
-	
-		    <Button
-		        android:id="@+id/confirm_button"
-		        style="@style/Button.Blue"
-		        android:layout_weight="1"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/confirm" />
 
-		    <Button 
-		        android:id="@+id/cancel_button"
-		        style="@style/Button"
-		        android:layout_weight="1"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/cancel" />
-		</LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/confirm_button"
+            style="@style/Button.Blue"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"
+            android:layout_marginRight="-5dip"/>
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_marginLeft="-5dip"/>
+    </LinearLayout>
 
 
 </LinearLayout>

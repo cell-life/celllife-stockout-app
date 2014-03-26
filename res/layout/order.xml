@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/order_linear_layout"
@@ -8,7 +8,9 @@
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginTop="25dip"
+        >
 
         <LinearLayout
             android:id="@+id/alert_linear_layout"
@@ -25,11 +27,16 @@
                 android:gravity="center"
                 android:text="@string/requires_stock_take_heading"
                 android:textAlignment="center"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                />
 
             <View
                 android:id="@+id/alert_underline"
-                style="@style/HR" />
+                style="@style/HR"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip" />
 
             <ListView
                 android:id="@+id/drug_alert_list"
@@ -39,7 +46,9 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
-                android:scrollbars="vertical" >
+                android:scrollbars="vertical"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip" >
             </ListView>
         </LinearLayout>
 
@@ -58,11 +67,16 @@
                 android:gravity="center"
                 android:text="@string/completed_stock_take_heading"
                 android:textAlignment="center"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip" />
 
             <View
                 android:id="@+id/stock_underline"
-                style="@style/HR" />
+                style="@style/HR"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                />
 
             <ListView
                 android:id="@+id/stock_alert_list"
@@ -72,7 +86,9 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
-                android:scrollbars="vertical" >
+                android:scrollbars="vertical"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip" >
             </ListView>
         </LinearLayout>
 
