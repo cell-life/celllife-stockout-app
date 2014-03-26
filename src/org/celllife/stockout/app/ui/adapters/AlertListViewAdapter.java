@@ -1,4 +1,4 @@
-package org.celllife.stockout.app.adapters;
+package org.celllife.stockout.app.ui.adapters;
 
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Alert;

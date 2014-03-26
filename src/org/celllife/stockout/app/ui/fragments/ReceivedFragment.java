@@ -1,7 +1,7 @@
-package org.celllife.stockout.app.fragments;
+package org.celllife.stockout.app.ui.fragments;
 
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.activities.ScanActivity;
+import org.celllife.stockout.app.ui.activities.ScanActivity;
 
 import android.app.Fragment;
 import android.content.Intent;

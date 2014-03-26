@@ -1,4 +1,4 @@
-package org.celllife.stockout.app.activities;
+package org.celllife.stockout.app.ui.activities;
 
 import org.celllife.stockout.app.R;
 import android.app.Activity;

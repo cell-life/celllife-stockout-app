@@ -1,16 +1,16 @@
-package org.celllife.stockout.app.fragments;
+package org.celllife.stockout.app.ui.fragments;
 
 import java.util.List;
 
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.activities.ScanActivity;
-import org.celllife.stockout.app.adapters.AlertListViewAdapter;
-import org.celllife.stockout.app.adapters.StockListViewAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
+import org.celllife.stockout.app.ui.activities.ScanActivity;
+import org.celllife.stockout.app.ui.adapters.AlertListViewAdapter;
+import org.celllife.stockout.app.ui.adapters.StockListViewAdapter;
 
 import android.app.Fragment;
 import android.content.Intent;

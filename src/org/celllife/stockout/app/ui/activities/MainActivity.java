@@ -1,4 +1,4 @@
-package org.celllife.stockout.app.activities;
+package org.celllife.stockout.app.ui.activities;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -10,11 +10,11 @@ import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.AlertStatus;
 import org.celllife.stockout.app.domain.Drug;
-import org.celllife.stockout.app.fragments.OrderFragment;
-import org.celllife.stockout.app.fragments.ReceivedFragment;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.ui.fragments.OrderFragment;
+import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
