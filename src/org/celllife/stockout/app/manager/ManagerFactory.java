@@ -15,6 +15,7 @@ public class ManagerFactory {
 	private static SessionManager sessionManager;
 	private static AuthenticationManager authenticationManager;
 	private static SettingManager settingManager;
+	private static CalculationManager calculationManager;
 	
 	public static void initialise(Context context) {
 		ManagerFactory.context = context;
@@ -56,5 +57,12 @@ public class ManagerFactory {
 			settingManager = new SettingManagerImpl(context);
 		}
 		return settingManager;
+	}
+	
+	public static CalculationManager getCalculationManager() {
+		if (calculationManager != null) {
+			calculationManager = new CalculationManagerImpl();
+		}
+		return calculationManager;
 	}
 }

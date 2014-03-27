@@ -97,5 +97,15 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 
 	public Phone findByMsisdn(String msisdn) {
 		return db.find(this, QUERY_FINDBY_MSISDN, new String[] { msisdn });
-	}	
+	}
+
+	public Phone findOne() {
+		Phone theOne = null;
+		List<Phone> allPhones = findAll();
+		// there should only be one
+		if (allPhones.size() > 0) {
+			theOne = allPhones.get(0);
+		}
+		return theOne;
+	}
 }

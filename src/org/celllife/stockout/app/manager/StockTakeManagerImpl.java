@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.database.DrugTableAdapter;
+import org.celllife.stockout.app.database.StockHistoryTableAdapter;
 import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.StockHistory;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.domain.comparator.StockTakeComparator;
 import org.celllife.stockout.app.integration.rest.PostStockTakeMethod;
@@ -32,7 +34,16 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
 		StockTake lastStockTake = stockAdapter.findByDrug(stockTake.getDrug());
 		if (lastStockTake != null) {
-			// TODO: Calculates new ADC + updates StockHistory
+			// Calculates new ADC + updates StockHistory
+			int adc = ManagerFactory.getCalculationManager().calculateAverageDailyConsumption(lastStockTake, stockTake);
+			StockHistoryTableAdapter stockHistoryAdapter = DatabaseManager.getStockHistoryTableAdapter();
+			StockHistory stockHistory = stockHistoryAdapter.findByDrug(stockTake.getDrug());
+			if (stockHistory == null) {
+				stockHistory = new StockHistory();
+				stockHistory.setDrug(stockTake.getDrug());
+			}
+			stockHistory.setAverageDailyConsumption(adc);
+			stockHistoryAdapter.insertOrUpdate(stockHistory);
 			// Delete last StockTake
 			stockAdapter.deleteById(lastStockTake.getId());
 			

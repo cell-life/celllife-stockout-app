@@ -7,8 +7,8 @@ public interface CalculationManager {
 
 	/**
 	 * Calculates the new Average Daily Consumption (ADC) for the specified Drug
-	 * @param oldStockTake previous StockTake
-	 * @param newStockTake new StockTake
+	 * @param oldStockTake previous StockTake, must not be null
+	 * @param newStockTake new StockTake, must not be null
 	 */
 	int calculateAverageDailyConsumption(StockTake oldStockTake, StockTake newStockTake);
 
