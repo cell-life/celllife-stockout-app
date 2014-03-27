@@ -1,7 +1,5 @@
 package org.celllife.stockout.app.ui.activities;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
 import java.util.Date;
@@ -10,8 +8,6 @@ import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.AlertStatus;
 import org.celllife.stockout.app.domain.Drug;
-import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
-import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
@@ -21,12 +17,9 @@ import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -137,62 +130,18 @@ public class MainActivity extends Activity {
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
 			Log.e("MainActivity", "Main Application exeption handler");
-			boolean terminate = false;
 			try {
-				if (ex instanceof RestAuthenticationException) {
-					displayErrorMessage(ex.getMessage());
-				} else  if (ex instanceof RestCommunicationException) {
-					displayErrorMessage(ex.getMessage());
-				} else {
-					String errorReport = getErrorReport(thread, ex);
-					Log.e("MainActivity", errorReport);
-					Log.e("MainActivity", "Starting crashedIntent...");
-					Intent crashedIntent = new Intent(MainActivity.this, CrashHandlerActivity.class);
-					crashedIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-					crashedIntent.putExtra("error", errorReport);
-					startActivity(crashedIntent);
-					terminate = true;
-				}
+				Log.e("MainActivity", "Starting crashedIntent...");
+				Intent crashedIntent = new Intent(MainActivity.this, CrashHandlerActivity.class);
+				crashedIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+				crashedIntent.putExtra("exception", ex);
+				startActivity(crashedIntent);
 			} catch (Throwable t) {
 				Log.e("MainActivity", "Exception caught while handling exception: ", t);
 			} finally {
 				android.os.Process.killProcess(android.os.Process.myPid());
-				if (terminate) {
-					System.exit(1);
-				}
+				System.exit(1);
 			}
 		}
-
-		protected String getErrorReport(Thread thread, Throwable exception) {
-			StringWriter stackTrace = new StringWriter();
-			exception.printStackTrace(new PrintWriter(stackTrace));
-			StringBuilder errorReport = new StringBuilder();
-			errorReport.append("DEVICE INFORMATION").append(System.getProperty("line.separator"));
-			errorReport.append("Brand: ").append(Build.BRAND).append(System.getProperty("line.separator"));
-			errorReport.append("Device: ").append(Build.DEVICE).append(System.getProperty("line.separator"));
-			errorReport.append("Model: ").append(Build.MODEL).append(System.getProperty("line.separator"));
-			errorReport.append("Id: ").append(Build.ID).append(System.getProperty("line.separator"));
-			errorReport.append("Product: ").append(Build.PRODUCT).append(System.getProperty("line.separator"));
-			errorReport.append("SDK: ").append(Build.VERSION.SDK_INT).append(System.getProperty("line.separator"));
-			errorReport.append("Release: ").append(Build.VERSION.RELEASE).append(System.getProperty("line.separator"));
-			errorReport.append("Incremental: ").append(Build.VERSION.INCREMENTAL)
-					.append(System.getProperty("line.separator"));
-			errorReport.append(System.getProperty("line.separator"));
-			errorReport.append("CAUSE OF ERROR").append(System.getProperty("line.separator"));
-			errorReport.append("Thread: ").append(thread).append(System.getProperty("line.separator"));
-			errorReport.append(stackTrace.toString());
-			return errorReport.toString();
-		}
-	}
-
-	void displayErrorMessage(String errorMessage) {
-		new AlertDialog.Builder(this)
-		.setMessage(errorMessage)
-	    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) { 
-	            dialog.cancel();
-	        }
-	     })
-	     .show();
 	}
 }
