@@ -60,7 +60,7 @@ public class ManagerFactory {
 	}
 	
 	public static CalculationManager getCalculationManager() {
-		if (calculationManager != null) {
+		if (calculationManager == null) {
 			calculationManager = new CalculationManagerImpl();
 		}
 		return calculationManager;
