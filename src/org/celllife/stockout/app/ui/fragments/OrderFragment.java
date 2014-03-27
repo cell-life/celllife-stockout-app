@@ -11,6 +11,8 @@ import org.celllife.stockout.app.manager.StockTakeManager;
 import org.celllife.stockout.app.ui.activities.ScanActivity;
 import org.celllife.stockout.app.ui.adapters.AlertListViewAdapter;
 import org.celllife.stockout.app.ui.adapters.StockListViewAdapter;
+import org.celllife.stockout.app.manager.SessionManager;
+import org.celllife.stockout.app.ui.activities.PinActivity;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -82,8 +84,16 @@ public class OrderFragment extends Fragment {
 	}
 
     private void startScanActivity() {
-        Intent intent = new Intent(orderView.getContext(), ScanActivity.class);
-        this.startActivityForResult(intent, SCAN_REQUEST_CODE);
+        SessionManager sessionManager = ManagerFactory.getSessionManager();
+        if (sessionManager.isSessionExpired()) {
+            Intent intent = new Intent(orderView.getContext(), PinActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(orderView.getContext(), ScanActivity.class);
+            this.startActivityForResult(intent, SCAN_REQUEST_CODE);
+        }
+
     }
     
     @Override
