@@ -30,8 +30,13 @@ public class CalculationManagerImpl implements CalculationManager {
 
 		int stockUsed = oldStockTake.getQuantity() - newStockTake.getQuantity();
 		Log.d("CalculationManager", "calculateAverageDailyConsumption stockUsed="+stockUsed);
-
-		int adc = Math.round(stockUsed/days);
+		
+		int adc;
+		if (days == 0) {
+			adc = stockUsed;
+		} else {
+			adc = Math.round(stockUsed/days);
+		}
 		Log.d("CalculationManager", "calculateAverageDailyConsumption adc="+adc);
 
 		return adc;
