@@ -21,14 +21,14 @@ public class RestClientRunner {
 		this.password = password;
 	}
 
-	public String doGet(String url) throws RestAuthenticationException, RestCommunicationException {
+	public RestResponse doGet(String url) throws RestAuthenticationException, RestCommunicationException {
 		startProgress();
-		Log.d("RestClientRunner", "Starting REST call to "+url);
+		Log.d("RestClientRunner", "Starting GET REST call to "+url);
 		RestClientGetAsyncTask task = new RestClientGetAsyncTask();
 		task.execute(new String[] { url });
-		String response = null;
+		RestResponse restResponse = new RestResponse(500);
 		try {
-			RestResponse restResponse = task.get();
+			restResponse = task.get();
 			if (restResponse.getErrorMessage() != null) {
 				if (restResponse.getCode() == 401) {
 					throw new RestAuthenticationException("Invalid username or password.");
@@ -37,8 +37,7 @@ public class RestClientRunner {
 					+ ". Error: " + restResponse.getErrorMessage());
 				}
 			}
-			Log.d("RestClientRunner", "Finishing REST call with response: "+restResponse);
-			response = restResponse.getData();
+			Log.d("RestClientRunner", "Finishing GET REST call with response: "+restResponse);
 		} catch (InterruptedException e) {
 			throw new RestCommunicationException("Error while communicating with the server " + url 
 					+ ". Error: " + e.getMessage(), e);
@@ -48,7 +47,36 @@ public class RestClientRunner {
 		} finally {
 			endProgress();
 		}
-		return response;
+		return restResponse;
+	}
+
+	public RestResponse doPost(String url, String string) throws RestAuthenticationException, RestCommunicationException {
+		startProgress();
+		Log.d("RestClientRunner", "Starting POST REST call to "+url+" with data "+string);
+		RestClientPostAsyncTask task = new RestClientPostAsyncTask();
+		task.execute(new String[] { url, string });
+		RestResponse restResponse = new RestResponse(500);
+		try {
+			restResponse = task.get();
+			if (restResponse.getErrorMessage() != null) {
+				if (restResponse.getCode() == 401) {
+					throw new RestAuthenticationException("Invalid username or password.");
+				} else {
+					throw new RestCommunicationException("Error while communicating with the server " + url 
+					+ ". Error: " + restResponse.getErrorMessage());
+				}
+			}
+			Log.d("RestClientRunner", "Finishing POST REST call with response: "+restResponse);
+		} catch (InterruptedException e) {
+			throw new RestCommunicationException("Error while communicating with the server " + url 
+					+ ". Error: " + e.getMessage(), e);
+		} catch (ExecutionException e) {
+			throw new RestCommunicationException("Error while communicating with the server " + url 
+					+ ". Error: " + e.getMessage(), e);
+		} finally {
+			endProgress();
+		}
+		return restResponse;
 	}
 
 	private void startProgress() {
@@ -72,6 +100,22 @@ public class RestClientRunner {
 			} catch (MalformedURLException e) {
 				response = new RestResponse(500);
 				response.setErrorMessage("Invalid url '"+urls[0]+"'");
+			}
+			return response;
+		}
+	}
+
+	class RestClientPostAsyncTask extends AsyncTask<String, Void, RestResponse> {
+		protected RestResponse doInBackground(String... params) {
+			String url = params[0];
+			String data = params[1];
+			RestResponse response = null;
+			try {
+				RestClient client = new RestClientImpl(username, password);
+				response = client.doPost(new URL(url), data);
+			} catch (MalformedURLException e) {
+				response = new RestResponse(500);
+				response.setErrorMessage("Invalid url '"+url+"'");
 			}
 			return response;
 		}

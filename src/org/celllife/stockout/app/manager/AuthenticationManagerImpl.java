@@ -8,11 +8,9 @@ import java.util.Random;
 
 import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.domain.Phone;
+import org.celllife.stockout.app.integration.rest.GetUserMethod;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
-import org.celllife.stockout.app.integration.rest.framework.RestClientRunner;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -25,22 +23,40 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 		Log.d("AuthenticationManager", "AM: found cache currentUser="+currentUser);
 		if (currentUser == null || currentUser.getEncryptedPassword() == null || currentUser.getSalt() == null) {
 			// retrieve the user details from the server (and cache the details in the database)
-			currentUser = getUserDetailsFromServer(currentUser, username, password);
+			try {
+				currentUser = getUserDetailsFromServer(currentUser, username, password);
+				// Note: at this point the RestCommunicationException could be encountered. 
+				// In this case we wish to display this error to the user so they can
+				// debug the problem with support
+			} catch (RestAuthenticationException e) {
+				// However, if they weren't authenticated successfully while trying to read the user, 
+				// the supplied credentials are obviously wrong
+				return false;
+			}
 			Log.d("AuthenticationManager", "AM: found server currentUser="+currentUser);
 		}
 		if (currentUser.getEncryptedPassword() != null && currentUser.getSalt() != null) {
 			// check if the encrypted passwords match
 			boolean isValid = isValidUserPassword(currentUser, password);
 			if (!isValid) {
-				// FIXME: if they don't match, then perhaps they have changed their password on the server ...
+				// if they don't match, then perhaps they have changed their password on the server ...
+				try {
+					currentUser = getUserDetailsFromServer(currentUser, username, password);
+				} catch (RestAuthenticationException e) {
+					// if they weren't authenticated successfully while trying to read the user, 
+					// the supplied credentials are obviously wrong
+					return false;
+				} catch (RestCommunicationException e) {
+					// if we get a communication error, then just carry on with the previous result 
+					// (maybe the server is down?)
+				}
 			}
 			Log.d("AuthenticationManager", "AM: isValid="+isValid);
 			return isValid;
 		} else {
-			// if we still don't know the encrypted password & salt at this stage (due to server communication 
-			// problems), just deny access
-			// reasons: you need a connection when setting up the phone & if you have already set up the phone
-			// and the cached password doesn't match what has been entered, then they probably just made a mistake
+			// if we still don't know the encrypted password & salt at this stage, just deny access
+			// this shouldn't really happen due handling of communication exceptions above.
+			// it could be that the hash + salt are null on the server (?)
 			Log.d("AuthenticationManager", "AM: invalid password");
 			return false;
 		}
@@ -56,37 +72,25 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 		return null;
 	}
 	
-	private Phone getUserDetailsFromServer(Phone existingDetails, String username, String password) {
+	private Phone getUserDetailsFromServer(Phone existingDetails, String username, String password) 
+			throws RestCommunicationException {
 		Phone userDetails = existingDetails;
 		if (userDetails == null) {
 			userDetails = new Phone();
 			userDetails.setMsisdn(username);
 		}
-		// FIXME: this should be done in a more central place
-		// Note: this is being done on the main thread because we can't authenticate the user until it has finished.
-		RestClientRunner restClientRunner = new RestClientRunner(username, password);
-		String url = ManagerFactory.getSettingManager().getServerBaseUrl() + "service/users?msisdn="+username;
-		try {
-			String response = restClientRunner.doGet(url);
-			if (response != null) {
-				JSONObject user = new JSONObject(response);
-				userDetails.setEncryptedPassword(user.getString("encryptedPassword"));
-				userDetails.setSalt(user.getString("salt"));
-				userDetails.setClinicCode(user.getString("clinicCode"));
-				userDetails.setClinicName(user.getString("clinicName"));
-				DatabaseManager.getPhoneTableAdapter().insertOrUpdate(userDetails);
-			} else {
-				// FIXME: check for errors and report back to the user
-				Log.w("AuthenticationManager", "Did not get any response");
-			}
-		} catch (RestCommunicationException e) {
-			e.printStackTrace();
-		} catch (RestAuthenticationException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
+		Phone newUserDetails = GetUserMethod.getUserDetails(username, password);
+		// merge details
+		if (newUserDetails != null) {
+			userDetails.setEncryptedPassword(newUserDetails.getEncryptedPassword());
+			userDetails.setSalt(newUserDetails.getSalt());
+			userDetails.setClinicCode(newUserDetails.getClinicCode());
+			userDetails.setClinicName(newUserDetails.getClinicName());
+			DatabaseManager.getPhoneTableAdapter().insertOrUpdate(userDetails);
+		} else {
+			throw new RestCommunicationException("Error while reading the response from the server. " +
+					"Error: did not get any response");
 		}
-		
 		return userDetails;
 	}
 

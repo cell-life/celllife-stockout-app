@@ -5,7 +5,7 @@ package org.celllife.stockout.app.integration.rest.framework;
  * This would include HTTP status codes between 400 and 500 (except 401 which has its
  * own exception).
  */
-public class RestCommunicationException extends Exception {
+public class RestCommunicationException extends RuntimeException {
 
 	private static final long serialVersionUID = -759288549946383037L;
 

@@ -10,6 +10,8 @@ import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.domain.comparator.StockTakeComparator;
+import org.celllife.stockout.app.integration.rest.PostStockTakeMethod;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 
 import android.util.Log;
 
@@ -42,15 +44,32 @@ public class StockTakeManagerImpl implements StockTakeManager {
 			Log.d("StockTakeManager", "Cancelling Alert "+alert);
 			alertAdapter.deleteById(alert.getId());
 		}
-		// Inserts new StockTake
-		stockAdapter.insert(stockTake);
-		// TODO: Sends StockTake to the server (on fail, start a task)
+		// Send StockTake to the server, if it fails, an error should be displayed
+		// because a RestCommunicationException is thrown, and the background task
+		// should pick it up and try resend later.
+		try {
+			boolean submitted = PostStockTakeMethod.submitStockTake(stockTake);
+			stockTake.setSubmitted(submitted);
+		} finally {
+			// Inserts new StockTake
+			stockAdapter.insert(stockTake);
+		}
 	}
 
 	@Override
 	public boolean submitStockTake(StockTake stockTake) {
 		// Sends the StockTake to the server (this method is to be used by the background job)
-		return false;
+		boolean success = false;
+		try {
+			success = PostStockTakeMethod.submitStockTake(stockTake);
+			if (success) {
+				stockTake.setSubmitted(true);
+			}
+		} catch (RestCommunicationException e) {
+			// swallows exceptions because this method is being used by the background task
+			Log.w("StockTakeManager", "Got an error while submitting a stock take.", e);
+		}
+		return success;
 	}
 
 	@Override

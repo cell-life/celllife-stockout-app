@@ -17,13 +17,19 @@ public class AuthenticationManagerTest extends AndroidTestCase {
 
     public void testAuthenticateTrue() {
     	AuthenticationManager authManager = ManagerFactory.getAuthenticationManager();
-    	boolean success = authManager.authenticate("0768198075", "1234");
+    	boolean success = authManager.authenticate("27768198075", "1234");
     	Assert.assertTrue(success);
     }
 
-    public void testAuthenticateFalse() {
+    public void testAuthenticateFalseInvalidUsername() {
     	AuthenticationManager authManager = ManagerFactory.getAuthenticationManager();
-    	boolean success = authManager.authenticate("0768198075", "12345");
+    	boolean success = authManager.authenticate("0768198075", "1234");
+    	Assert.assertFalse(success);
+    }
+
+    public void testAuthenticateFalseInvalidPassword() {
+    	AuthenticationManager authManager = ManagerFactory.getAuthenticationManager();
+    	boolean success = authManager.authenticate("27768198075", "12345");
     	Assert.assertFalse(success);
     }
 

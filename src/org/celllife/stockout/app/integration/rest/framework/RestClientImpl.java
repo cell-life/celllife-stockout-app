@@ -40,6 +40,9 @@ public class RestClientImpl implements RestClient {
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
+			conn.setRequestProperty("Content-Type", "application/json");
+
+			doAuthentication(url, conn);
 
 			// send content, if it's available
 			if (content != null && !content.trim().equals("")) {
@@ -48,8 +51,6 @@ public class RestClientImpl implements RestClient {
 				wr.write(content);
 				wr.flush();
 			}
-
-			doAuthentication(url, conn);
 
 			// read response
 			response = new RestResponse(conn.getResponseCode());
