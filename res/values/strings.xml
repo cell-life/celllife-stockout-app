@@ -8,6 +8,9 @@
     <string name="orders">Orders</string>
     <string name="requires_stock_take_heading">Requires Stock Take</string>
     <string name="completed_stock_take_heading">Completed Stock Take</string>
+    <string name="new_alerts">New Alerts</string>
+    <string name="zero_new_alerts">(0) New Alerts</string>
+    <string name="send">Send</string>
         
     <string name="received">Received</string>
     <string name="stock_received_instruction">Please begin scanning of stock received</string>
