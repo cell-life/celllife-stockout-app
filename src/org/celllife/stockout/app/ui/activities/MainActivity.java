@@ -10,6 +10,8 @@ import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.AlertStatus;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
@@ -19,8 +21,10 @@ import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -132,20 +136,30 @@ public class MainActivity extends Activity {
 	private class StockApplicationCrashExceptionHandler implements UncaughtExceptionHandler {
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
-			Log.e("MainActivity", "Main PosApplication exeption handler");
+			Log.e("MainActivity", "Main Application exeption handler");
+			boolean terminate = false;
 			try {
-				String errorReport = getErrorReport(thread, ex);
-				Log.e("MainActivity", errorReport);
-				Log.e("MainActivity", "Starting crashedIntent...");
-				Intent crashedIntent = new Intent(MainActivity.this, CrashHandlerActivity.class);
-				crashedIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-				crashedIntent.putExtra("error", errorReport);
-				startActivity(crashedIntent);
+				if (ex instanceof RestAuthenticationException) {
+					displayErrorMessage(ex.getMessage());
+				} else  if (ex instanceof RestCommunicationException) {
+					displayErrorMessage(ex.getMessage());
+				} else {
+					String errorReport = getErrorReport(thread, ex);
+					Log.e("MainActivity", errorReport);
+					Log.e("MainActivity", "Starting crashedIntent...");
+					Intent crashedIntent = new Intent(MainActivity.this, CrashHandlerActivity.class);
+					crashedIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+					crashedIntent.putExtra("error", errorReport);
+					startActivity(crashedIntent);
+					terminate = true;
+				}
 			} catch (Throwable t) {
 				Log.e("MainActivity", "Exception caught while handling exception: ", t);
 			} finally {
 				android.os.Process.killProcess(android.os.Process.myPid());
-				System.exit(1);
+				if (terminate) {
+					System.exit(1);
+				}
 			}
 		}
 
@@ -169,5 +183,16 @@ public class MainActivity extends Activity {
 			errorReport.append(stackTrace.toString());
 			return errorReport.toString();
 		}
+	}
+
+	void displayErrorMessage(String errorMessage) {
+		new AlertDialog.Builder(this)
+		.setMessage(errorMessage)
+	    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            dialog.cancel();
+	        }
+	     })
+	     .show();
 	}
 }

@@ -89,7 +89,7 @@ public class ScanActivity extends Activity {
 	private void displayScanErrorMessage() {
 		new AlertDialog.Builder(this)
 		.setMessage(R.string.scan_error)
-	    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            dialog.cancel();
 	            ScanActivity.this.finish();
@@ -128,7 +128,7 @@ public class ScanActivity extends Activity {
 	private void displayQuantityErrorMessage(int messageResource) {
 		new AlertDialog.Builder(this)
 		.setMessage(messageResource)
-	    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            dialog.cancel();
 	        }

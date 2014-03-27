@@ -22,7 +22,7 @@ public class CrashHandlerActivity extends Activity {
 	private void setError(String errorReport) {
 		TextView errorText = (TextView) findViewById(R.id.error);
 		errorText.setText(errorReport);
-		Button button = (Button) findViewById(R.id.cancel_button);
+		Button button = (Button) findViewById(R.id.ok_button);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

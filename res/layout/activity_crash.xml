@@ -23,7 +23,7 @@
             android:id="@+id/error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/cancel_button"
+            android:layout_above="@+id/ok_button"
             android:layout_below="@+id/error_heading"
             android:text="@string/empty"
             android:paddingTop="10dip"
@@ -32,11 +32,11 @@
             android:textAppearance="?android:attr/textAppearance" />
 
         <Button
-            android:id="@+id/cancel_button"
+            android:id="@+id/ok_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="@string/cancel" />
+            android:text="@string/ok" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -20,6 +20,7 @@
     <string name="no_barcode">No barcode received.</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="enter_amount">Enter amount</string>
     <string name="scan_heading">You have scanned</string>
     <string name="scan_error">Please note: you have scanned an unknown item. Please scan a registered drug.</string>
