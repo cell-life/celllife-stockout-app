@@ -1,57 +1,54 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:layout_centerHorizontal="true"
-              android:layout_centerVertical="true"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/pin_heading"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20sp"
-        android:gravity="center"
-        android:text="@string/pin_heading" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="top"
+        android:orientation="vertical" >
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberPassword"
-        android:password="true"
-        style="@style/EditBox.Medium"
-        android:ems="10"
-        android:id="@+id/pin"
-        android:layout_marginTop="132dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/pin_heading"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10sp"
+            android:text="@string/pin_heading"
+            android:textAppearance="?android:attr/textAppearance" />
+
+        <EditText
+            android:id="@+id/pin"
+            style="@style/EditBox.Medium"
+            android:inputType="numberPassword" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="bottom"
+        android:layout_below="@+id/linearLayout1"
         android:gravity="bottom"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/confirm_button"
             style="@style/Button.Blue"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/confirm"
-            android:layout_marginRight="-5dip"/>
+            android:layout_weight="1"
+            android:text="@string/confirm" />
 
         <Button
             android:id="@+id/cancel_button"
             style="@style/Button"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:layout_marginLeft="-5dip"
-            />
+            android:layout_weight="1"
+            android:text="@string/cancel" />
     </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>
