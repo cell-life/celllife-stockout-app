@@ -5,6 +5,8 @@ import java.util.Date;
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockTake;
+import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
 
@@ -75,9 +77,12 @@ public class ScanActivity extends Activity {
 			drug = lookupDrug(scanContent);
 			if (drug != null) {
 				contentTxt.setText(drug.getDescription());
-			} else {
+			} else if (scanContent != null) {
 				// no drug found
 				displayScanErrorMessage();
+			} else {
+				// they didn't scan anything, so abort silently
+				ScanActivity.this.finish();
 			}
 			
 		} else {
@@ -120,6 +125,12 @@ public class ScanActivity extends Activity {
 			} catch (NumberFormatException e) {
 				displayQuantityErrorMessage(R.string.scan_quantity_number_error);
 				return false;
+			} catch (RestAuthenticationException e) {
+				displayErrorMessage(e.getMessage());
+				return false;
+			} catch (RestCommunicationException e) {
+				displayErrorMessage(e.getMessage());
+				return false;
 			}
 		}
 		return true;
@@ -131,6 +142,18 @@ public class ScanActivity extends Activity {
 	    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            dialog.cancel();
+	        }
+	     })
+	     .show();
+	}
+	
+	private void displayErrorMessage(String message) {
+		new AlertDialog.Builder(this)
+		.setMessage(message)
+	    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            dialog.cancel();
+	            ScanActivity.this.finish();
 	        }
 	     })
 	     .show();

@@ -6,9 +6,8 @@ import org.celllife.stockout.app.manager.ManagerFactory;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Button;
-import android.content.Intent;
+import android.widget.EditText;
 import android.widget.Toast;
 
 /**
@@ -28,11 +27,11 @@ public class PinActivity extends Activity {
 
 			public void onClick(View v) {
 				if (passwd.getText().toString().equals("1234")) {
-					PinActivity.this.finish();
 					Toast.makeText(PinActivity.this.getApplicationContext(), R.string.loading_scanner,
 							Toast.LENGTH_LONG).show();
 					ManagerFactory.getSessionManager().authenticated("27768198075", "1234");
-					startScanActivity();
+					PinActivity.this.setResult(RESULT_OK, PinActivity.this.getIntent());
+					PinActivity.this.finish();
 				} else {
 					Toast.makeText(getApplicationContext(), "Please Enter 1234", Toast.LENGTH_LONG).show();
 				}
@@ -47,10 +46,5 @@ public class PinActivity extends Activity {
 			}
 		});
 
-	}
-
-	private void startScanActivity() {
-		Intent intent = new Intent(this, ScanActivity.class);
-		startActivity(intent);
 	}
 }

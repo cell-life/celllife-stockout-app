@@ -7,13 +7,14 @@ import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.manager.SessionManager;
 import org.celllife.stockout.app.manager.StockTakeManager;
+import org.celllife.stockout.app.ui.activities.PinActivity;
 import org.celllife.stockout.app.ui.activities.ScanActivity;
 import org.celllife.stockout.app.ui.adapters.AlertListViewAdapter;
 import org.celllife.stockout.app.ui.adapters.StockListViewAdapter;
-import org.celllife.stockout.app.manager.SessionManager;
-import org.celllife.stockout.app.ui.activities.PinActivity;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 public class OrderFragment extends Fragment {
 	
 	private static final int SCAN_REQUEST_CODE = 23;
+	private static final int PIN_REQUEST_CODE = 1;
 
 	View orderView = null;
 	
@@ -51,14 +53,6 @@ public class OrderFragment extends Fragment {
 	    AlertManager alertManager = ManagerFactory.getAlertManager();
 	    List<Alert> values = alertManager.getAlerts();
 	    Alert[] alerts = values.toArray(new Alert[values.size()]);
-	    /*Alert[] alerts = new Alert[] {
-	    		new Alert(new Date(), 3, "Panado", null, null),
-	    		new Alert(new Date(), 3, "Disprin", null, null),
-	    		new Alert(new Date(), 2, "Grandpa", null, null),
-	    		new Alert(new Date(), 2, "Myprodol", null, null),
-	    		new Alert(new Date(), 1, "Allergex", null, null),
-	    		new Alert(new Date(), 1, "Texa 10", null, null)
-	    };*/
 	    final AlertListViewAdapter adapter = new AlertListViewAdapter(orderView.getContext(), R.id.drug_alert_list, alerts);
 	    listview.setAdapter(adapter);
 	}
@@ -77,7 +71,6 @@ public class OrderFragment extends Fragment {
         startScanBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-            	Toast.makeText(orderView.getContext(), R.string.loading_scanner, Toast.LENGTH_LONG).show();
                 startScanActivity();
             }
         });
@@ -87,18 +80,25 @@ public class OrderFragment extends Fragment {
         SessionManager sessionManager = ManagerFactory.getSessionManager();
         if (sessionManager.isSessionExpired()) {
             Intent intent = new Intent(orderView.getContext(), PinActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, PIN_REQUEST_CODE);
         }
         else {
+        	Toast.makeText(orderView.getContext(), R.string.loading_scanner, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(orderView.getContext(), ScanActivity.class);
-            this.startActivityForResult(intent, SCAN_REQUEST_CODE);
+            startActivityForResult(intent, SCAN_REQUEST_CODE);
         }
 
     }
     
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        setupOrder(orderView);
-        setupStock(orderView);
+    	if (requestCode == SCAN_REQUEST_CODE) {
+	        setupOrder(orderView);
+	        setupStock(orderView);
+    	}
+    	if (requestCode == PIN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Intent scanIntent = new Intent(orderView.getContext(), ScanActivity.class);
+            startActivityForResult(scanIntent, SCAN_REQUEST_CODE);
+    	}
     }
 }
