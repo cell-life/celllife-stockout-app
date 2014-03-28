@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -41,20 +42,27 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         orderView = inflater.inflate(R.layout.order, container, false);
         // setup the view
-        setupOrder(orderView);
+        setupAlert(orderView);
         setupStock(orderView);
         setupScanButton(orderView);
 
         return orderView;
     }
 
-	private void setupOrder(View orderView) {
+	private void setupAlert(View orderView) {
+		// setup the list
 	    final ListView listview = (ListView) orderView.findViewById(R.id.drug_alert_list);
 	    AlertManager alertManager = ManagerFactory.getAlertManager();
 	    List<Alert> values = alertManager.getAlerts();
 	    Alert[] alerts = values.toArray(new Alert[values.size()]);
 	    final AlertListViewAdapter adapter = new AlertListViewAdapter(orderView.getContext(), R.id.drug_alert_list, alerts);
 	    listview.setAdapter(adapter);
+	    
+	    // setup alert count
+		final TextView alertCount = (TextView) orderView.findViewById(R.id.alert_count);
+		final TextView newAlerts = (TextView) orderView.findViewById(R.id.new_alerts);
+		alertCount.setText("("+alerts.length+") ");
+		newAlerts.setText(R.string.new_alerts);
 	}
 
 	private void setupStock(View stockView) {
@@ -93,7 +101,7 @@ public class OrderFragment extends Fragment {
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     	if (requestCode == SCAN_REQUEST_CODE) {
-	        setupOrder(orderView);
+	        setupAlert(orderView);
 	        setupStock(orderView);
     	}
     	if (requestCode == PIN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
