@@ -1,8 +1,6 @@
 package org.celllife.stockout.app.integration.rest;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
@@ -11,6 +9,7 @@ import org.celllife.stockout.app.integration.rest.framework.RestCommunicationExc
 import org.celllife.stockout.app.integration.rest.framework.RestResponse;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.SessionManager;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -31,8 +30,6 @@ public class PostStockTakeMethod {
 		RestClientRunner restClientRunner = new RestClientRunner(username, password);
 		String url = ManagerFactory.getSettingManager().getServerBaseUrl() + "service/stocks/stocktake";
 
-		// build up json content
-		Map<String, Object> stockTakeMap = new HashMap<String, Object>();
 		// NOTE: expected JSON payload below
 		//{
 		//    "date": "2014-02-08",
@@ -44,15 +41,20 @@ public class PostStockTakeMethod {
 		//        "barcode": "111111222222333333"
 		//    }
 		//}
-		stockTakeMap.put("date", new SimpleDateFormat("yyyy-MM-dd").format(stockTake.getDate()));
-		stockTakeMap.put("quantity", String.valueOf(stockTake.getQuantity()));
-		Map<String, Object> userMap = new HashMap<String, Object>();
-		userMap.put("msisdn", username);
-		stockTakeMap.put("user", userMap);
-		Map<String, Object> drugMap = new HashMap<String, Object>();
-		drugMap.put("barcode", stockTake.getDrug().getBarcode());
-		stockTakeMap.put("drug", drugMap);
-		JSONObject jsonObject = new JSONObject(stockTakeMap);
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put("date", new SimpleDateFormat("yyyy-MM-dd").format(stockTake.getDate()));
+			jsonObject.put("quantity", String.valueOf(stockTake.getQuantity()));
+			JSONObject userJsonObject = new JSONObject();
+			userJsonObject.put("msisdn", username);
+			jsonObject.put("user", userJsonObject);
+			JSONObject drugJsonObject = new JSONObject();
+			drugJsonObject.put("barcode", stockTake.getDrug().getBarcode());
+			jsonObject.put("drug", drugJsonObject);
+		} catch (JSONException e) {
+			throw new RestCommunicationException("Error while communicating with the server " + url 
+					+ ". Error: " + e.getMessage(), e);
+		}
 
 		// check response and return
 		RestResponse response = restClientRunner.doPost(url, jsonObject.toString());
