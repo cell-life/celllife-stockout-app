@@ -49,6 +49,7 @@ public class ManagerFactory {
 		if (authenticationManager == null) {
 			authenticationManager = new AuthenticationManagerImpl();
 		}
+		getSessionManager().markInteraction();
 		return authenticationManager;
 	}
 
@@ -56,6 +57,7 @@ public class ManagerFactory {
 		if (settingManager == null) {
 			settingManager = new SettingManagerImpl(context);
 		}
+		getSessionManager().markInteraction();
 		return settingManager;
 	}
 	
@@ -63,6 +65,7 @@ public class ManagerFactory {
 		if (calculationManager == null) {
 			calculationManager = new CalculationManagerImpl();
 		}
+		getSessionManager().markInteraction();
 		return calculationManager;
 	}
 }
