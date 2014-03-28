@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/ok_button"
             android:layout_below="@+id/error_heading"
-            android:text="string/empty"
+            android:text="@string/empty"
             android:paddingTop="10dip"
             android:paddingBottom="10dip"
             android:textSize="12sp"
