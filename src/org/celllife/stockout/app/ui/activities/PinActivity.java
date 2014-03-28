@@ -1,6 +1,8 @@
 package org.celllife.stockout.app.ui.activities;
 
 import org.celllife.stockout.app.R;
+import org.celllife.stockout.app.manager.ManagerFactory;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,10 +27,14 @@ public class PinActivity extends Activity {
 		confirmButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				if (passwd.getText().toString().equals("123456789")) {
+				if (passwd.getText().toString().equals("1234")) {
+					PinActivity.this.finish();
+					Toast.makeText(PinActivity.this.getApplicationContext(), R.string.loading_scanner,
+							Toast.LENGTH_LONG).show();
+					ManagerFactory.getSessionManager().authenticated("27768198075", "1234");
 					startScanActivity();
 				} else {
-					Toast.makeText(getApplicationContext(), "Please Enter Numeric Password", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Please Enter 1234", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -47,5 +53,4 @@ public class PinActivity extends Activity {
 		Intent intent = new Intent(this, ScanActivity.class);
 		startActivity(intent);
 	}
-
 }
