@@ -24,15 +24,17 @@ public class SessionManagerImpl implements SessionManager {
 		if (sessionStart == null) {
 			sessionStart = new Date();
 		}
+		lastInteraction = new Date();
 	}
 
 	@Override
 	public boolean isSessionExpired() {
 		Date now = new Date();
-		long sessionLength = now.getTime() - lastInteraction.getTime(); 
-		if (sessionStart == null 
-				|| lastInteraction == null
-				|| sessionLength > SESSION_TIMEOUT) {
+		long sessionLength = SESSION_TIMEOUT + 1;
+		if (lastInteraction != null) {
+			sessionLength = now.getTime() - lastInteraction.getTime(); 
+		}
+		if (sessionStart == null || sessionLength > SESSION_TIMEOUT) {
 			invalidateSession();
 			return true;
 		}
