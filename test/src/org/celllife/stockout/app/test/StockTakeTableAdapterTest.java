@@ -59,6 +59,23 @@ public class StockTakeTableAdapterTest extends AndroidTestCase {
     	Assert.assertEquals(st.getDrug().getId(), st2.getDrug().getId());
     }
 
+    public void testFindLatest(){
+    	Drug d = new Drug("111111112222222222222", "Some drug");
+    	drugDb.insert(d);
+    	d = drugDb.findByBarcode(d.getBarcode());
+    	StockTake st = new StockTake(new Date(), d, 1, false);
+    	stockTakeDb.insert(st);
+    	List<StockTake> stockTakes = stockTakeDb.findLatestStockTakes();
+    	Assert.assertNotNull(stockTakes);
+    	Assert.assertEquals(1, stockTakes.size());
+    	StockTake st2 = stockTakes.get(0);
+    	Assert.assertNotNull(st2);
+    	Assert.assertEquals(st.getQuantity(), st2.getQuantity());
+    	Assert.assertEquals(st.isSubmitted(), st2.isSubmitted());
+    	Assert.assertEquals(st.getDate(), st2.getDate());
+    	Assert.assertEquals(st.getDrug().getId(), st2.getDrug().getId());
+    }
+
     public void testUpdate(){
     	Drug d = new Drug("111111112222222222222", "Some drug");
     	drugDb.insert(d);

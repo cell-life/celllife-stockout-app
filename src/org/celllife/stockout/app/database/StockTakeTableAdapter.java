@@ -1,7 +1,7 @@
 package org.celllife.stockout.app.database;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class StockTakeTableAdapter extends TableAdapter<StockTake> {
 			
 	// StockTake Queries
 	private static final String QUERY_FINDBY_DRUG = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + DRUG + " = ?";
-	private static final String QUERY_FINDBY_DATE = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + DATE + " = ?";
+	private static final String QUERY_FINDBY_DATE = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + DATE + " >= ?";
 
 	String CREATE_STOCKTAKE_TABLE = 
 			"CREATE TABLE " + TABLE_STOCKTAKE +" ("
@@ -103,7 +103,12 @@ public class StockTakeTableAdapter extends TableAdapter<StockTake> {
 	}
 
 	public List<StockTake> findLatestStockTakes() {
-		String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		String date = String.valueOf(cal.getTime().getTime());
 		return db.findMany(this, QUERY_FINDBY_DATE, new String[] { date });
 	}
 }
