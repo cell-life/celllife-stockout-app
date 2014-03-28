@@ -168,11 +168,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		try {
 			Cursor c = db.rawQuery(query, values);
 		    if (c != null) {
-		        c.moveToFirst();
-		        do {
-		        	T entity = table.readFromCursor(c);
-		        	entities.add(entity);
-		        } while (c.moveToNext());
+		        if (c.moveToFirst()) {
+			        do {
+			        	T entity = table.readFromCursor(c);
+			        	entities.add(entity);
+			        } while (c.moveToNext());
+		        }
 		    }
 		} finally {
 			//db.close();
