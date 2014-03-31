@@ -6,12 +6,16 @@ import java.util.List;
 import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.database.DrugTableAdapter;
 import org.celllife.stockout.app.database.StockHistoryTableAdapter;
+import org.celllife.stockout.app.database.StockReceivedTableAdapter;
 import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockHistory;
+import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
+import org.celllife.stockout.app.domain.comparator.StockReceivedComparator;
 import org.celllife.stockout.app.domain.comparator.StockTakeComparator;
+import org.celllife.stockout.app.integration.rest.PostStockReceivedMethod;
 import org.celllife.stockout.app.integration.rest.PostStockTakeMethod;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 
@@ -46,7 +50,13 @@ public class StockTakeManagerImpl implements StockTakeManager {
 			stockHistoryAdapter.insertOrUpdate(stockHistory);
 			// Delete last StockTake
 			stockAdapter.deleteById(lastStockTake.getId());
-			
+		}
+		// Cancels previous Stock Arrivals
+		StockReceivedTableAdapter stockReceivedAdapter = DatabaseManager.getStockReceivedTableAdapter();
+		List<StockReceived> stockReceived = stockReceivedAdapter.findByDrug(stockTake.getDrug());
+		for (StockReceived sr : stockReceived) {
+			Log.d("StockTakeManager", "Cancelling StockReceived "+sr);
+			stockReceivedAdapter.deleteById(sr.getId());
 		}
 		// Cancels Alerts
 		AlertTableAdapter alertAdapter = DatabaseManager.getAlertTableAdapter();
@@ -75,6 +85,7 @@ public class StockTakeManagerImpl implements StockTakeManager {
 			success = PostStockTakeMethod.submitStockTake(stockTake);
 			if (success) {
 				stockTake.setSubmitted(true);
+				DatabaseManager.getStockTakeTableAdapter().update(stockTake.getId(), stockTake);
 			}
 		} catch (RestCommunicationException e) {
 			// swallows exceptions because this method is being used by the background task
@@ -88,6 +99,44 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
 		List<StockTake> stocks = stockAdapter.findLatestStockTakes();
 		Collections.sort(stocks, new StockTakeComparator());
+		return stocks;
+	}
+
+	@Override
+	public void newStockReceived(StockReceived stockReceived) {
+		StockReceivedTableAdapter stockReceivedAdapter = DatabaseManager.getStockReceivedTableAdapter();
+		try {
+			// submits to the server (note: will sent RestCommunicationException on error which should be displayed)
+			boolean submitted = PostStockReceivedMethod.submitStockReceived(stockReceived);
+			stockReceived.setSubmitted(submitted);
+		} finally {
+			// Inserts new StockTake
+			stockReceivedAdapter.insert(stockReceived);
+		}
+	}
+
+	@Override
+	public boolean submitStockReceived(StockReceived stockReceived) {
+		// Sends the StockTake to the server (this method is to be used by the background job)
+		boolean success = false;
+		try {
+			success = PostStockReceivedMethod.submitStockReceived(stockReceived);
+			if (success) {
+				stockReceived.setSubmitted(true);
+				DatabaseManager.getStockReceivedTableAdapter().update(stockReceived.getId(), stockReceived);
+			}
+		} catch (RestCommunicationException e) {
+			// swallows exceptions because this method is being used by the background task
+			Log.w("StockTakeManager", "Got an error while submitting a stock received.", e);
+		}
+		return success;
+	}
+
+	@Override
+	public List<StockReceived> getLatestStockReceived() {
+		StockReceivedTableAdapter stockReceivedAdapter = DatabaseManager.getStockReceivedTableAdapter();
+		List<StockReceived> stocks = stockReceivedAdapter.findLatestStockReceived();
+		Collections.sort(stocks, new StockReceivedComparator());
 		return stocks;
 	}
 

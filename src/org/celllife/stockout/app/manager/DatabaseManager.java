@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.database.DrugTableAdapter;
-import org.celllife.stockout.app.database.StockHistoryTableAdapter;
-import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.database.PhoneTableAdapter;
+import org.celllife.stockout.app.database.StockHistoryTableAdapter;
+import org.celllife.stockout.app.database.StockReceivedTableAdapter;
+import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.database.framework.DatabaseOpenHelper;
 import org.celllife.stockout.app.database.framework.TableHelper;
 
@@ -24,6 +25,7 @@ public class DatabaseManager {
 	private static DrugTableAdapter drugDb;
 	private static AlertTableAdapter alertDb;
 	private static StockTakeTableAdapter stockTakeDb;
+	private static StockReceivedTableAdapter stockReceivedDb;
 	private static StockHistoryTableAdapter stockHistoryDb;
 	
 	public static DrugTableAdapter getDrugTableAdapter() {
@@ -42,6 +44,10 @@ public class DatabaseManager {
 		return stockTakeDb;
 	}
 
+	public static StockReceivedTableAdapter getStockReceivedTableAdapter() {
+		return stockReceivedDb;
+	}
+
 	public static StockHistoryTableAdapter getStockHistoryTableAdapter() {
 		return stockHistoryDb;
 	}
@@ -57,6 +63,8 @@ public class DatabaseManager {
 			tables.add(alertDb);
 			stockTakeDb = new StockTakeTableAdapter(drugDb);
 			tables.add(stockTakeDb);
+			stockReceivedDb = new StockReceivedTableAdapter(drugDb);
+			tables.add(stockReceivedDb);
 			stockHistoryDb = new StockHistoryTableAdapter(drugDb);
 			tables.add(stockHistoryDb);
 			db = new DatabaseOpenHelper(context, tables);
