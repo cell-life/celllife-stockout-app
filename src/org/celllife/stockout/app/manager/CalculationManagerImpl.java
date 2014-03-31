@@ -1,13 +1,16 @@
 package org.celllife.stockout.app.manager;
 
 import java.util.Date;
+import java.util.List;
 
 import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.database.StockHistoryTableAdapter;
+import org.celllife.stockout.app.database.StockReceivedTableAdapter;
 import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.domain.StockHistory;
+import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
 
 import android.util.Log;
@@ -21,7 +24,7 @@ public class CalculationManagerImpl implements CalculationManager {
 	private static final int MILLISECONDS_IN_DAY = 1000*60*60*24;
 
 	@Override
-	public int calculateAverageDailyConsumption(StockTake oldStockTake, StockTake newStockTake) {
+	public int calculateAverageDailyConsumption(StockTake oldStockTake, StockTake newStockTake, List<StockReceived> stockReceived) {
 		long milliseconds = newStockTake.getDate().getTime() - oldStockTake.getDate().getTime();
 		int days = (int) Math.round(milliseconds/MILLISECONDS_IN_DAY);
 		Log.d("CalculationManager", "calculateAverageDailyConsumption days="+days);
@@ -29,6 +32,9 @@ public class CalculationManagerImpl implements CalculationManager {
 		// round to the nearest whole number
 
 		int stockUsed = oldStockTake.getQuantity() - newStockTake.getQuantity();
+		for (StockReceived sr : stockReceived) {
+			stockUsed = stockUsed + sr.getQuantity();
+		}
 		Log.d("CalculationManager", "calculateAverageDailyConsumption stockUsed="+stockUsed);
 		
 		int adc;
@@ -52,14 +58,25 @@ public class CalculationManagerImpl implements CalculationManager {
 		StockHistoryTableAdapter stockHistoryDb = DatabaseManager.getStockHistoryTableAdapter();
 		StockHistory stockHistory = stockHistoryDb.findByDrug(drug);
 		
+		// work out the number of days since the last stock take
 		long milliseconds = now.getTime() - lastStockTake.getDate().getTime();
 		int days = (int) Math.round(milliseconds/MILLISECONDS_IN_DAY);
 		Log.d("CalculationManager", "getEstimatedStock for "+drug+" days="+days);
 		
+		// work out how much stock you think you should have used (given adc)
 		int estimatedUsage = (int)days * stockHistory.getAverageDailyConsumption();
 		Log.d("CalculationManager", "getEstimatedStock estimatedUsage="+estimatedUsage);
 
-		int estimatedStock = lastStockTake.getQuantity() - estimatedUsage;
+		// calculate how much stock you currently have
+		int stock = lastStockTake.getQuantity();
+		StockReceivedTableAdapter stockReceivedDb = DatabaseManager.getStockReceivedTableAdapter();
+		List<StockReceived> stockReceived = stockReceivedDb.findByDrug(drug);
+		for (StockReceived sr : stockReceived) {
+			stock = stock + sr.getQuantity();
+		}
+		
+		// calculate the estimated stock
+		int estimatedStock = stock - estimatedUsage;
 		Log.d("CalculationManager", "getEstimatedStock estimatedStock="+estimatedStock);
 
 		return estimatedStock;

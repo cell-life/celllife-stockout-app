@@ -1,6 +1,9 @@
 package org.celllife.stockout.app.manager;
 
+import java.util.List;
+
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
 
 public interface CalculationManager {
@@ -9,8 +12,9 @@ public interface CalculationManager {
 	 * Calculates the new Average Daily Consumption (ADC) for the specified Drug
 	 * @param oldStockTake previous StockTake, must not be null
 	 * @param newStockTake new StockTake, must not be null
+	 * @param stockReceived, the stock received between the two stock takes
 	 */
-	int calculateAverageDailyConsumption(StockTake oldStockTake, StockTake newStockTake);
+	int calculateAverageDailyConsumption(StockTake oldStockTake, StockTake newStockTake, List<StockReceived> stockReceived);
 
 	/**
 	 * Calculates the estimated stock on hand for the specified Drug using the ADC

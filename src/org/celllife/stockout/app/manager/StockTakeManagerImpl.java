@@ -37,9 +37,12 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		// Retrieves last StockTake for the drug
 		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
 		StockTake lastStockTake = stockAdapter.findByDrug(stockTake.getDrug());
+		// Retrieves the StockReceived for the drug
+		StockReceivedTableAdapter stockReceivedAdapter = DatabaseManager.getStockReceivedTableAdapter();
+		List<StockReceived> stockReceived = stockReceivedAdapter.findByDrug(stockTake.getDrug());
 		if (lastStockTake != null) {
 			// Calculates new ADC + updates StockHistory
-			int adc = ManagerFactory.getCalculationManager().calculateAverageDailyConsumption(lastStockTake, stockTake);
+			int adc = ManagerFactory.getCalculationManager().calculateAverageDailyConsumption(lastStockTake, stockTake, stockReceived);
 			StockHistoryTableAdapter stockHistoryAdapter = DatabaseManager.getStockHistoryTableAdapter();
 			StockHistory stockHistory = stockHistoryAdapter.findByDrug(stockTake.getDrug());
 			if (stockHistory == null) {
@@ -52,8 +55,6 @@ public class StockTakeManagerImpl implements StockTakeManager {
 			stockAdapter.deleteById(lastStockTake.getId());
 		}
 		// Cancels previous Stock Arrivals
-		StockReceivedTableAdapter stockReceivedAdapter = DatabaseManager.getStockReceivedTableAdapter();
-		List<StockReceived> stockReceived = stockReceivedAdapter.findByDrug(stockTake.getDrug());
 		for (StockReceived sr : stockReceived) {
 			Log.d("StockTakeManager", "Cancelling StockReceived "+sr);
 			stockReceivedAdapter.deleteById(sr.getId());

@@ -1,6 +1,9 @@
 package org.celllife.stockout.app.test;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -11,6 +14,7 @@ import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.domain.StockHistory;
+import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.manager.CalculationManagerImpl;
 import org.celllife.stockout.app.manager.DatabaseManager;
@@ -35,8 +39,26 @@ public class CalculationManagerTest extends AndroidTestCase {
 		cal.add(Calendar.DATE, -3);
 		oldStockTake.setQuantity(40);
 		oldStockTake.setDate(cal.getTime());
-		int adc = new CalculationManagerImpl().calculateAverageDailyConsumption(oldStockTake, newStockTake);
+		int adc = new CalculationManagerImpl().calculateAverageDailyConsumption(oldStockTake, newStockTake, new ArrayList<StockReceived>());
 		Assert.assertEquals(10, adc);
+	}
+
+	public void testCalculateAverageDailyConsumptionWithStockReceived() {
+		Calendar cal = Calendar.getInstance();
+		List<StockReceived> stockReceived = new ArrayList<StockReceived>();
+		StockTake newStockTake = new StockTake();
+		StockTake oldStockTake = new StockTake();
+		newStockTake.setQuantity(20);
+		newStockTake.setDate(cal.getTime());
+		cal.add(Calendar.DATE, -1);
+		stockReceived.add(new StockReceived(new Date(), null, 10, false));
+		cal.add(Calendar.DATE, -1);
+		stockReceived.add(new StockReceived(new Date(), null, 10, false));
+		cal.add(Calendar.DATE, -3);
+		oldStockTake.setQuantity(20);
+		oldStockTake.setDate(cal.getTime());
+		int adc = new CalculationManagerImpl().calculateAverageDailyConsumption(oldStockTake, newStockTake, stockReceived);
+		Assert.assertEquals(4, adc);
 	}
 
 	public void testGetEstimatedStock() {
