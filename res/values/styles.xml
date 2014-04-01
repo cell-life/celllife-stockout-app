@@ -20,6 +20,7 @@
 
     <style name="EditBox.Medium">
         <item name="android:layout_width">200dip</item>
+        <item name="android:layout_marginBottom">130dip</item>
     </style>
 
     <style name="EditBox.Large">
@@ -28,11 +29,48 @@
         <item name="android:layout_marginRight">10dip</item>
     </style>
 
+
+    <style name="CD">
+        <item name ="android:paddingLeft">10dip</item>
+        <item name ="android:paddingRight">10dip</item>
+        <item name ="android:paddingTop">5dip</item>
+        <item name ="android:paddingBottom">5dip</item>
+        <item name ="android:layout_marginLeft">15dip</item>
+        <item name ="android:layout_marginRight">15dip</item>
+    </style>
+
+
+
+    <style name="EF">
+        <item name="android:layout_marginLeft">30dip</item>
+        <item name="android:layout_marginRight">30dip</item>
+    </style>
+
+
+    <style name="GH">
+        <item name="android:layout_marginTop">25dip</item>
+    </style>
+
+
     <style name="HR">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1dip</item>
         <item name="android:background">#FFFFFF</item>
+        <item name="android:layout_marginLeft">30dip</item>
+        <item name="android:layout_marginRight">30dip</item>
     </style>
+
+    <style name="AB">
+        <item name ="android:layout_marginLeft">15dip</item>
+        <item name ="android:layout_marginRight">15dip</item>
+        <item name ="android:paddingLeft">10dip</item>
+        <item name ="android:paddingRight">10dip</item>
+        <item name ="android:paddingTop">5dip</item>
+        <item name ="android:paddingBottom">5dip</item>
+        </style>
+
+
+
 
     <style name="Button" parent="android:Widget.Holo.Button"></style>
 
@@ -50,5 +88,11 @@
     <style name="ImageButtonAppTheme" parent="android:Widget.ImageButton">
         <item name="android:background">@drawable/btn_blue</item>
     </style>
+
+    <style name="EnterPin">
+        <item name="android:padding">10sp</item>
+    </style>
+
+
 
 </resources>
