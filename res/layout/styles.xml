@@ -1,0 +1,98 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Application theme -->
+    <style name="AppTheme" parent="@android:style/Theme.Holo" />
+
+    <style name="EditBox">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rectangle_text_box</item>
+        <item name="android:textColor">@android:color/black</item>
+        <!-- <item name="android:textCursorDrawable">@null</item> -->
+        <item name="android:ems">10</item>
+        <item name="android:padding">5dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="EditBox.Small">
+        <item name="android:layout_width">100dip</item>
+    </style>
+
+    <style name="EditBox.Medium">
+        <item name="android:layout_width">200dip</item>
+        <item name="android:layout_marginBottom">130dip</item>
+    </style>
+
+    <style name="EditBox.Large">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:layout_marginRight">10dip</item>
+    </style>
+
+
+    <style name="CD">
+        <item name ="android:paddingLeft">10dip</item>
+        <item name ="android:paddingRight">10dip</item>
+        <item name ="android:paddingTop">5dip</item>
+        <item name ="android:paddingBottom">5dip</item>
+        <item name ="android:layout_marginLeft">15dip</item>
+        <item name ="android:layout_marginRight">15dip</item>
+    </style>
+
+
+
+    <style name="EF">
+        <item name="android:layout_marginLeft">30dip</item>
+        <item name="android:layout_marginRight">30dip</item>
+    </style>
+
+
+    <style name="GH">
+        <item name="android:layout_marginTop">25dip</item>
+    </style>
+
+
+    <style name="HR">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:layout_marginLeft">30dip</item>
+        <item name="android:layout_marginRight">30dip</item>
+    </style>
+
+    <style name="AB">
+        <item name ="android:layout_marginLeft">15dip</item>
+        <item name ="android:layout_marginRight">15dip</item>
+        <item name ="android:paddingLeft">10dip</item>
+        <item name ="android:paddingRight">10dip</item>
+        <item name ="android:paddingTop">5dip</item>
+        <item name ="android:paddingBottom">5dip</item>
+        </style>
+
+
+
+
+    <style name="Button" parent="android:Widget.Holo.Button"></style>
+
+    <style name="Button.Blue" parent="android:Widget.ImageButton">
+        <item name="android:background">@drawable/btn_blue</item>
+    </style>
+
+    <style name="ButtonAppTheme" parent="android:Widget.Button">
+        <item name="android:background">@drawable/btn_blue</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="ImageButtonAppTheme" parent="android:Widget.ImageButton">
+        <item name="android:background">@drawable/btn_blue</item>
+    </style>
+
+    <style name="EnterPin">
+        <item name="android:padding">10sp</item>
+    </style>
+
+
+
+</resources>
