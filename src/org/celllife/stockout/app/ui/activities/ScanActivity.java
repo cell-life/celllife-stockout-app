@@ -10,6 +10,8 @@ import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationEx
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
+import org.celllife.stockout.app.ui.fragments.OrderFragment;
+import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -45,10 +47,10 @@ public class ScanActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				boolean success = false;
-				if (scanType.equalsIgnoreCase("StockTake")) {
+				if (scanType.equalsIgnoreCase(OrderFragment.TYPE)) {
 					success = createAndSaveStockTake();
 				}
-				if (scanType.equalsIgnoreCase("StockReceived")) {
+				if (scanType.equalsIgnoreCase(ReceivedFragment.TYPE)) {
 					success = createAndSaveStockReceived();
 				}
 				if (success) {

@@ -26,6 +26,8 @@ public class OrderFragment extends ScanFragment {
 
 	View orderView = null;
 	
+	public static final String TYPE = "StockTake"; 
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         orderView = inflater.inflate(R.layout.order, container, false);
@@ -36,10 +38,16 @@ public class OrderFragment extends ScanFragment {
         return orderView;
     }
     
+    @Override
     public void refresh(View view) {
         setupAlert(orderView);
         setupStock(orderView);    	
     }
+
+	@Override
+	public String getType() {
+		return TYPE;
+	}
 
 	private void setupAlert(View orderView) {
 		// setup the list

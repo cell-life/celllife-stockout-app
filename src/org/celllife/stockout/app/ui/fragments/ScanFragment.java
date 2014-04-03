@@ -34,6 +34,7 @@ public abstract class ScanFragment extends Fragment  {
 	}
 	
 	public abstract void refresh(View view);
+	public abstract String getType();
 
     private void startScanActivity(View view) {
         SessionManager sessionManager = ManagerFactory.getSessionManager();
@@ -63,7 +64,7 @@ public abstract class ScanFragment extends Fragment  {
     			Log.i("ScanFragment","onActivityResult this.Activity="+this.getActivity());
 	    		Intent scanIntent = new Intent(this.getActivity(), ScanActivity.class);
 	    		scanIntent.putExtra("barcode", scanningResult.getContents());
-	    		scanIntent.putExtra("type", "StockTake");
+	    		scanIntent.putExtra("type", getType());
 	    		startActivityForResult(scanIntent, SCAN_REQUEST_CODE);
     		}
     	}

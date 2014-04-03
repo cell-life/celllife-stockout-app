@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/order_linear_layout"
+    style="@style/GH"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:textAlignment="center" >
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,11 +23,42 @@
             android:text="@string/stock_received_instruction"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
+        <LinearLayout
+            android:id="@+id/stock_linear_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/scan_button"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/stock_received_heading"
+                style="@style/EF"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/completed_stock_received_heading"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:id="@+id/stock_underline"
+                style="@style/HR" />
+
+            <ListView
+                android:id="@+id/stock_received_list"
+                style="@style/AB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" >
+            </ListView>
+        </LinearLayout>
+
         <Button
             android:id="@+id/scan_button"
+            style="@style/Button.Blue"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            style="@style/Button.Blue"
             android:layout_alignParentBottom="true"
             android:text="@string/scan" />
     </RelativeLayout>
