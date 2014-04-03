@@ -12,33 +12,36 @@ import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.ui.alarm.AlarmActivity;
-import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
+import org.celllife.stockout.app.ui.fragments.ScanFragment;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     private AlarmActivity alarm;
 
-    private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
+	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
+	
+	ScanFragment scanFrag;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Log.e("MainActivity", "onCreate");
+		
 		setContentView(R.layout.main);
 
         alarm = new AlarmActivity();
@@ -51,10 +54,10 @@ public class MainActivity extends Activity {
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		OrderFragment orderFrag = new OrderFragment();
-		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new ATabListener(orderFrag)));
+		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new ScanTabListener(orderFrag)));
 
 		ReceivedFragment receivedFrag = new ReceivedFragment();
-		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ATabListener(receivedFrag)));
+		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ScanTabListener(receivedFrag)));
 
 
 		// setup exception handling
@@ -94,10 +97,10 @@ public class MainActivity extends Activity {
 	/**
 	 * Listener to handle tab switching
 	 */
-	public class ATabListener implements ActionBar.TabListener {
+	public class ScanTabListener implements ActionBar.TabListener {
 		private final Fragment mFragment;
 
-		public ATabListener(Fragment fragment) {
+		public ScanTabListener(Fragment fragment) {
 			this.mFragment = fragment;
 		}
 
@@ -107,15 +110,17 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			if (null != mFragment) {
+			if (mFragment !=  null) {
 				ft.replace(R.id.main_tabs, mFragment);
 			}
+			MainActivity.this.scanFrag = (ScanFragment)mFragment;
 		}
 
 		@Override
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			if (null != mFragment)
+			if (mFragment !=  null)
 				ft.remove(mFragment);
+			MainActivity.this.scanFrag = null;
 		}
 	}
 
@@ -156,4 +161,10 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+
+    @Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    	Log.i("MainActivity","onActivityResult resultCode="+resultCode+" requestCode="+requestCode);
+    	scanFrag.onActivityResult(requestCode, resultCode, intent);
+    }
 }
