@@ -6,9 +6,11 @@ import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -18,32 +20,31 @@ import java.util.Calendar;
  */
 public class AlarmActivity extends Activity {
 
-    private AlarmManager mAlarmManager;
-    private Intent mNotificationReceiverIntent;
-    private PendingIntent mNotificationReceiverPendingIntent;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.main);
+        }
 
-        // Get the AlarmManager Service
-        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+    public void Alarm(Context context) {
 
-        // Create PendingIntent to start the AlarmNotificationReceiver
-        mNotificationReceiverIntent = new Intent(AlarmActivity.this,
-                AlarmNotificationReceiver.class);
-        mNotificationReceiverPendingIntent = PendingIntent.getBroadcast(
-                AlarmActivity.this, 0, mNotificationReceiverIntent, 0);
+        AlarmManager mAlarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent mNotificationReceiverIntent = new Intent(AlarmActivity.this, AlarmNotificationReceiver.class);
+        PendingIntent mNotificationReceiverPendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, mNotificationReceiverIntent,0);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 9);
-
+        /*
         mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
                 mNotificationReceiverPendingIntent);
+        */
 
+        //used to testactivity
+        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(), 1000 * 5, mNotificationReceiverPendingIntent);
+
+
+        Toast.makeText(getApplicationContext(), "Reminder Set for 9am",
+						Toast.LENGTH_LONG).show();
     }
 }

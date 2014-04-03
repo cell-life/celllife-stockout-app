@@ -11,6 +11,8 @@ import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.ui.alarm.AlarmActivity;
+import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 
@@ -19,21 +21,27 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
+    private AlarmActivity alarm;
+
+    private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+        alarm = new AlarmActivity();
 
 		ManagerFactory.initialise(getApplicationContext());
 		insertAlerts();
@@ -48,9 +56,13 @@ public class MainActivity extends Activity {
 		ReceivedFragment receivedFrag = new ReceivedFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ATabListener(receivedFrag)));
 
+
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
-	}
+
+         }
+
+
 
 	// FIXME: remove this once we have alerts coming from the server
 	private void insertAlerts() {
@@ -71,7 +83,7 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// FIXME: testing authentication
 	/*private void testAuthentication() {
 		Toast.makeText(MainActivity.this, "authenticating...", Toast.LENGTH_LONG).show(); 
@@ -123,7 +135,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	/**
+   	/**
 	 * Default handling of exceptions
 	 */
 	private class StockApplicationCrashExceptionHandler implements UncaughtExceptionHandler {
