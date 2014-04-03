@@ -32,6 +32,7 @@ public class StockReceivedTableAdapter extends TableAdapter<StockReceived> {
 	// StockReceived Queries
 	private static final String QUERY_FINDBY_DRUG = "SELECT  * FROM " + TABLE_STOCKRECEIVED + " WHERE " + DRUG + " = ?";
 	private static final String QUERY_FINDBY_DATE = "SELECT  * FROM " + TABLE_STOCKRECEIVED + " WHERE " + DATE + " >= ?";
+	private static final String QUERY_FINDBY_SUBMITTED = "SELECT  * FROM " + TABLE_STOCKRECEIVED + " WHERE " + SUBMITTED + " = 0";
 
 	String CREATE_STOCKRECEIVED_TABLE = 
 			"CREATE TABLE " + TABLE_STOCKRECEIVED +" ("
@@ -110,5 +111,9 @@ public class StockReceivedTableAdapter extends TableAdapter<StockReceived> {
 		cal.set(Calendar.MILLISECOND, 0);
 		String date = String.valueOf(cal.getTime().getTime());
 		return db.findMany(this, QUERY_FINDBY_DATE, new String[] { date });
+	}
+
+	public List<StockReceived> findUnsubmittedStockReceived() {
+		return db.findMany(this, QUERY_FINDBY_SUBMITTED, new String[] { });
 	}
 }

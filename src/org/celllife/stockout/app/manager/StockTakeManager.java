@@ -5,6 +5,7 @@ import java.util.List;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 
 /**
  * Stock related manager. This service provides the functionality used to process stock in the app.
@@ -59,4 +60,9 @@ public interface StockTakeManager {
 	 */
 	List<StockReceived> getLatestStockReceived();
 	
+	/**
+	 * Synchronizes all StockTakes and StockReceived that are not submitted.
+	 * @throws RestCommunicationException when the first communication error occurs
+	 */
+	void synch() throws RestCommunicationException;	
 }

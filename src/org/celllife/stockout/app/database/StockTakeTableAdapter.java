@@ -32,6 +32,7 @@ public class StockTakeTableAdapter extends TableAdapter<StockTake> {
 	// StockTake Queries
 	private static final String QUERY_FINDBY_DRUG = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + DRUG + " = ?";
 	private static final String QUERY_FINDBY_DATE = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + DATE + " >= ?";
+	private static final String QUERY_FINDBY_SUBMITTED = "SELECT  * FROM " + TABLE_STOCKTAKE + " WHERE " + SUBMITTED + " = 0";
 
 	String CREATE_STOCKTAKE_TABLE = 
 			"CREATE TABLE " + TABLE_STOCKTAKE +" ("
@@ -110,5 +111,9 @@ public class StockTakeTableAdapter extends TableAdapter<StockTake> {
 		cal.set(Calendar.MILLISECOND, 0);
 		String date = String.valueOf(cal.getTime().getTime());
 		return db.findMany(this, QUERY_FINDBY_DATE, new String[] { date });
+	}
+
+	public List<StockTake> findUnsubmittedStockTakes() {
+		return db.findMany(this, QUERY_FINDBY_SUBMITTED, new String[] { });
 	}
 }

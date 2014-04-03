@@ -77,6 +77,26 @@ public class StockTakeManagerImpl implements StockTakeManager {
 			stockAdapter.insert(stockTake);
 		}
 	}
+	
+	@Override
+	public void synch() throws RestCommunicationException {
+		// submit stock takes
+		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
+		List<StockTake> stocks = stockAdapter.findUnsubmittedStockTakes();
+		for (StockTake s : stocks) {
+			boolean submitted = PostStockTakeMethod.submitStockTake(s);
+			s.setSubmitted(submitted);
+			stockAdapter.update(s.getId(), s);
+		}
+		// submit stock received
+		StockReceivedTableAdapter arrivalAdapter = DatabaseManager.getStockReceivedTableAdapter();
+		List<StockReceived> arrivals = arrivalAdapter.findUnsubmittedStockReceived();
+		for (StockReceived a : arrivals) {
+			boolean submitted = PostStockReceivedMethod.submitStockReceived(a);
+			a.setSubmitted(submitted);
+			arrivalAdapter.update(a.getId(), a);
+		}
+	}
 
 	@Override
 	public boolean submitStockTake(StockTake stockTake) {

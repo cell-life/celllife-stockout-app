@@ -3,6 +3,8 @@
 
     <string name="app_name">Stock</string>
     <string name="action_settings">Settings</string>
+    <string name="action_synch">Send</string>
+    <string name="sending">Sending &#8230;&#8230;&#8230;</string>
     <string name="scan">Scan</string>
 
     <string name="orders">Orders</string>

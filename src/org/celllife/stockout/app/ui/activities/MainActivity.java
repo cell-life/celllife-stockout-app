@@ -63,9 +63,7 @@ public class MainActivity extends Activity {
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
 
-         }
-
-
+    }
 
 	// FIXME: remove this once we have alerts coming from the server
 	private void insertAlerts() {
@@ -77,6 +75,16 @@ public class MainActivity extends Activity {
 		Alert grandpaAlert = new Alert(new Date(), 3, grandpa.getDescription(), AlertStatus.NEW, grandpa);
 		alertManager.addAlert(grandpaAlert);
 	}
+
+	// FIXME: this is used to test send all functionality
+	/*private void insertStockTakes() {
+		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
+		StockTake st1 = new StockTake(new Date(), panado, 10, false);
+		DatabaseManager.getStockTakeTableAdapter().insert(st1);
+		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
+		StockTake st2 = new StockTake(new Date(), grandpa, 13, false);
+		DatabaseManager.getStockTakeTableAdapter().insert(st2);
+	}*/
 
 	// FIXME: remove this once we have the setup wizard
 	private void setupPhone() {
@@ -135,6 +143,11 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
 			Toast.makeText(this, R.string.hello, Toast.LENGTH_LONG).show();
+		case R.id.action_send:
+			Toast.makeText(this, R.string.sending, Toast.LENGTH_LONG).show();
+			ManagerFactory.getStockTakeManager().synch();
+			ManagerFactory.getAlertManager().updateAlerts();
+			scanFrag.refresh(scanFrag.getView());
 		default:
 			return super.onOptionsItemSelected(item);
 		}
