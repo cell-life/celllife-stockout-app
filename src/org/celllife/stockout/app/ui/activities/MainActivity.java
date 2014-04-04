@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 	
-	ScanFragment scanFrag;
+	private ScanFragment scanFrag;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,18 +52,35 @@ public class MainActivity extends Activity {
 
 		final ActionBar tabBar = getActionBar();
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		String selectedTab = null;
+		if (savedInstanceState != null) {
+			selectedTab = savedInstanceState.getString("selectedTab");
+		}
 
 		OrderFragment orderFrag = new OrderFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new ScanTabListener(orderFrag)));
 
 		ReceivedFragment receivedFrag = new ReceivedFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ScanTabListener(receivedFrag)));
-
+		
+		// restore previous selected tab
+		if (OrderFragment.TYPE.equals(selectedTab)) {
+			tabBar.setSelectedNavigationItem(0);
+		} else if (ReceivedFragment.TYPE.equals(selectedTab)) {
+			tabBar.setSelectedNavigationItem(1);
+		}
 
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
-
     }
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	  super.onSaveInstanceState(savedInstanceState);
+	  // adds variables which are saved before an Activity is restarted 
+	  savedInstanceState.putString("selectedTab", scanFrag.getType());
+	}
 
 	// FIXME: remove this once we have alerts coming from the server
 	private void insertAlerts() {
@@ -114,10 +131,13 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			Log.i("ScanTabListener", "onTabReselected "+mFragment+" tab="+tab+" ft="+ft);
+			MainActivity.this.scanFrag = (ScanFragment)mFragment;
 		}
 
 		@Override
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			Log.i("ScanTabListener", "onTabSelected "+mFragment+" tab="+tab+" ft="+ft);
 			if (mFragment !=  null) {
 				ft.replace(R.id.main_tabs, mFragment);
 			}
@@ -126,9 +146,9 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			Log.i("ScanTabListener", "onTabUnselected "+mFragment+" tab="+tab+" ft="+ft);
 			if (mFragment !=  null)
 				ft.remove(mFragment);
-			MainActivity.this.scanFrag = null;
 		}
 	}
 
@@ -179,7 +199,7 @@ public class MainActivity extends Activity {
 
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    	Log.i("MainActivity","onActivityResult resultCode="+resultCode+" requestCode="+requestCode);
+    	Log.i("MainActivity","onActivityResult resultCode="+resultCode+" requestCode="+requestCode+" scanFrag="+scanFrag.getClass());
     	scanFrag.onActivityResult(requestCode, resultCode, intent);
     }
 }
