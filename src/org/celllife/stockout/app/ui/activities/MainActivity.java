@@ -2,6 +2,7 @@ package org.celllife.stockout.app.ui.activities;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.celllife.stockout.app.R;
@@ -11,7 +12,7 @@ import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
-import org.celllife.stockout.app.ui.alarm.AlarmActivity;
+import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
@@ -19,8 +20,11 @@ import org.celllife.stockout.app.ui.fragments.ScanFragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +34,6 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private AlarmActivity alarm;
 
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 	
@@ -44,11 +47,14 @@ public class MainActivity extends Activity {
 		
 		setContentView(R.layout.main);
 
-        alarm = new AlarmActivity();
 
-		ManagerFactory.initialise(getApplicationContext());
+
+        ManagerFactory.initialise(getApplicationContext());
 		insertAlerts();
 		setupPhone();
+        startAlarm();
+
+
 
 		final ActionBar tabBar = getActionBar();
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -81,6 +87,22 @@ public class MainActivity extends Activity {
 	  // adds variables which are saved before an Activity is restarted 
 	  savedInstanceState.putString("selectedTab", scanFrag.getType());
 	}
+
+    public void startAlarm() {
+
+        AlarmManager mAlarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent mNotificationReceiverIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
+        PendingIntent mNotificationReceiverPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, mNotificationReceiverIntent,0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+
+        mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
+                mNotificationReceiverPendingIntent);
+
+    }
+
 
 	// FIXME: remove this once we have alerts coming from the server
 	private void insertAlerts() {
