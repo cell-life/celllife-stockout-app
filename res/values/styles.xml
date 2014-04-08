@@ -3,6 +3,15 @@
     <!-- Application theme -->
     <style name="AppTheme" parent="@android:style/Theme.Holo" />
 
+
+    <style name ="alert_count">
+        <item name="android:paddingLeft">30dip</item>
+    </style>
+
+    <style name ="send_section">
+        <item name="android:paddingRight">30dip</item>
+    </style>
+
     <style name="EditBox">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/rectangle_text_box</item>
@@ -49,6 +58,7 @@
 
     <style name="GH">
         <item name="android:layout_marginTop">25dip</item>
+        <item name="android:layout_marginBottom">25dip</item>
     </style>
 
 

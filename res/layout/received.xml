@@ -1,11 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/order_linear_layout"
-    style="@style/GH"
+
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_centerHorizontal="true"
     android:orientation="vertical" >
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -16,10 +15,6 @@
             android:layout_height="fill_parent"
             android:layout_above="@+id/scan_button"
             android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
             android:text="@string/stock_received_instruction"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 

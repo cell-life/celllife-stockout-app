@@ -1,68 +1,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/order_linear_layout"
         style="@style/GH"
+        android:layout_above="@+id/scan_button"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/top_section"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal" >
+            android:gravity="center|left"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/new_alerts_section"
+            <TextView
+                android:id="@+id/alert_count"
+                style="@style/alert_count"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center|left"
-                android:orientation="horizontal" >
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/empty" />
 
-                <TextView
-                    android:id="@+id/alert_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/empty" />
-
-                <TextView
-                    android:id="@+id/new_alerts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/zero_new_alerts" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/send_stocktakes_section"
+            <TextView
+                android:id="@+id/new_alerts"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center|right"
-                android:orientation="horizontal" >
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/zero_new_alerts" />
 
-                <TextView
-                    android:id="@+id/send_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/send" />
-
-                <ImageView
-                    android:id="@+id/send_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/empty"
-                    android:src="@drawable/button_sync" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +41,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/alert_heading"
@@ -91,8 +62,34 @@
                 style="@style/CD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical" >
-            </ListView>
+                android:scrollbars="vertical"></ListView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/Stock_note"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/alert_count"
+                style="@style/alert_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/empty" />
+
+            <TextView
+                android:id="@+id/completed_alerts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/zero_new_alerts" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +97,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical">
+
 
             <TextView
                 android:id="@+id/stock_heading"
@@ -121,16 +119,17 @@
                 style="@style/AB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical" >
-            </ListView>
+                android:scrollbars="vertical"></ListView>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/scan_button"
-            style="@style/Button.Blue"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/scan" />
+
     </LinearLayout>
 
+    <Button
+        android:id="@+id/scan_button"
+        style="@style/Button.Blue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/scan" />
 </RelativeLayout>
