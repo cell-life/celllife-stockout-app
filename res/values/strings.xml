@@ -17,7 +17,7 @@
     <string name="received">Received</string>
     <string name="stock_received_instruction">Please begin scanning of stock received</string>
     <string name="completed_stock_received_heading">Completed Stock Received</string>
-    
+
     <string name="hello">Hello</string>
     <string name="empty"></string>
 
@@ -35,4 +35,25 @@
 
     <string name="error_heading">Application Error</string>
 
+    <string name="welcome_reg">Welcome to Stockouts. A registration process is required before making use of this application. The following steps will take you through the process.</string>
+
+    <string name="step_one_top">Step 1</string>
+
+    <string name="step_one_note">Note all fields are compulsory in order to make use of the application</string>
+
+    <string name="step_one_tp">Please enter your  sims card's unique MSISDN number</string>
+
+    <string name="step_one_bot">Please enter the unique 4 digit pin that was given to you</string>
+
+    <string name="proceed">Proceed</string>
+    <string name="back">Back</string>
+
+
+    <string name="step_two_top">Step 2</string>
+    <string name="operating_days">Operating Days</string>
+    <string name="operating_days_bot">The number of days a week that you will be trading (Default 5 days)</string>
+    <string name="safety_time">Safety Time</string>
+    <string name="safety_time_bot">The minimum amount of stock a pharmacy must have available at any one time (Default 6 days)</string>
+    <string name="lead_time">Lead Time</string>
+    <string name="lead_time_bot">The estimated number of DAYS it takes for stock to get delivered (Default 14 days)</string>
 </resources>

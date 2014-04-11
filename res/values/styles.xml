@@ -38,6 +38,11 @@
         <item name="android:layout_marginRight">10dip</item>
     </style>
 
+    <style name="EditBox.Reg">
+        <item name="android:layout_width">200dip</item>
+        <item name="android:layout_marginTop">10dip</item>
+    </style>
+
 
     <style name="CD">
         <item name ="android:paddingLeft">10dip</item>
@@ -103,6 +108,58 @@
         <item name="android:padding">10sp</item>
     </style>
 
+    <style name="medical_rep">
+        <item name="android:layout_marginTop">50dip</item>
+    </style>
+
+    <style name="welcome_reg_text">
+        <item name="android:layout_marginTop">100dip</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="EditBox.Reg.two">
+        <item name="android:layout_width">64dip</item>
+        <item name="android:layout_marginTop">10dip</item>
+    </style>
+
+    <style name="top_red">
+        <item name="android:paddingTop">20sp</item>
+        <item name="android:textSize">14dip</item>
+        <item name="android:textColor">#ff0000</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="EditBox.Reg.one">
+        <item name="android:layout_width">200dip</item>
+    </style>
+
+    <style name="step_two_title">
+        <item name="android:paddingTop">10sp</item>
+        <item name="android:textSize">22dip</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="phase_step">
+        <item name="android:paddingTop">20sp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dip</item>
+    </style>
+
+    <style name="step_two_des">
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="step_one_title">
+        <item name="android:paddingTop">50sp</item>
+        <item name="android:textSize">22dip</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+    </style>
 
 
 </resources>
