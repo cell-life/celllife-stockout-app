@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/step_one_title"
+        style="@style/step_four_head"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_four_head"/>
+
+    <ImageView
+        android:id="@+id/medical_rep"
+        style="@style/medical_rep"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/med_rep_med"/>
+
+    <TextView
+        android:id="@+id/step_four_text"
+        style="@style/step_four_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_four_top"/>
+
+    <EditText
+        android:id="@+id/quantity_text"
+        style="@style/EditBox.Reg.one"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/step_four_text"
+        style="@style/step_four_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_four_bot"/>
+
+    <EditText
+        android:id="@+id/quantity_text"
+        style="@style/EditBox.Reg.one"
+        android:inputType="number" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/confirm_button"
+            style="@style/Button.Blue"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/proceed"
+            android:layout_marginRight="-5dip"/>
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:layout_marginLeft="-5dip"/>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/stock_received_heading"
-                style="@style/EF"
+                style="@style/main_head_marg"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -39,11 +39,11 @@
 
             <View
                 android:id="@+id/stock_underline"
-                style="@style/HR" />
+                style="@style/main_under_lay" />
 
             <ListView
                 android:id="@+id/stock_received_list"
-                style="@style/AB"
+                style="@style/main_bot_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical" >

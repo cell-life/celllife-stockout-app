@@ -4,7 +4,7 @@
 
     <LinearLayout
         android:id="@+id/order_linear_layout"
-        style="@style/GH"
+        style="@style/main_screen_top"
         android:layout_above="@+id/scan_button"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -45,7 +45,7 @@
 
             <TextView
                 android:id="@+id/alert_heading"
-                style="@style/EF"
+                style="@style/main_head_marg"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -55,11 +55,11 @@
 
             <View
                 android:id="@+id/alert_underline"
-                style="@style/HR" />
+                style="@style/main_under_lay" />
 
             <ListView
                 android:id="@+id/drug_alert_list"
-                style="@style/CD"
+                style="@style/main_pad_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"></ListView>
@@ -102,7 +102,7 @@
 
             <TextView
                 android:id="@+id/stock_heading"
-                style="@style/EF"
+                style="@style/main_head_marg"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -112,11 +112,11 @@
 
             <View
                 android:id="@+id/stock_underline"
-                style="@style/HR" />
+                style="@style/main_under_lay" />
 
             <ListView
                 android:id="@+id/stock_alert_list"
-                style="@style/AB"
+                style="@style/main_bot_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"></ListView>
