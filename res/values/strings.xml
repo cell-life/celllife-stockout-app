@@ -41,7 +41,7 @@
 
     <string name="step_one_note">Note all fields are compulsory in order to make use of the application</string>
 
-    <string name="step_one_tp">Please enter your  sims card's unique MSISDN number</string>
+    <string name="step_one_tp">Please enter your sims card\'s unique MSISDN number</string>
 
     <string name="step_one_bot">Please enter the unique 4 digit pin that was given to you</string>
 
