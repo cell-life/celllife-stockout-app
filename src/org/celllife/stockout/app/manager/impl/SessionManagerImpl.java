@@ -1,6 +1,8 @@
-package org.celllife.stockout.app.manager;
+package org.celllife.stockout.app.manager.impl;
 
 import java.util.Date;
+
+import org.celllife.stockout.app.manager.SessionManager;
 
 public class SessionManagerImpl implements SessionManager {
 

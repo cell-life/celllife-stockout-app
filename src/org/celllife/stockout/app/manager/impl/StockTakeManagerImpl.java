@@ -1,4 +1,4 @@
-package org.celllife.stockout.app.manager;
+package org.celllife.stockout.app.manager.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +18,9 @@ import org.celllife.stockout.app.domain.comparator.StockTakeComparator;
 import org.celllife.stockout.app.integration.rest.PostStockReceivedMethod;
 import org.celllife.stockout.app.integration.rest.PostStockTakeMethod;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
+import org.celllife.stockout.app.manager.DatabaseManager;
+import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.manager.StockTakeManager;
 
 import android.util.Log;
 

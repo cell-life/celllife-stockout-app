@@ -1,7 +1,9 @@
-package org.celllife.stockout.app.manager;
+package org.celllife.stockout.app.manager.impl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.celllife.stockout.app.manager.SettingManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package org.celllife.stockout.app.manager;
+package org.celllife.stockout.app.manager.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -11,6 +11,8 @@ import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.integration.rest.GetUserMethod;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
+import org.celllife.stockout.app.manager.AuthenticationManager;
+import org.celllife.stockout.app.manager.DatabaseManager;
 
 import android.util.Log;
 

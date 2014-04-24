@@ -1,5 +1,12 @@
 package org.celllife.stockout.app.manager;
 
+import org.celllife.stockout.app.manager.impl.AlertManagerImpl;
+import org.celllife.stockout.app.manager.impl.AuthenticationManagerImpl;
+import org.celllife.stockout.app.manager.impl.CalculationManagerImpl;
+import org.celllife.stockout.app.manager.impl.SessionManagerImpl;
+import org.celllife.stockout.app.manager.impl.SettingManagerImpl;
+import org.celllife.stockout.app.manager.impl.StockTakeManagerImpl;
+
 import android.content.Context;
 
 /**

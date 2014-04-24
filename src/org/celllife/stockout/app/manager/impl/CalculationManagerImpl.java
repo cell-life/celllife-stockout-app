@@ -1,4 +1,4 @@
-package org.celllife.stockout.app.manager;
+package org.celllife.stockout.app.manager.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +12,8 @@ import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.domain.StockHistory;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
+import org.celllife.stockout.app.manager.CalculationManager;
+import org.celllife.stockout.app.manager.DatabaseManager;
 
 import android.util.Log;
 

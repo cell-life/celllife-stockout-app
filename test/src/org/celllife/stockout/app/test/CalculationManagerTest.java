@@ -16,9 +16,9 @@ import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.domain.StockHistory;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
-import org.celllife.stockout.app.manager.CalculationManagerImpl;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.manager.impl.CalculationManagerImpl;
 
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;

@@ -1,4 +1,4 @@
-package org.celllife.stockout.app.manager;
+package org.celllife.stockout.app.manager.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +7,8 @@ import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.comparator.AlertComparator;
+import org.celllife.stockout.app.manager.AlertManager;
+import org.celllife.stockout.app.manager.DatabaseManager;
 
 public class AlertManagerImpl implements AlertManager {
 	
