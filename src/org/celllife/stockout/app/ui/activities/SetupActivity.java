@@ -21,8 +21,8 @@ public class SetupActivity extends Activity {
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent stepOne = new Intent();
-                //startActivity(stepOne);
+                Intent stepOne = new Intent(SetupActivity.this,StepOneActivity.class);
+                startActivity(stepOne);
             }
         });
     }
