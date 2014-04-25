@@ -4,7 +4,7 @@
         android:id="@+id/action_send"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/send"/>
+        android:title="@string/sync"/>
     
     <item
         android:id="@+id/action_settings"

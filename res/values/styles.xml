@@ -180,4 +180,22 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="stock_row_top">
+        <item name="android:layout_width">180dip</item>
+        <item name="android:padding">10sp</item>
+    </style>
+
+    <style name="stock_row_bot">
+        <item name="android:padding">10sp</item>
+    </style>
+
+    <style name="crash_error">
+        <item name="android:paddingBottom">10dip</item>
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="alert_row_sty">
+        <item name="android:padding">10sp</item>
+    </style>
 </resources>

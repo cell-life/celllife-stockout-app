@@ -12,7 +12,7 @@
     <string name="completed_stock_take_heading">Completed Stock Take</string>
     <string name="new_alerts">New Alerts</string>
     <string name="zero_new_alerts">(0) New Alerts</string>
-    <string name="send">Send</string>
+    <string name="sync">Sync</string>
         
     <string name="received">Received</string>
     <string name="stock_received_instruction">Please begin scanning of stock received</string>
@@ -38,16 +38,12 @@
     <string name="welcome_reg">Welcome to Stockouts. A registration process is required before making use of this application. The following steps will take you through the process.</string>
 
     <string name="step_one_top">Step 1</string>
-
     <string name="step_one_note">Note all fields are compulsory in order to make use of the application</string>
-
     <string name="step_one_tp">Please enter your sims card\'s unique MSISDN number</string>
-
     <string name="step_one_bot">Please enter the unique 4 digit pin that was given to you</string>
 
     <string name="proceed">Proceed</string>
     <string name="back">Back</string>
-
 
     <string name="step_two_top">Step 2</string>
     <string name="operating_days">Operating Days</string>
