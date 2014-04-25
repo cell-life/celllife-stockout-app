@@ -38,6 +38,8 @@ public class MainActivity extends Activity {
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 	
 	private ScanFragment scanFrag;
+	
+	private PendingIntent alertAlarmPendingIntent;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,15 +48,10 @@ public class MainActivity extends Activity {
 		Log.e("MainActivity", "onCreate");
 		
 		setContentView(R.layout.main);
-
-
-
+		
         ManagerFactory.initialise(getApplicationContext());
 		insertAlerts();
 		setupPhone();
-        startAlarm();
-
-
 
 		final ActionBar tabBar = getActionBar();
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -76,6 +73,12 @@ public class MainActivity extends Activity {
 		} else if (ReceivedFragment.TYPE.equals(selectedTab)) {
 			tabBar.setSelectedNavigationItem(1);
 		}
+		
+		// restore previously set alarm, and set if it isn't known
+		if (savedInstanceState != null) {
+			alertAlarmPendingIntent = savedInstanceState.getParcelable("alertAlarmPendingIntent");
+		}
+		startAlertAlarm();
 
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
@@ -86,23 +89,32 @@ public class MainActivity extends Activity {
 	  super.onSaveInstanceState(savedInstanceState);
 	  // adds variables which are saved before an Activity is restarted 
 	  savedInstanceState.putString("selectedTab", scanFrag.getType());
+	  savedInstanceState.putParcelable("alertAlarmPendingIntent", alertAlarmPendingIntent);
 	}
 
-    public void startAlarm() {
-
-        AlarmManager mAlarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent mNotificationReceiverIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
-        PendingIntent mNotificationReceiverPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, mNotificationReceiverIntent,0);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
-
-        mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
-                mNotificationReceiverPendingIntent);
-
+    private void startAlertAlarm() {
+    	Toast.makeText(this, "method: startAlertAlarm()", Toast.LENGTH_LONG).show();
+    	if (alertAlarmPendingIntent != null) {
+	        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+	        
+	        Intent alertIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
+	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alertIntent, 
+	        		PendingIntent.FLAG_CANCEL_CURRENT);
+	
+	        // FIXME: we need to think of a clever way to stagger the requests so they don't all try access the server at once
+	        // See: http://developer.android.com/training/scheduling/alarms.html - Best practices section
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.setTimeInMillis(System.currentTimeMillis());
+	        calendar.set(Calendar.HOUR_OF_DAY, 9);
+	
+	        Toast.makeText(this, "scheduling", Toast.LENGTH_LONG).show();
+	        
+	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5*60*1000, alertAlarmPendingIntent);
+	        
+	        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
+	        		alertAlarmPendingIntent);
+    	}
     }
-
 
 	// FIXME: remove this once we have alerts coming from the server
 	private void insertAlerts() {

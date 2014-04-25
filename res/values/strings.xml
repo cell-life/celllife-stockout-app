@@ -62,5 +62,11 @@
 
     <string name="thankyou_reg">Thank you for registering. You are now ready to use the Stockouts application. </string>
 
+    <string name="alertNotificationTicker">Stock Take Notification</string>
+    <string name="alertNotificationTitle">Please Scan the Following Drugs:</string>
+    
+    <string name="stockNotificationTicker">Stock Notification</string>
+    <string name="stockNotificationTitle">Problem with stock synch</string>
+    <string name="stockNotificationText">The Stock app was unable to send the latest stock levels to the server. Please contact Cell-Life support if you need assistance. Error: </string>    
 
 </resources>

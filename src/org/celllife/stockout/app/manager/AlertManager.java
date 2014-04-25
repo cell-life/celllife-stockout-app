@@ -20,6 +20,14 @@ public interface AlertManager {
 	void addAlert(Alert alert);
 
 	/**
+	 * Checks to see if there is an alert already for the specified Drug
+	 * If there is, and more than 24 hours have passed then escalate the Alert (if it is level 1 or 2).
+	 * If there isn't, then create a new level 1 Alert.
+	 * @param drug
+	 */
+	void escalateAlert(Drug drug);
+
+	/**
 	 * Cancels any Alert on the specified Drug
 	 * @param drug
 	 */
@@ -27,8 +35,9 @@ public interface AlertManager {
 
 	/**
 	 * Retrieves the latest Alerts from the Stock Management Server
+	 * @return List of Alerts that were just created
 	 */
-	void updateAlerts();
+	List<Alert> updateAlerts();
 
 	/**
 	 * Runs through the calculations and generates phone specific Alerts
