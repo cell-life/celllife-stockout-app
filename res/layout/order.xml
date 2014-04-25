@@ -76,7 +76,7 @@
 
 
             <TextView
-                android:id="@+id/alert_count"
+                android:id="@+id/stock_count"
                 style="@style/alert_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,11 +84,11 @@
                 android:text="@string/empty" />
 
             <TextView
-                android:id="@+id/completed_alerts"
+                android:id="@+id/completed_stocks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="@string/zero_new_alerts" />
+                android:text="@string/zero_completed_stocks" />
 
         </LinearLayout>
 

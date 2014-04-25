@@ -66,11 +66,18 @@ public class OrderFragment extends ScanFragment {
 	}
 
 	private void setupStock(View stockView) {
+		// setup the list
 	    final ListView listview = (ListView) stockView.findViewById(R.id.stock_alert_list);	
 	    StockTakeManager stockManager = ManagerFactory.getStockTakeManager();
 	    List<StockTake> values = stockManager.getLatestStockTakes();
 	    StockTake[] stocks = values.toArray(new StockTake[values.size()]);
 	    final StockListViewAdapter adapter = new StockListViewAdapter(stockView.getContext(), R.id.stock_alert_list, stocks);
 	    listview.setAdapter(adapter);
+
+	    // setup stock count
+		final TextView stockCount = (TextView) orderView.findViewById(R.id.stock_count);
+		final TextView completedStocks = (TextView) orderView.findViewById(R.id.completed_stocks);
+		stockCount.setText("("+stocks.length+") ");
+		completedStocks.setText(R.string.completed_stocks);
 	}
 }
