@@ -3,8 +3,8 @@
 
     <string name="app_name">Stock</string>
     <string name="action_settings">Settings</string>
-    <string name="action_synch">Send</string>
-    <string name="sending">Sending &#8230;&#8230;&#8230;</string>
+    <string name="action_sync">Sync</string>
+    <string name="syncing">Sync of alerts and stock levels in progress &#8230;&#8230;&#8230;</string>
     <string name="scan">Scan</string>
 
     <string name="orders">Orders</string>
@@ -14,7 +14,6 @@
     <string name="zero_new_alerts">(0) New Alerts</string>
     <string name="completed_stocks">Completed Stock Takes</string>
     <string name="zero_completed_stocks">(0) Completed Stock Takes</string>
-    <string name="sync">Sync</string>
         
     <string name="received">Received</string>
     <string name="stock_received_instruction">Please begin scanning of stock received</string>
