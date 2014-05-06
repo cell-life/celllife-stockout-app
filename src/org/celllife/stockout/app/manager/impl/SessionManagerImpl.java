@@ -20,7 +20,7 @@ public class SessionManagerImpl implements SessionManager {
 	}
 
 	@Override
-	public void authenticated(String username, String password) {
+	public void authenticated(String username, String   password) {
 		this.username = username;
 		this.password = password;
 		if (sessionStart == null) {

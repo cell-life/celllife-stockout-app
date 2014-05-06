@@ -5,6 +5,7 @@ import org.celllife.stockout.app.manager.impl.AuthenticationManagerImpl;
 import org.celllife.stockout.app.manager.impl.CalculationManagerImpl;
 import org.celllife.stockout.app.manager.impl.SessionManagerImpl;
 import org.celllife.stockout.app.manager.impl.SettingManagerImpl;
+import org.celllife.stockout.app.manager.impl.SetupManagerImpl;
 import org.celllife.stockout.app.manager.impl.StockTakeManagerImpl;
 
 import android.content.Context;
@@ -23,6 +24,7 @@ public class ManagerFactory {
 	private static AuthenticationManager authenticationManager;
 	private static SettingManager settingManager;
 	private static CalculationManager calculationManager;
+    private static SetupManager setupManager;
 	
 	public static void initialise(Context context) {
 		ManagerFactory.context = context;
@@ -75,4 +77,13 @@ public class ManagerFactory {
 		getSessionManager().markInteraction();
 		return calculationManager;
 	}
+
+    public static SetupManager getSetupManager() {
+        if (setupManager == null) {
+            setupManager = new SetupManagerImpl();
+        }
+        return setupManager;
+    }
+
+
 }

@@ -12,6 +12,7 @@ import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.manager.SetupManager;
 import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
@@ -50,7 +51,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
         ManagerFactory.initialise(getApplicationContext());
-		insertAlerts();
+		setupManager();
+        insertAlerts();
 		setupPhone();
 
 		final ActionBar tabBar = getActionBar();
@@ -91,6 +93,19 @@ public class MainActivity extends Activity {
 	  savedInstanceState.putString("selectedTab", scanFrag.getType());
 	  savedInstanceState.putParcelable("alertAlarmPendingIntent", alertAlarmPendingIntent);
 	}
+
+    private void setupManager() {
+        SetupManager setupManager = ManagerFactory.getSetupManager();
+        if (!setupManager.isInitialised()) {
+            Intent intent = new Intent (MainActivity.this, SetupActivity.class);
+            startActivity(intent);
+        }
+
+        else {
+            Toast.makeText(this, "Already Setup", Toast.LENGTH_LONG).show();
+        }
+
+    }
 
     private void startAlertAlarm() {
     	Toast.makeText(this, "method: startAlertAlarm()", Toast.LENGTH_LONG).show();
