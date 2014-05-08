@@ -49,6 +49,14 @@
             android:name="org.celllife.stockout.app.ui.activities.StepThreeActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="org.celllife.stockout.app.ui.activities.StepThreeActivity2"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="org.celllife.stockout.app.ui.activities.StepFourActivity"
+            android:label="@string/app_name" >
+        </activity>
          <activity
             android:name="org.celllife.stockout.app.ui.activities.CrashHandlerActivity"
             android:label="@string/app_name" >
