@@ -21,7 +21,7 @@
 
     <string name="hello">Hello</string>
     <string name="empty"></string>
-
+    <string name="msisdn">Please enter Phone Number</string>
     <string name="pin_heading">Please Enter Pin</string>
     <string name="loading_scanner">Loading&#8230;&#8230;&#8230;</string>
     <string name="no_barcode">No barcode received.</string>
@@ -53,7 +53,7 @@
     <string name="safety_time_bot">The minimum amount of stock a pharmacy must have available at any one time (Default 6 days)</string>
     <string name="lead_time">Lead Time</string>
     <string name="lead_time_bot">The estimated number of DAYS it takes for stock to get delivered (Default 14 days)</string>
-
+    <string name="number_error">Please enter a valid number.</string>
     <string name="step_three_top">Step 3</string>
     <string name="step_three_main">You are now required to perform an intitial stock take. You will be provided with a list of drugs that require scanning. When you are ready to begin scanning please select proceed.</string>
 

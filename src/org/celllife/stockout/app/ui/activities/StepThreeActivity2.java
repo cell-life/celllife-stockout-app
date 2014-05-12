@@ -15,12 +15,20 @@ public class StepThreeActivity2 extends Activity {
         setContentView(R.layout.step_three_pt2);
 
         Button proceedButton = (Button) findViewById(R.id.confirm_button);
+        Button cancelButton = (Button) findViewById(R.id.cancel_button);
 
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent stepFour = new Intent (StepThreeActivity2.this, StepFourActivity.class);
-                startActivity(stepFour);
+             Intent stepFour = new Intent (StepThreeActivity2.this, StepFourActivity.class);
+             startActivity(stepFour);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            StepThreeActivity2.this.finish();
             }
         });
 
