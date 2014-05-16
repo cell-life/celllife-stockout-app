@@ -3,16 +3,9 @@ package org.celllife.stockout.app.ui.activities;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.domain.Alert;
-import org.celllife.stockout.app.domain.AlertStatus;
-import org.celllife.stockout.app.domain.Drug;
-import org.celllife.stockout.app.manager.AlertManager;
-import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
-import org.celllife.stockout.app.manager.SetupManager;
 import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
@@ -25,7 +18,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -37,17 +29,13 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 	
 	private ScanFragment scanFrag;
-	private OrderFragment orderFrag;
+
 	private PendingIntent alertAlarmPendingIntent;
 	UpdateAlertService service = new UpdateAlertService();
 	
-	private int alert_Id;
-	
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,7 +46,6 @@ public class MainActivity extends Activity {
 		
         ManagerFactory.initialise(getApplicationContext());
 		//setupManager();
-        //insertAlerts();
 		setupPhone();
 
 		final ActionBar tabBar = getActionBar();
@@ -81,15 +68,14 @@ public class MainActivity extends Activity {
 		} else if (ReceivedFragment.TYPE.equals(selectedTab)) {
 			tabBar.setSelectedNavigationItem(1);
 		}
-
 		
 		// restore previously set alarm, and set if it isn't known
 		if (savedInstanceState != null) {
 			alertAlarmPendingIntent = savedInstanceState.getParcelable("alertAlarmPendingIntent");
-			
 		}
 		
-		//startAlertAlarm();
+		startAlertAlarm();
+
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
     }
@@ -115,14 +101,12 @@ public class MainActivity extends Activity {
 //
 //    }
 
-    private void startAlertAlarm() {
- 
-    	Toast.makeText(this, "method: startAlertAlarm()", Toast.LENGTH_LONG).show();
+   private void startAlertAlarm() {
     	if (alertAlarmPendingIntent == null) {
 	        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 	        
 	        Intent alertIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
-	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, alertAlarmPendingIntent.FLAG_UPDATE_CURRENT );
+	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT );
 	
 	        // FIXME: we need to think of a clever way to stagger the requests so they don't all try access the server at once
 	        // See: http://developer.android.com/training/scheduling/alarms.html - Best practices section
@@ -130,39 +114,11 @@ public class MainActivity extends Activity {
 	        calendar.setTimeInMillis(System.currentTimeMillis());
 //	        calendar.set(Calendar.HOUR_OF_DAY, 14);
 //	        calendar.set(Calendar.MINUTE,20);
-	        Toast.makeText(this, "scheduling", Toast.LENGTH_LONG).show();
 	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1*60*1000, alertAlarmPendingIntent);
 	        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES,
 	        		alertAlarmPendingIntent);
-	   
-	        }
     	}
-    	 
-    		
-    
-    
-
-	// FIXME: remove this once we have alerts coming from the server
-//	private void insertAlerts() {
-//		AlertManager alertManager = ManagerFactory.getAlertManager();
-//		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
-//		Alert panadoAlert = new Alert(new Date(), 1, panado.getDescription(), AlertStatus.NEW, panado);
-//		alertManager.addAlert(panadoAlert);
-//		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
-//		Alert grandpaAlert = new Alert(new Date(), 3, grandpa.getDescription(), AlertStatus.NEW, grandpa);
-//		alertManager.addAlert(grandpaAlert);
-//	  
-//	}
-
-	// FIXME: this is used to test send all functionality
-	/*private void insertStockTakes() {
-		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
-		StockTake st1 = new StockTake(new Date(), panado, 10, false);
-		DatabaseManager.getStockTakeTableAdapter().insert(st1);
-		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
-		StockTake st2 = new StockTake(new Date(), grandpa, 13, false);
-		DatabaseManager.getStockTakeTableAdapter().insert(st2);
-	}*/
+    }
     
 	// FIXME: remove this once we have the setup wizard
 	private void setupPhone() {
@@ -227,14 +183,9 @@ public class MainActivity extends Activity {
 			Toast.makeText(this, R.string.hello, Toast.LENGTH_LONG).show();
 			return true;
 		case R.id.action_sync:
-			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show();
-			startAlertAlarm();
-			Intent intent = getIntent();
-			finish();
-			startActivity(intent); 
-			// orderFrag.refresh(orderFrag.getView());
-			 //ManagerFactory.getStockTakeManager().synch();
-			 //scanFrag.refresh(scanFrag.getView());
+			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show(); 
+			ManagerFactory.getStockTakeManager().synch();
+			scanFrag.refresh(scanFrag.getView());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
