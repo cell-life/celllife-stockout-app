@@ -1,24 +1,19 @@
 package org.celllife.stockout.app.manager.impl;
 
-import android.util.Log;
+import java.util.List;
 
 import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.integration.rest.GetUserMethod;
-import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.SetupManager;
 
-import java.util.List;
+import android.util.Log;
 
 
 public class SetupManagerImpl implements SetupManager {
-
-    private String msisdn;
-    private String password;
-
 
     @Override
     public Phone save(Phone phone) {
@@ -59,5 +54,4 @@ public class SetupManagerImpl implements SetupManager {
         Log.d("SetupManager", "Phone =" + phone + " Initialised =" + initialised );
         return initialised;
     }
-
 }

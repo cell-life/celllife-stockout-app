@@ -17,7 +17,6 @@ import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 
 import android.util.Log;
-import android.widget.Toast;
 
 public class AlertManagerImpl implements AlertManager {
 	
