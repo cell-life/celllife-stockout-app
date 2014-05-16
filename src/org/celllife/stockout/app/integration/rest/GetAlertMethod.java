@@ -11,6 +11,8 @@ import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationEx
 import org.celllife.stockout.app.integration.rest.framework.RestClientRunner;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.integration.rest.framework.RestResponse;
+import org.celllife.stockout.app.manager.AlertManager;
+import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.SessionManager;
 import org.json.JSONArray;
@@ -71,10 +73,11 @@ public class GetAlertMethod {
 					JSONObject drugJSON = alertJSON.getJSONObject("drug");
 					Drug drug = new Drug();
 					drug.setBarcode(drugJSON.getString("barcode"));
+					//drug.setId(Long.valueOf(drugJSON.getInt("id")));
 					alert.setDrug(drug);
 					alert.setMessage(alertJSON.getString("message"));
 					alert.setStatus(AlertStatus.valueOf(alertJSON.getString("status")));
-					latestAlerts.add(alert);
+					latestAlerts.add(alert);				   
 				}
 				
 			} catch (JSONException e) {
@@ -87,4 +90,9 @@ public class GetAlertMethod {
 		}
 		return latestAlerts;
 	}
+	
+
+	
 }
+
+

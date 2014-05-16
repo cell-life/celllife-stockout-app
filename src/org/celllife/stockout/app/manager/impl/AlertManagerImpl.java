@@ -17,6 +17,7 @@ import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 
 import android.util.Log;
+import android.widget.Toast;
 
 public class AlertManagerImpl implements AlertManager {
 	
@@ -36,8 +37,8 @@ public class AlertManagerImpl implements AlertManager {
 	@Override
 	public void addAlert(Alert alert) {
 		AlertTableAdapter alertDb = DatabaseManager.getAlertTableAdapter();
-		// Cancel (delete) old alert
-		cancelAlert(alert.getDrug());
+	   // Cancel (delete) old alert
+	   cancelAlert(alert.getDrug());
 		// Insert new alert
 		alertDb.insert(alert);
 	}
@@ -59,7 +60,19 @@ public class AlertManagerImpl implements AlertManager {
 		try {
 			alerts = GetAlertMethod.getLatestAlerts();
 			for (Alert a : alerts) {
+				a.getDate();
+				a.getLevel();
+				a.getMessage();
+				a.getStatus();
+				Drug d = DatabaseManager.getDrugTableAdapter().findByBarcode(a.getDrug().getBarcode());
+				if (d != null) {
+					a.setDrug(d);
+				} else {
+				  Log.e("Alert", "Drug not found");
+				}
 				addAlert(a);
+				
+				
 			}
 		} catch (RestCommunicationException e) {
 			// swallows exceptions because this method is being used by the background task

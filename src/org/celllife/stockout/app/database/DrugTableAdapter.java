@@ -50,10 +50,11 @@ public class DrugTableAdapter extends TableAdapter<Drug> {
 
 	@Override
 	public List<ContentValues> getInitialData() {
+		
 		Log.w("DrugTableAdapter", "Initialising Drugs");
 		List<ContentValues> initialData = new ArrayList<ContentValues>();
-		Drug grandpa = new Drug("60015204", "Grandpa 24 tablets");
 		Drug panado = new Drug("60011053", "Panado 500mg 24 tablets");
+		Drug grandpa = new Drug("60015204", "Grandpa 24 tablets");
 		initialData.add(createContentValues(grandpa));
 		initialData.add(createContentValues(panado));
 		return initialData;

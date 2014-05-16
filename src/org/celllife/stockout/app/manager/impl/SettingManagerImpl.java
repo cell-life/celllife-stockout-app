@@ -22,7 +22,7 @@ public class SettingManagerImpl implements SettingManager {
 	@Override
 	public String getServerBaseUrl() {
 		SharedPreferences settings = context.getSharedPreferences(SERVER_PREFERENCES_KEY, 0);
-		String baseUrl = settings.getString(BASE_URL, "http://www.cell-life.org/stock");
+		String baseUrl = settings.getString(BASE_URL, "http://www.sol.cell-life.org/stock");
 		return baseUrl;
 	}
 

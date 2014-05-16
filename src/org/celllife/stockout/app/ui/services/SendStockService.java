@@ -36,7 +36,7 @@ public class SendStockService extends Service {
 		super.onStartCommand(intent, flags, startId);
 
 		try {
-			ManagerFactory.getStockTakeManager().synch();
+			//ManagerFactory.getStockTakeManager().synch();
 		} catch (RestCommunicationException e) {
 			// notify the user that the stock synch was not successful
 			Context context = this.getApplicationContext();

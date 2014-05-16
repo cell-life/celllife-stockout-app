@@ -18,10 +18,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	
 	// Database Version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	
 	// Database Name
-	private static final String DATABASE_NAME = "stockManagement";
+	private static final String DATABASE_NAME = "stock";
 
 	// List of all the tables in this database
 	private List<TableHelper<?>> tables;

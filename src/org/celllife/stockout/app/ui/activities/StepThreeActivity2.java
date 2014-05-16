@@ -24,7 +24,6 @@ public class StepThreeActivity2 extends Activity {
             }
         });
 
-    }
+        }
 }
-
 
