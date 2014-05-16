@@ -185,6 +185,7 @@ public class MainActivity extends Activity {
 		case R.id.action_sync:
 			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show(); 
 			ManagerFactory.getStockTakeManager().synch();
+			ManagerFactory.getAlertManager().updateAlerts();
 			scanFrag.refresh(scanFrag.getView());
 			return true;
 		default:
