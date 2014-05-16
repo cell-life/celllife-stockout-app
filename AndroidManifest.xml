@@ -10,6 +10,13 @@
     
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- permission required to use Alarm Manager -->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    
+    
 
     <application
         android:allowBackup="true"
@@ -18,7 +25,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="org.celllife.stockout.app.ui.activities.MainActivity"
-            android:label="@string/app_name" >
+             android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"
                  android:screenOrientation="portrait"></action>
@@ -53,6 +62,7 @@
             android:name="org.celllife.stockout.app.ui.activities.StepThreeActivity2"
             android:label="@string/app_name" >
         </activity>
+
         <activity
             android:name="org.celllife.stockout.app.ui.activities.StepFourActivity"
             android:label="@string/app_name" >
@@ -61,8 +71,10 @@
             android:name="org.celllife.stockout.app.ui.activities.CrashHandlerActivity"
             android:label="@string/app_name" >
          </activity>
-        <receiver android:name="org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver" >
-        </receiver>
+         
+	     <service android:name="org.celllife.stockout.app.ui.services.UpdateAlertService" />
+	     <service android:name="org.celllife.stockout.app.ui.services.SendStockService" />
+	     <receiver android:name="org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver"/>
         <uses-library android:name="android.test.runner" />
     </application>
 
