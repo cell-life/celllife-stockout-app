@@ -1,6 +1,5 @@
 package org.celllife.stockout.app.ui.fragments;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.celllife.stockout.app.R;
@@ -9,23 +8,15 @@ import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
-import org.celllife.stockout.app.ui.activities.MainActivity;
 import org.celllife.stockout.app.ui.adapters.AlertListViewAdapter;
 import org.celllife.stockout.app.ui.adapters.StockListViewAdapter;
-import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 /**
  * This fragment manages the order tab view which contains a list of alerts and a list of stock takes done in
@@ -37,15 +28,12 @@ public class OrderFragment extends ScanFragment {
 	
 	public static final String TYPE = "StockTake"; 
 	
-	private PendingIntent alertAlarmPendingIntent;
-	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         orderView = inflater.inflate(R.layout.order, container, false);
         
         refresh(orderView); // setup the view
         setupScanButton(orderView);
-        
 
         return orderView;
     }
@@ -70,15 +58,13 @@ public class OrderFragment extends ScanFragment {
 	    final AlertListViewAdapter adapter = new AlertListViewAdapter(orderView.getContext(), R.id.drug_alert_list, alerts);
 	    listview.setAdapter(adapter);
 	    
-	    
 	    // setup alert count
 		final TextView alertCount = (TextView) orderView.findViewById(R.id.alert_count);
 		final TextView newAlerts = (TextView) orderView.findViewById(R.id.new_alerts);
 		alertCount.setText("("+alerts.length+") ");
 		newAlerts.setText(R.string.new_alerts);
 	}
-	
-	
+
 	private void setupStock(View stockView) {
 		// setup the list
 	    final ListView listview = (ListView) stockView.findViewById(R.id.stock_alert_list);	
@@ -94,5 +80,4 @@ public class OrderFragment extends ScanFragment {
 		stockCount.setText("("+stocks.length+") ");
 		completedStocks.setText(R.string.completed_stocks);
 	}
-	
 }

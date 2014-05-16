@@ -32,6 +32,7 @@ public interface AlertManager {
 	 * @param drug
 	 */
 	void cancelAlert(Drug drug);
+
 	/**
 	 * Retrieves the latest Alerts from the Stock Management Server
 	 * @return List of Alerts that were just created
