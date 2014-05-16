@@ -66,7 +66,7 @@ public class SessionManagerImpl implements SessionManager {
 	private void invalidateSession() {
 		sessionStart = null;
 		lastInteraction = null;
-//		username = null;
-//		password = null;
+		username = null;
+		password = null;
 	}
 }

@@ -17,7 +17,6 @@ import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
-import org.celllife.stockout.app.ui.services.UpdateAlertService;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -25,7 +24,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -41,12 +39,8 @@ public class MainActivity extends Activity {
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 	
 	private ScanFragment scanFrag;
-	private OrderFragment orderFrag;
+	
 	private PendingIntent alertAlarmPendingIntent;
-	UpdateAlertService service = new UpdateAlertService();
-	
-	private int alert_Id;
-	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +51,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
         ManagerFactory.initialise(getApplicationContext());
-		//setupManager();
-        //insertAlerts();
+		setupManager();
+        insertAlerts();
 		setupPhone();
 
 		final ActionBar tabBar = getActionBar();
@@ -68,7 +62,7 @@ public class MainActivity extends Activity {
 		if (savedInstanceState != null) {
 			selectedTab = savedInstanceState.getString("selectedTab");
 		}
-		//startAlertAlarm();
+
 		OrderFragment orderFrag = new OrderFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new ScanTabListener(orderFrag)));
 
@@ -81,15 +75,13 @@ public class MainActivity extends Activity {
 		} else if (ReceivedFragment.TYPE.equals(selectedTab)) {
 			tabBar.setSelectedNavigationItem(1);
 		}
-
 		
 		// restore previously set alarm, and set if it isn't known
 		if (savedInstanceState != null) {
 			alertAlarmPendingIntent = savedInstanceState.getParcelable("alertAlarmPendingIntent");
-			
 		}
-		
-		//startAlertAlarm();
+		startAlertAlarm();
+
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
     }
@@ -102,57 +94,53 @@ public class MainActivity extends Activity {
 	  savedInstanceState.putParcelable("alertAlarmPendingIntent", alertAlarmPendingIntent);
 	}
 
-//    private void setupManager() {
-//        SetupManager setupManager = ManagerFactory.getSetupManager();
-//        if (!setupManager.isInitialised()) {
-//            Intent intent = new Intent (MainActivity.this, SetupActivity.class);
-//            startActivity(intent);
-//        }
-//
-//        else {
-//            Toast.makeText(this, "Already Setup", Toast.LENGTH_LONG).show();
-//        }
-//
-//    }
+    private void setupManager() {
+        SetupManager setupManager = ManagerFactory.getSetupManager();
+        if (!setupManager.isInitialised()) {
+            Intent intent = new Intent (MainActivity.this, SetupActivity.class);
+            startActivity(intent);
+        }
+
+        else {
+            Toast.makeText(this, "Already Setup", Toast.LENGTH_LONG).show();
+        }
+
+    }
 
     private void startAlertAlarm() {
- 
     	Toast.makeText(this, "method: startAlertAlarm()", Toast.LENGTH_LONG).show();
-    	if (alertAlarmPendingIntent == null) {
+    	if (alertAlarmPendingIntent != null) {
 	        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 	        
 	        Intent alertIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
-	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, alertAlarmPendingIntent.FLAG_UPDATE_CURRENT );
+	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alertIntent, 
+	        		PendingIntent.FLAG_CANCEL_CURRENT);
 	
 	        // FIXME: we need to think of a clever way to stagger the requests so they don't all try access the server at once
 	        // See: http://developer.android.com/training/scheduling/alarms.html - Best practices section
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.setTimeInMillis(System.currentTimeMillis());
-//	        calendar.set(Calendar.HOUR_OF_DAY, 14);
-//	        calendar.set(Calendar.MINUTE,20);
+	        calendar.set(Calendar.HOUR_OF_DAY, 9);
+	
 	        Toast.makeText(this, "scheduling", Toast.LENGTH_LONG).show();
-	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1*60*1000, alertAlarmPendingIntent);
-	        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+	        
+	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5*60*1000, alertAlarmPendingIntent);
+	        
+	        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
 	        		alertAlarmPendingIntent);
-	   
-	        }
     	}
-    	 
-    		
-    
-    
+    }
 
 	// FIXME: remove this once we have alerts coming from the server
-//	private void insertAlerts() {
-//		AlertManager alertManager = ManagerFactory.getAlertManager();
-//		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
-//		Alert panadoAlert = new Alert(new Date(), 1, panado.getDescription(), AlertStatus.NEW, panado);
-//		alertManager.addAlert(panadoAlert);
-//		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
-//		Alert grandpaAlert = new Alert(new Date(), 3, grandpa.getDescription(), AlertStatus.NEW, grandpa);
-//		alertManager.addAlert(grandpaAlert);
-//	  
-//	}
+	private void insertAlerts() {
+		AlertManager alertManager = ManagerFactory.getAlertManager();
+		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
+		Alert panadoAlert = new Alert(new Date(), 1, panado.getDescription(), AlertStatus.NEW, panado);
+		alertManager.addAlert(panadoAlert);
+		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
+		Alert grandpaAlert = new Alert(new Date(), 3, grandpa.getDescription(), AlertStatus.NEW, grandpa);
+		alertManager.addAlert(grandpaAlert);
+	}
 
 	// FIXME: this is used to test send all functionality
 	/*private void insertStockTakes() {
@@ -163,12 +151,11 @@ public class MainActivity extends Activity {
 		StockTake st2 = new StockTake(new Date(), grandpa, 13, false);
 		DatabaseManager.getStockTakeTableAdapter().insert(st2);
 	}*/
-    
+
 	// FIXME: remove this once we have the setup wizard
 	private void setupPhone() {
 		try {
 			ManagerFactory.getSettingManager().setServerBaseUrl("http://sol.cell-life.org/stock");
-			ManagerFactory.getSessionManager().authenticated("27768198075", "1234");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -228,13 +215,9 @@ public class MainActivity extends Activity {
 			return true;
 		case R.id.action_sync:
 			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show();
-			startAlertAlarm();
-			Intent intent = getIntent();
-			finish();
-			startActivity(intent); 
-			// orderFrag.refresh(orderFrag.getView());
-			 //ManagerFactory.getStockTakeManager().synch();
-			 //scanFrag.refresh(scanFrag.getView());
+			ManagerFactory.getStockTakeManager().synch();
+			ManagerFactory.getAlertManager().updateAlerts();
+			scanFrag.refresh(scanFrag.getView());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

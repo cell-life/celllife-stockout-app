@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Alert;
-import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.ui.activities.MainActivity;
-import org.celllife.stockout.app.ui.fragments.OrderFragment;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -20,6 +18,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+
 /**
  * This handles the creation of the new alerts from the server
  */
@@ -41,6 +40,7 @@ public class UpdateAlertService extends Service {
 
     	List<Alert> alerts = ManagerFactory.getAlertManager().updateAlerts();
     	Context context = this.getApplicationContext();
+    	
     	if (alerts != null && alerts.size() > 0) {
     		Intent mainActivityIntent = new Intent(context, MainActivity.class);
         	PendingIntent mainActivityPendingIntent = PendingIntent.getActivity(context, 0,
@@ -52,15 +52,14 @@ public class UpdateAlertService extends Service {
 				if (contentText.length() != 0) {
 					contentText.append(", ");
 				}
-				contentText.append(a.getDrug().getBarcode());
+				contentText.append(a.getDrug().getDescription());
 			}
 	
 			Notification.Builder notificationBuilder = new Notification.Builder(
 					context).setTicker(tickerText)
 					.setSmallIcon(android.R.drawable.stat_sys_warning)
 					.setAutoCancel(true).setContentTitle(contentTitle)
-					.setContentText(contentText)
-					.setContentIntent(mainActivityPendingIntent)
+					.setContentText(contentText).setContentIntent(mainActivityPendingIntent)
 					.setSound(soundUri).setVibrate(mVibratePattern);
 	
 			// Pass the Notification to the NotificationManager:
@@ -71,22 +70,29 @@ public class UpdateAlertService extends Service {
 
 			Toast.makeText(context, "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText, Toast.LENGTH_LONG).show();
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
-	        
-	        
-   	} 
+    	} else {
+    		// this is just a test for now so we can see something
+    		// FIXME: remove this
+    		Intent mainActivityIntent = new Intent(context, MainActivity.class);
+        	PendingIntent mainActivityPendingIntent = PendingIntent.getActivity(context, 0,
+    				mainActivityIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+			Notification.Builder notificationBuilder = new Notification.Builder(
+					context).setTicker("testing")
+					.setSmallIcon(android.R.drawable.stat_sys_warning)
+					.setAutoCancel(true).setContentTitle("dagmar says")
+					.setContentText("do this").setContentIntent(mainActivityPendingIntent)
+					.setSound(soundUri).setVibrate(mVibratePattern);
+	
+			// Pass the Notification to the NotificationManager:
+			NotificationManager mNotificationManager = (NotificationManager) context
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+			mNotificationManager.notify(ALERT_NOTIFICATION_ID,
+					notificationBuilder.build());
+			
+			Toast.makeText(context, "No new alerts", Toast.LENGTH_LONG).show();
+    		Log.i("AlarmNotificationReceiver", "No new alerts");
+    	}
     	
     	return START_STICKY;
-}
-	
-	
-	public void CancelAlert(Context context, int id)
-	{
-		NotificationManager mNotificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		if(mNotificationManager.toString().equals(" ")){
-		mNotificationManager.cancel(id);
-		}
 	}
-	
-		
 }
