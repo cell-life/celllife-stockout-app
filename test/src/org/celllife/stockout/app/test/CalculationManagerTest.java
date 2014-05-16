@@ -113,6 +113,13 @@ public class CalculationManagerTest extends AndroidTestCase {
     	phone.setDrugLeadTime(7);
     	phone.setDrugSafetyLevel(3);
     	PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
+    	Phone p = null;
+    	do {
+    		p = phoneDb.findOne();
+    		if (p != null) {
+    			phoneDb.deleteById(p.getId());
+    		}
+    	} while (p != null);
     	phoneDb.insert(phone);
     	phone = phoneDb.findOne();
     	return phone;

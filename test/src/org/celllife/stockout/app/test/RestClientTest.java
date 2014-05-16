@@ -47,8 +47,8 @@ public class RestClientTest extends AndroidTestCase {
 		Assert.assertEquals(200, response.getCode());
 		Assert.assertNotNull(response.getData());
 		Assert.assertEquals(
-				"{\"id\":1,\"msisdn\":\"27768198075\",\"encryptedPassword\":\"a98f2b1c8e0618ffd0d764f8369015e45b71a1f129aa66881b4f25998807051a\"" +
-				",\"password\":null,\"salt\":\"9b55660a88d00a61ac77937193acf6055e12fd02d1f187be57dcfe72bfffa1a6\"" +
+				"{\"id\":1,\"msisdn\":\"27768198075\",\"encryptedPassword\":\"80c7fe24f5bf1a37fa46d80f3cc55e7fc6d528a14e905f5a71748aef072412e8\"" +
+				",\"password\":null,\"salt\":\"e7701b0a3f344e53a965911e3912c0330b195162c91a1917cf051b78b1b8de29\"" +
 				",\"clinicCode\":\"0000\",\"clinicName\":\"Demo Clinic 1\"}",
 				response.getData());
 	}
