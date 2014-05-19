@@ -3,20 +3,14 @@ package org.celllife.stockout.app.ui.activities;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.domain.Alert;
-import org.celllife.stockout.app.domain.AlertStatus;
-import org.celllife.stockout.app.domain.Drug;
-import org.celllife.stockout.app.manager.AlertManager;
-import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
-import org.celllife.stockout.app.manager.SetupManager;
 import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
+import org.celllife.stockout.app.ui.services.UpdateAlertService;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -35,13 +29,13 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
 	
 	private ScanFragment scanFrag;
-	
-	private PendingIntent alertAlarmPendingIntent;
 
+	private PendingIntent alertAlarmPendingIntent;
+	UpdateAlertService service = new UpdateAlertService();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,8 +45,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
         ManagerFactory.initialise(getApplicationContext());
-		setupManager();
-        insertAlerts();
+		//setupManager();
 		setupPhone();
 
 		final ActionBar tabBar = getActionBar();
@@ -62,7 +55,7 @@ public class MainActivity extends Activity {
 		if (savedInstanceState != null) {
 			selectedTab = savedInstanceState.getString("selectedTab");
 		}
-
+		//startAlertAlarm();
 		OrderFragment orderFrag = new OrderFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new ScanTabListener(orderFrag)));
 
@@ -80,6 +73,7 @@ public class MainActivity extends Activity {
 		if (savedInstanceState != null) {
 			alertAlarmPendingIntent = savedInstanceState.getParcelable("alertAlarmPendingIntent");
 		}
+		
 		startAlertAlarm();
 
 		// setup exception handling
@@ -94,68 +88,43 @@ public class MainActivity extends Activity {
 	  savedInstanceState.putParcelable("alertAlarmPendingIntent", alertAlarmPendingIntent);
 	}
 
-    private void setupManager() {
-        SetupManager setupManager = ManagerFactory.getSetupManager();
-        if (!setupManager.isInitialised()) {
-            Intent intent = new Intent (MainActivity.this, SetupActivity.class);
-            startActivity(intent);
-        }
+//    private void setupManager() {
+//        SetupManager setupManager = ManagerFactory.getSetupManager();
+//        if (!setupManager.isInitialised()) {
+//            Intent intent = new Intent (MainActivity.this, SetupActivity.class);
+//            startActivity(intent);
+//        }
+//
+//        else {
+//            Toast.makeText(this, "Already Setup", Toast.LENGTH_LONG).show();
+//        }
+//
+//    }
 
-        else {
-            Toast.makeText(this, "Already Setup", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    private void startAlertAlarm() {
-    	Toast.makeText(this, "method: startAlertAlarm()", Toast.LENGTH_LONG).show();
-    	if (alertAlarmPendingIntent != null) {
+   private void startAlertAlarm() {
+    	if (alertAlarmPendingIntent == null) {
 	        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 	        
 	        Intent alertIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
-	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alertIntent, 
-	        		PendingIntent.FLAG_CANCEL_CURRENT);
+	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT );
 	
 	        // FIXME: we need to think of a clever way to stagger the requests so they don't all try access the server at once
 	        // See: http://developer.android.com/training/scheduling/alarms.html - Best practices section
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.setTimeInMillis(System.currentTimeMillis());
-	        calendar.set(Calendar.HOUR_OF_DAY, 9);
-	
-	        Toast.makeText(this, "scheduling", Toast.LENGTH_LONG).show();
-	        
-	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5*60*1000, alertAlarmPendingIntent);
-	        
-	        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
+//	        calendar.set(Calendar.HOUR_OF_DAY, 14);
+//	        calendar.set(Calendar.MINUTE,20);
+	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1*60*1000, alertAlarmPendingIntent);
+	        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES,
 	        		alertAlarmPendingIntent);
     	}
     }
-
-	// FIXME: remove this once we have alerts coming from the server
-	private void insertAlerts() {
-		AlertManager alertManager = ManagerFactory.getAlertManager();
-		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
-		Alert panadoAlert = new Alert(new Date(), 1, panado.getDescription(), AlertStatus.NEW, panado);
-		alertManager.addAlert(panadoAlert);
-		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
-		Alert grandpaAlert = new Alert(new Date(), 3, grandpa.getDescription(), AlertStatus.NEW, grandpa);
-		alertManager.addAlert(grandpaAlert);
-	}
-
-	// FIXME: this is used to test send all functionality
-	/*private void insertStockTakes() {
-		Drug panado = DatabaseManager.getDrugTableAdapter().findByBarcode("60011053");
-		StockTake st1 = new StockTake(new Date(), panado, 10, false);
-		DatabaseManager.getStockTakeTableAdapter().insert(st1);
-		Drug grandpa = DatabaseManager.getDrugTableAdapter().findByBarcode("60015204");
-		StockTake st2 = new StockTake(new Date(), grandpa, 13, false);
-		DatabaseManager.getStockTakeTableAdapter().insert(st2);
-	}*/
-
+    
 	// FIXME: remove this once we have the setup wizard
 	private void setupPhone() {
 		try {
 			ManagerFactory.getSettingManager().setServerBaseUrl("http://sol.cell-life.org/stock");
+			ManagerFactory.getSessionManager().authenticated("27768198075", "1234");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -214,7 +183,7 @@ public class MainActivity extends Activity {
 			Toast.makeText(this, R.string.hello, Toast.LENGTH_LONG).show();
 			return true;
 		case R.id.action_sync:
-			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show(); 
 			ManagerFactory.getStockTakeManager().synch();
 			ManagerFactory.getAlertManager().updateAlerts();
 			scanFrag.refresh(scanFrag.getView());

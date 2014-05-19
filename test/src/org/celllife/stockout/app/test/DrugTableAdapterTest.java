@@ -37,7 +37,8 @@ public class DrugTableAdapterTest extends AndroidTestCase {
     public void testFindById(){
     	Drug d = new Drug("112233454557","Brendan");
     	drugDb.insert(d);
-    	Drug d2 = drugDb.findById(1l);
+    	Drug savedD = drugDb.findByBarcode("112233454557");
+    	Drug d2 = drugDb.findById(savedD.getId());
     	Assert.assertNotNull(d2);
     	Assert.assertEquals(d.getBarcode(), d2.getBarcode());
     }
