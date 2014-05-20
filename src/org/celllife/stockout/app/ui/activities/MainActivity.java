@@ -116,8 +116,8 @@ public class MainActivity extends Activity {
 //	        calendar.set(Calendar.HOUR_OF_DAY, 14);
 //	        calendar.set(Calendar.MINUTE,20);
 	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1*60*1000, alertAlarmPendingIntent);
-	        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-	        		alertAlarmPendingIntent);
+	        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+	        		//alertAlarmPendingIntent);
     	}
     }
     

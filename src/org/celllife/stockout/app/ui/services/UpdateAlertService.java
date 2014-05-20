@@ -44,7 +44,7 @@ public class UpdateAlertService extends Service {
     	if (alerts != null && alerts.size() > 0) {
     		Intent mainActivityIntent = new Intent(context, MainActivity.class);
         	PendingIntent mainActivityPendingIntent = PendingIntent.getActivity(context, 0,
-    				mainActivityIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+    		mainActivityIntent, Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			String tickerText = context.getString(R.string.alertNotificationTicker);
 			String contentTitle = context.getString(R.string.alertNotificationTitle);
 			StringBuilder contentText = new StringBuilder();
@@ -52,40 +52,29 @@ public class UpdateAlertService extends Service {
 				if (contentText.length() != 0) {
 					contentText.append(", ");
 				}
-				contentText.append(a.getDrug().getBarcode());
+				contentText.append("Please scan the following:" +"\n"+ a.getDrug().getDescription());
 			}
 	
-			Notification.Builder notificationBuilder = new Notification.Builder(
-					context).setTicker(tickerText)
-					.setSmallIcon(android.R.drawable.stat_sys_warning)
-					.setAutoCancel(true).setContentTitle(contentTitle)
-					.setContentText(contentText)
-					.setContentIntent(mainActivityPendingIntent)
-					.setSound(soundUri).setVibrate(mVibratePattern);
+			Notification.Builder notificationBuilder = new Notification.Builder(context)
+			.setTicker(tickerText)
+			.setSmallIcon(R.drawable.ic_alert_icon)
+			.setAutoCancel(true).setContentTitle(contentTitle)
+			.setContentText(contentText)
+			.setContentIntent(mainActivityPendingIntent)
+			.setSound(soundUri).setVibrate(mVibratePattern);
 	
 			// Pass the Notification to the NotificationManager:
 			NotificationManager mNotificationManager = (NotificationManager) context
-					.getSystemService(Context.NOTIFICATION_SERVICE);
+			.getSystemService(Context.NOTIFICATION_SERVICE);
 			mNotificationManager.notify(ALERT_NOTIFICATION_ID,
-					notificationBuilder.build());
-
+			notificationBuilder.build());
 			Toast.makeText(context, "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText, Toast.LENGTH_LONG).show();
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
 	        
 	        
-   	} 
+    	} 
     	
-    	return START_STICKY;
-}
-	
-	
-	public void CancelAlert(Context context, int id)
-	{
-		NotificationManager mNotificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		if(mNotificationManager.toString().equals(" ")){
-		mNotificationManager.cancel(id);
-		}
+    		return START_STICKY;
 	}
 	
 		
