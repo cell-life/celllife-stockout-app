@@ -44,7 +44,6 @@ public class ScanActivity extends Activity {
 
 		// instantiate UI items
 		contentTxt = (TextView) findViewById(R.id.scan_content);
-        setupAvdViews();
 		
 		final String scanType = this.getIntent().getStringExtra("type");
 		final Button confirmButton = (Button) findViewById(R.id.confirm_button);
@@ -80,6 +79,7 @@ public class ScanActivity extends Activity {
 		String scanContent = this.getIntent().getStringExtra("barcode");
 		drug = lookupDrug(scanContent);
 		if (drug != null) {
+			setupAvdViews();
 			contentTxt.setText(drug.getDescription());
 		} else if (scanContent != null) {
 			// no drug found
