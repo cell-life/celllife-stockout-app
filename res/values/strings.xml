@@ -64,7 +64,7 @@
     <string name="thankyou_reg">Thank you for registering. You are now ready to use the Stockouts application. </string>
 
     <string name="alertNotificationTicker">Stock Take Notification</string>
-    <string name="alertNotificationTitle">Please Scan the Following Drugs:</string>
+    <string name="alertNotificationTitle">Scan Stock</string>
     
     <string name="stockNotificationTicker">Stock Notification</string>
     <string name="stockNotificationTitle">Problem with stock synch</string>
