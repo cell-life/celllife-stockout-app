@@ -29,17 +29,29 @@
         android:src="@drawable/barcode" />
 
     <TextView
-        android:id="@+id/quantity_label"
-        android:layout_width="match_parent"
+        android:id="@+id/step_four_text"
+        style="@style/step_four_text"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10sp"
-        android:text="@string/enter_amount"
-        android:textAppearance="?android:attr/textAppearance" />
+        android:text="@string/step_four_top"/>
 
     <EditText
         android:id="@+id/quantity_text"
-        style="@style/EditBox.Medium"
+        style="@style/EditBox.Reg.one"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/avd_msg"
+        style="@style/step_four_text"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_four_bot"/>
+
+    <EditText
+        android:id="@+id/avd_text"
+        style="@style/EditBox.Reg.one"
+        android:visibility="gone"
         android:inputType="number" />
 
     <LinearLayout

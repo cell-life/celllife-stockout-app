@@ -4,14 +4,17 @@ import java.util.Date;
 
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.StockHistory;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
+import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
+import org.w3c.dom.Text;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,6 +26,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ScanActivity extends Activity {
@@ -39,9 +44,9 @@ public class ScanActivity extends Activity {
 
 		// instantiate UI items
 		contentTxt = (TextView) findViewById(R.id.scan_content);
+        setupAvdViews();
 		
 		final String scanType = this.getIntent().getStringExtra("type");
-		
 		final Button confirmButton = (Button) findViewById(R.id.confirm_button);
 		confirmButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -53,6 +58,7 @@ public class ScanActivity extends Activity {
 				if (scanType.equalsIgnoreCase(ReceivedFragment.TYPE)) {
 					success = createAndSaveStockReceived();
 				}
+
 				if (success) {
 					ScanActivity.this.finish();
 				}
@@ -129,11 +135,32 @@ public class ScanActivity extends Activity {
 		return true;
 	}
 
+    private void setupAvdViews() {
+        final TextView avdText = (TextView) findViewById(R.id.avd_msg);
+        final EditText avdField = (EditText) findViewById(R.id.avd_text);
+        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
+        StockHistory stockHistory = DatabaseManager.getStockHistoryTableAdapter().findByDrug(drug);
+        if (stockHistory == null) {
+            linearLayout.setVisibility(View.VISIBLE);
+            avdText.setVisibility(View.VISIBLE);
+            avdField.setVisibility(View.VISIBLE);
+        } else {
+            linearLayout.setVisibility(View.INVISIBLE);
+            avdText.setVisibility(View.INVISIBLE);
+            avdField.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+
 	private boolean createAndSaveStockReceived() {
 		final EditText quantityField = (EditText) findViewById(R.id.quantity_text);
+        final EditText avdField = (EditText) findViewById(R.id.avd_text);
 		if (quantityField.getText().toString() == null || quantityField.getText().toString().trim().equals("")) {
 			displayQuantityErrorMessage(R.string.scan_quantity_error);
 			return false;
+      //  if (avdField.isShown() && (avdField.getText().toString() == null || avdField.getText().toString().trim().equals(""))) {
+            //display error
 		} else {
 			try {
 				Integer quantity = Integer.parseInt(quantityField.getText().toString());
@@ -153,6 +180,7 @@ public class ScanActivity extends Activity {
 		}
 		return true;
 	}
+
 	
 	private void displayQuantityErrorMessage(int messageResource) {
 		new AlertDialog.Builder(this)

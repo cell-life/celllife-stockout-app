@@ -1,47 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".FragmentExampleActivity" >
 
-    <LinearLayout
-        style="@style/main_screen_top"
-        android:id="@+id/alert_linear_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/alert_heading"
-            style="@style/main_head_marg"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/requires_stock_take_heading"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <View
-            android:id="@+id/alert_underline"
-            style="@style/main_under_lay" />
-
-        <ListView
-            android:id="@+id/drug_alert_list"
-            style="@style/main_pad_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical">
-        </ListView>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/scan_button"
-        style="@style/Button.Blue"
-        android:layout_width="fill_parent"
+    <fragment
+        android:id="@+id/scan_fragment"
+        android:name="org.celllife.stockout.app.ui.fragments.OrderFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/scan" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/order" />
 
-</LinearLayout>
+
+</RelativeLayout>
