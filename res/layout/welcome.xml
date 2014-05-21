@@ -17,9 +17,10 @@
 
         <TextView
             android:id="@+id/welcome_reg_text"
-            style="@style/welcome_reg_text"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_below="@+id/medical_rep"
+            android:gravity="center_horizontal"
             android:text="@string/welcome_reg"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 

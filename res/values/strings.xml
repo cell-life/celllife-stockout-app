@@ -23,6 +23,7 @@
     <string name="empty"></string>
     <string name="msisdn">Please enter Phone Number</string>
     <string name="pin_heading">Please Enter Pin</string>
+    <string name="pin_error">The pin you entered was not correct. Please try again.</string>
     <string name="loading_scanner">Loading&#8230;&#8230;&#8230;</string>
     <string name="no_barcode">No barcode received.</string>
     <string name="confirm">Confirm</string>

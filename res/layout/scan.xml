@@ -30,19 +30,19 @@
 
     <TextView
         android:id="@+id/step_four_text"
-        style="@style/step_four_text"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_four_top"/>
 
     <EditText
         android:id="@+id/quantity_text"
-        style="@style/EditBox.Reg.one"
+        style="@style/EditBox.Small"
         android:inputType="number" />
 
     <TextView
         android:id="@+id/avd_msg"
-        style="@style/step_four_text"
+        style="@style/edit_text_title"
         android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
 
     <EditText
         android:id="@+id/avd_text"
-        style="@style/EditBox.Reg.one"
+        style="@style/EditBox.Small"
         android:visibility="gone"
         android:inputType="number" />
 

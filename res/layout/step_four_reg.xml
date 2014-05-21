@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/step_one_title"
-        style="@style/step_four_head"
+        style="@style/step_heading"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_four_head"/>
@@ -20,26 +20,26 @@
 
     <TextView
         android:id="@+id/step_four_text"
-        style="@style/step_four_text"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_four_top"/>
 
     <EditText
         android:id="@+id/quantity_text"
-        style="@style/EditBox.Reg.one"
+        style="@style/EditBox.Small"
         android:inputType="number" />
 
     <TextView
         android:id="@+id/step_four_text"
-        style="@style/step_four_text"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_four_bot"/>
 
     <EditText
         android:id="@+id/quantity_text"
-        style="@style/EditBox.Reg.one"
+        style="@style/EditBox.Small"
         android:inputType="number" />
 
     <LinearLayout

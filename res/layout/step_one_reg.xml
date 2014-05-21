@@ -7,40 +7,40 @@
 
     <TextView
         android:id="@+id/step_one_head"
-        style="@style/phase_step"
+        style="@style/step_heading"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_one_top"/>
 
     <TextView
         android:id="@+id/step_one_note"
-        style="@style/top_red"
+        style="@style/red_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_one_note"/>
 
     <TextView
         android:id="@+id/step_one_title"
-        style="@style/step_one_title"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_one_tp"/>
 
     <EditText
         android:id="@+id/msisdn_text"
-        style="@style/EditBox.Reg.one"
+        style="@style/EditBox.Medium"
         android:inputType="number" />
 
     <TextView
         android:id="@+id/step_one_lower"
-        style="@style/step_one_title"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_one_bot"/>
 
     <EditText
         android:id="@+id/pin_text"
-        style="@style/EditBox.Reg.one"
+        style="@style/EditBox.Small"
         android:inputType="number" />
 
 

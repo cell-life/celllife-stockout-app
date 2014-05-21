@@ -6,59 +6,59 @@
 
     <TextView
         android:id="@+id/step_two_head"
-        style="@style/phase_step"
+        style="@style/step_heading"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_two_top" />
 
     <TextView
         android:id="@+id/step_one_note"
-        style="@style/top_red"
+        style="@style/red_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_one_note"/>
 
     <TextView
         android:id="@+id/lead_time"
-        style="@style/step_two_title"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/lead_time"/>
 
     <TextView
         android:id="@+id/lead_time_bot"
-        style="@style/step_two_des"
+        style="@style/edit_text_description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/lead_time_bot"/>
 
     <EditText
         android:id="@+id/lead_text"
-        style="@style/EditBox.Reg.two"
+        style="@style/EditBox.Small"
         android:inputType="number" />
 
     <TextView
         android:id="@+id/safety_time"
-        style="@style/step_two_title"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/safety_time"/>
 
     <TextView
         android:id="@+id/safety_time_bot"
-        style="@style/step_two_des"
+        style="@style/edit_text_description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/safety_time_bot"/>
 
     <EditText
         android:id="@+id/safety_text"
-        style="@style/EditBox.Reg.two"
+        style="@style/EditBox.Small"
         android:inputType="number" />
 
     <TextView
         android:id="@+id/operating_days"
-        style="@style/step_two_title"
+        style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/operating_days"/>
@@ -66,14 +66,14 @@
 
     <TextView
         android:id="@+id/operating_days_bot"
-        style="@style/step_two_des"
+        style="@style/edit_text_description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/operating_days_bot"/>
 
     <EditText
         android:id="@+id/operating_text"
-        style="@style/EditBox.Reg.two"
+        style="@style/EditBox.Small"
         android:inputType="number" />
 
 
