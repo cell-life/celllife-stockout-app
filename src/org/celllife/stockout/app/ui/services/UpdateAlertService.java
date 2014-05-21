@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.domain.Alert;
-import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.ui.activities.MainActivity;
-
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -19,7 +17,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 /**
  * This handles the creation of the new alerts from the server
  */
@@ -40,9 +37,12 @@ public class UpdateAlertService extends Service {
     	List<Alert> alerts = ManagerFactory.getAlertManager().updateAlerts();
     	Context context = this.getApplicationContext();
     	if (alerts != null && alerts.size() > 0) {
+    		// Define the Notification Intent
     		Intent mainActivityIntent = new Intent(context, MainActivity.class);
         	PendingIntent mainActivityPendingIntent = PendingIntent.getActivity(context, 0,
     		mainActivityIntent, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        	
+        	// Build the notification
 			String tickerText = context.getString(R.string.alertNotificationTicker);
 			String contentTitle = context.getString(R.string.alertNotificationTitle);
 			StringBuilder contentText = new StringBuilder();
@@ -66,11 +66,9 @@ public class UpdateAlertService extends Service {
 			.getSystemService(Context.NOTIFICATION_SERVICE);
 			mNotificationManager.notify(ALERT_NOTIFICATION_ID,
 			notificationBuilder.build());
-			Toast.makeText(context, "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText, Toast.LENGTH_LONG).show();
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
-           
     	} 
     	
-    		return START_STICKY;
+    	return START_STICKY;
 	}
 }
