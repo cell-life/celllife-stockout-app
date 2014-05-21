@@ -1,5 +1,7 @@
 package org.celllife.stockout.app.manager;
 
+import org.celllife.stockout.app.domain.Phone;
+
 /**
  * Service used to authenticate users
  */
@@ -14,4 +16,10 @@ public interface AuthenticationManager {
 	 * FIXME: what to do about communicate failure?
 	 */
 	boolean authenticate(String username, String password);
+
+	/**
+	 * Returns the phone entity stored in the phone db. The phone entity allows you to determine
+	 * the currently installed msisdn (which is required for authentication)
+	 */
+	Phone getPhone();
 }

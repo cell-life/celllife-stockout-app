@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Random;
 
 import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.domain.Phone;
@@ -121,12 +120,6 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 		return hexString(md.digest(input));	
 	}
 
-	// copied from the server. FIXME: look into a shared library before editing this
-	public static String getRandomToken() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		Random rng = new Random();
-		return encodeString(Long.toString(System.currentTimeMillis()) + Long.toString(rng.nextLong()));
-	}
-	
 	// copied from the server: FIXME: look into a shared library before editing this
 	private static String hexString(byte[] b) {
 		StringBuffer buf = new StringBuffer();
@@ -142,5 +135,12 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 		}
 
 		return buf.toString();
+	}
+
+	@Override
+	public Phone getPhone() {
+		PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
+		Phone phone = phoneDb.findOne();
+		return phone;
 	}
 }

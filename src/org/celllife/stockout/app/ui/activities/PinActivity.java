@@ -1,6 +1,8 @@
 package org.celllife.stockout.app.ui.activities;
 
 import org.celllife.stockout.app.R;
+import org.celllife.stockout.app.domain.Phone;
+import org.celllife.stockout.app.manager.AuthenticationManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 
 import android.app.Activity;
@@ -11,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * Created by achmat on 2014/03/12.
+ * The activity that handles the user entering their password/pin
  */
 public class PinActivity extends Activity {
 
@@ -20,20 +22,26 @@ public class PinActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pin);
 
-		final EditText passwd = (EditText) findViewById(R.id.pin);
-
-		final Button confirmButton = (Button) findViewById(R.id.confirm_button);
+		Button confirmButton = (Button) findViewById(R.id.confirm_button);
 		confirmButton.setOnClickListener(new View.OnClickListener() {
-
 			public void onClick(View v) {
-				if (passwd.getText().toString().equals("1234")) {
-					Toast.makeText(PinActivity.this.getApplicationContext(), R.string.loading_scanner,
-							Toast.LENGTH_LONG).show();
-					ManagerFactory.getSessionManager().authenticated("27768198075", "1234");
-					PinActivity.this.setResult(RESULT_OK, PinActivity.this.getIntent());
-					PinActivity.this.finish();
-				} else {
-					Toast.makeText(getApplicationContext(), "Please Enter 1234", Toast.LENGTH_LONG).show();
+				AuthenticationManager authManager = ManagerFactory.getAuthenticationManager();
+				
+				Phone phone = authManager.getPhone();
+				if (phone != null) {
+					String username = phone.getMsisdn();
+					String password = ((EditText) findViewById(R.id.pin)).getText().toString();
+					
+					boolean success = authManager.authenticate(username, password);
+					if (success) {
+						Toast.makeText(PinActivity.this.getApplicationContext(), R.string.loading_scanner,
+								Toast.LENGTH_LONG).show();
+						ManagerFactory.getSessionManager().authenticated(username, password);
+						PinActivity.this.setResult(RESULT_OK, PinActivity.this.getIntent());
+						PinActivity.this.finish();
+					} else {
+						Toast.makeText(getApplicationContext(), R.string.pin_error, Toast.LENGTH_LONG).show();
+					}
 				}
 			}
 		});

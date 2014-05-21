@@ -45,10 +45,8 @@ public class MainActivity extends Activity {
 		
 		setContentView(R.layout.main);
 		
-		
         ManagerFactory.initialise(getApplicationContext());
-		//setupManager();
-		setupPhone();
+		setupManager();
 		startAlertAlarm();
 
 		final ActionBar tabBar = getActionBar();
@@ -92,14 +90,16 @@ public class MainActivity extends Activity {
     private void setupManager() {
         SetupManager setupManager = ManagerFactory.getSetupManager();
         if (!setupManager.isInitialised()) {
+        	// setup the server URL
+    		try {
+    			ManagerFactory.getSettingManager().setServerBaseUrl("http://sol.cell-life.org/stock");
+    		} catch (MalformedURLException e) {
+    			e.printStackTrace();
+    		}
+    		// run the SetupActivity
             Intent intent = new Intent (MainActivity.this, SetupActivity.class);
             startActivity(intent);
         }
-
-        else {
-            Toast.makeText(this, "Already Setup", Toast.LENGTH_LONG).show();
-        }
-
     }
 
    private void startAlertAlarm() {
@@ -122,23 +122,6 @@ public class MainActivity extends Activity {
     	}
     }
     
-	// FIXME: remove this once we have the setup wizard
-	private void setupPhone() {
-		try {
-			ManagerFactory.getSettingManager().setServerBaseUrl("http://sol.cell-life.org/stock");
-			ManagerFactory.getSessionManager().authenticated("27741486362", "1117");
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// FIXME: testing authentication
-	/*private void testAuthentication() {
-		Toast.makeText(MainActivity.this, "authenticating...", Toast.LENGTH_LONG).show(); 
-		boolean authentication = ManagerFactory.getAuthenticationManager().authenticate("27768198075", "1234");
-		Toast.makeText(MainActivity.this, "authentication="+authentication, Toast.LENGTH_LONG).show();
-	}*/
-
 	/**
 	 * Listener to handle tab switching
 	 */
@@ -227,9 +210,4 @@ public class MainActivity extends Activity {
     	super.onResume();
     	scanFrag.refresh(scanFrag.getView());
     }
-    
-    
-    
-    
-    
 }
