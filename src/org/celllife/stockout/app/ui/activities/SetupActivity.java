@@ -15,16 +15,14 @@ public class SetupActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);
 
-        Button proceedButton = (Button) findViewById(R.id.proceed_button);
-        proceedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent stepOne = new Intent(SetupActivity.this,StepOneActivity.class);
-                startActivity(stepOne);
-            }
-        });
-    }
-
-
+		Button proceedButton = (Button) findViewById(R.id.proceed_button);
+		proceedButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent stepOne = new Intent(SetupActivity.this, StepOneActivity.class);
+				startActivity(stepOne);
+			}
+		});
+	}
 
 }

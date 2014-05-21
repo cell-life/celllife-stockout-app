@@ -8,31 +8,30 @@ import android.widget.Button;
 
 import org.celllife.stockout.app.R;
 
-
 public class StepFourActivity extends Activity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.step_four_reg);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.step_four_reg);
 
-        Button proceedButton = (Button) findViewById(R.id.confirm_button);
-        Button cancelButton = (Button) findViewById(R.id.cancel_button);
+		Button proceedButton = (Button) findViewById(R.id.confirm_button);
+		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 
-        proceedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent stepThree2 = new Intent (StepFourActivity.this, StepFourConfActivity.class);
-                startActivity(stepThree2);
-            }
-        });
+		proceedButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent stepThree2 = new Intent(StepFourActivity.this, StepFourConfActivity.class);
+				startActivity(stepThree2);
+			}
+		});
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StepFourActivity.this.finish();
-            }
-        });
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				StepFourActivity.this.finish();
+			}
+		});
 
-    }
+	}
 }

@@ -18,42 +18,38 @@ import org.celllife.stockout.app.manager.ManagerFactory;
 
 public class StepOneActivity extends Activity {
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.step_one_reg);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.step_one_reg);
 
+		Button registerButton = (Button) findViewById(R.id.confirm_button);
+		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 
-        Button registerButton = (Button) findViewById(R.id.confirm_button);
-        Button cancelButton = (Button) findViewById(R.id.cancel_button);
+		registerButton.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View view) {
+				EditText msisdn = (EditText) findViewById(R.id.msisdn_text);
+				EditText pin = (EditText) findViewById(R.id.pin_text);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+				String msisdnText = msisdn.getText().toString();
+				String pinText = pin.getText().toString();
 
-        @Override
-        public void onClick(View view) {
-            EditText msisdn = (EditText) findViewById(R.id.msisdn_text);
-            EditText pin = (EditText) findViewById(R.id.pin_text);
+				ManagerFactory.getSetupManager().initialise(msisdnText, pinText);
 
-            String msisdnText = msisdn.getText().toString();
-            String pinText = pin.getText().toString();
+				Intent stepTwo = new Intent(StepOneActivity.this, StepTwoActivity.class);
+				startActivity(stepTwo);
+			}
+		});
 
-            ManagerFactory.getSetupManager().initialise(msisdnText, pinText);
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				StepOneActivity.this.finish();
+			}
+		});
 
-            Intent stepTwo = new Intent (StepOneActivity.this, StepTwoActivity.class);
-            startActivity(stepTwo);
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            StepOneActivity.this.finish();
-                }
-            });
-
-        }
+	}
 
 }
-
-
