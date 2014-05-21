@@ -173,14 +173,11 @@ public class ScanActivity extends Activity {
     private void setupAvdViews() {
         final TextView avdText = (TextView) findViewById(R.id.avd_msg);
         final EditText avdField = (EditText) findViewById(R.id.avd_text);
-        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
         StockHistory stockHistory = DatabaseManager.getStockHistoryTableAdapter().findByDrug(drug);
         if (stockHistory == null) {
-            linearLayout.setVisibility(View.VISIBLE);
             avdText.setVisibility(View.VISIBLE);
             avdField.setVisibility(View.VISIBLE);
         } else {
-            linearLayout.setVisibility(View.INVISIBLE);
             avdText.setVisibility(View.INVISIBLE);
             avdField.setVisibility(View.INVISIBLE);
         }
