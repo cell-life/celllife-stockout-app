@@ -33,6 +33,7 @@
     <string name="scan_error">Please note: you have scanned an unknown item. Please scan a registered drug.</string>
     <string name="scan_quantity_error">Please enter an amount.</string>
     <string name="scan_quantity_number_error">Please enter a valid number for the amount.</string>
+    <string name="avd_error">Please enter an average daily consumption</string>
 
     <string name="error_heading">Application Error</string>
 

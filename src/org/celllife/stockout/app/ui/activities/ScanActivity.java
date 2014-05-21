@@ -51,6 +51,9 @@ public class ScanActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				boolean success = false;
+                if (scanType.equalsIgnoreCase(OrderFragment.TYPE)) {
+                    success = createStockHistory();
+                }
 				if (scanType.equalsIgnoreCase(OrderFragment.TYPE)) {
 					success = createAndSaveStockTake();
 				}
@@ -109,9 +112,40 @@ public class ScanActivity extends Activity {
 		}
 		return null;
 	}
+
+    private boolean createStockHistory() {
+        final EditText avdField = (EditText) findViewById(R.id.avd_text);
+        if (avdField.isShown() && (avdField.getText().toString() == null || avdField.getText().toString().trim().equals(""))) {
+            displayQuantityErrorMessage(R.string.avd_error);
+            return false;
+
+        } else {
+            try {
+                Integer avd = Integer.parseInt(avdField.getText().toString());
+                StockHistory stockHistory = new StockHistory(drug, avd);
+                DatabaseManager.getStockHistoryTableAdapter().insertOrUpdate(stockHistory);
+            }
+            catch (NumberFormatException e) {
+                displayQuantityErrorMessage(R.string.scan_quantity_number_error);
+                return false;
+            } catch (RestAuthenticationException e) {
+                displayErrorMessage(e.getMessage());
+                return false;
+            } catch (RestCommunicationException e) {
+                displayErrorMessage(e.getMessage());
+                return false;
+            }
+        }
+
+        return true;
+    }
 	
 	private boolean createAndSaveStockTake() {
 		final EditText quantityField = (EditText) findViewById(R.id.quantity_text);
+        final EditText avdField = (EditText) findViewById(R.id.avd_text);
+        if (avdField.isShown() && (avdField.getText().toString() == null || avdField.getText().toString().trim().equals(""))) {
+            displayQuantityErrorMessage(R.string.avd_error);
+        }
 		if (quantityField.getText().toString() == null || quantityField.getText().toString().trim().equals("")) {
 			displayQuantityErrorMessage(R.string.scan_quantity_error);
 			return false;
@@ -121,7 +155,8 @@ public class ScanActivity extends Activity {
 				StockTake stockTake = new StockTake(new Date(), drug, quantity, false);
 				StockTakeManager stockManager = ManagerFactory.getStockTakeManager();
 				stockManager.newStockTake(stockTake);
-			} catch (NumberFormatException e) {
+			}
+            catch (NumberFormatException e) {
 				displayQuantityErrorMessage(R.string.scan_quantity_number_error);
 				return false;
 			} catch (RestAuthenticationException e) {
@@ -156,11 +191,12 @@ public class ScanActivity extends Activity {
 	private boolean createAndSaveStockReceived() {
 		final EditText quantityField = (EditText) findViewById(R.id.quantity_text);
         final EditText avdField = (EditText) findViewById(R.id.avd_text);
+        if (avdField.isShown() && (avdField.getText().toString() == null || avdField.getText().toString().trim().equals(""))) {
+            displayQuantityErrorMessage(R.string.avd_error);
+        }
 		if (quantityField.getText().toString() == null || quantityField.getText().toString().trim().equals("")) {
 			displayQuantityErrorMessage(R.string.scan_quantity_error);
 			return false;
-      //  if (avdField.isShown() && (avdField.getText().toString() == null || avdField.getText().toString().trim().equals(""))) {
-            //display error
 		} else {
 			try {
 				Integer quantity = Integer.parseInt(quantityField.getText().toString());
