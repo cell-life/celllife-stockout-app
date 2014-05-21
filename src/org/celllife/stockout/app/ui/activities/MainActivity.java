@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +36,6 @@ public class MainActivity extends Activity {
 
 	private PendingIntent alertAlarmPendingIntent;
 	public static BroadcastReceiver receiver = new AlarmNotificationReceiver();
-	public static LocalBroadcastManager broadcast;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
