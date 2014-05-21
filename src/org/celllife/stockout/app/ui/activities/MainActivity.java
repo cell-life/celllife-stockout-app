@@ -11,7 +11,6 @@ import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
-import org.celllife.stockout.app.ui.services.UpdateAlertService;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -20,9 +19,11 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +36,8 @@ public class MainActivity extends Activity {
 	private ScanFragment scanFrag;
 
 	private PendingIntent alertAlarmPendingIntent;
-	UpdateAlertService service = new UpdateAlertService();
+	public static BroadcastReceiver receiver = new AlarmNotificationReceiver();
+	public static LocalBroadcastManager broadcast;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,9 +47,11 @@ public class MainActivity extends Activity {
 		
 		setContentView(R.layout.main);
 		
+		
         ManagerFactory.initialise(getApplicationContext());
-		setupManager();
+		//setupManager();
 		setupPhone();
+		startAlertAlarm();
 
 		final ActionBar tabBar = getActionBar();
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -56,9 +60,9 @@ public class MainActivity extends Activity {
 		if (savedInstanceState != null) {
 			selectedTab = savedInstanceState.getString("selectedTab");
 		}
-		//startAlertAlarm();
 		OrderFragment orderFrag = new OrderFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.orders).setTabListener(new ScanTabListener(orderFrag)));
+		
 
 		ReceivedFragment receivedFrag = new ReceivedFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ScanTabListener(receivedFrag)));
@@ -75,8 +79,6 @@ public class MainActivity extends Activity {
 			alertAlarmPendingIntent = savedInstanceState.getParcelable("alertAlarmPendingIntent");
 		}
 		
-		startAlertAlarm();
-
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
     }
@@ -117,7 +119,8 @@ public class MainActivity extends Activity {
 //	        calendar.set(Calendar.MINUTE,20);
 	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1*60*1000, alertAlarmPendingIntent);
 	        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-	        		//alertAlarmPendingIntent);
+	        //alertAlarmPendingIntent);
+  
     	}
     }
     
@@ -125,7 +128,7 @@ public class MainActivity extends Activity {
 	private void setupPhone() {
 		try {
 			ManagerFactory.getSettingManager().setServerBaseUrl("http://sol.cell-life.org/stock");
-			ManagerFactory.getSessionManager().authenticated("27768198075", "1234");
+			ManagerFactory.getSessionManager().authenticated("27741486362", "1117");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -221,4 +224,14 @@ public class MainActivity extends Activity {
     	Log.i("MainActivity","onActivityResult resultCode="+resultCode+" requestCode="+requestCode+" scanFrag="+scanFrag.getClass());
     	scanFrag.onActivityResult(requestCode, resultCode, intent);
     }
+    
+    protected void onResume(){
+    	super.onResume();
+    	scanFrag.refresh(scanFrag.getView());
+    }
+    
+    
+    
+    
+    
 }

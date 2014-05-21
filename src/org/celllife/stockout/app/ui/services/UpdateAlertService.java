@@ -7,7 +7,7 @@ import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.ui.activities.MainActivity;
-import org.celllife.stockout.app.ui.fragments.OrderFragment;
+
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -26,10 +26,9 @@ import android.widget.Toast;
 public class UpdateAlertService extends Service {
 	
 	private static final int ALERT_NOTIFICATION_ID = 1;
-	
     private static Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     private static long[] mVibratePattern = { 0, 200, 200, 300 };
-
+    
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -38,7 +37,6 @@ public class UpdateAlertService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-
     	List<Alert> alerts = ManagerFactory.getAlertManager().updateAlerts();
     	Context context = this.getApplicationContext();
     	if (alerts != null && alerts.size() > 0) {
@@ -70,12 +68,9 @@ public class UpdateAlertService extends Service {
 			notificationBuilder.build());
 			Toast.makeText(context, "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText, Toast.LENGTH_LONG).show();
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
-	        
-	        
+           
     	} 
     	
     		return START_STICKY;
 	}
-	
-		
 }
