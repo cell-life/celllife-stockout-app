@@ -50,15 +50,7 @@ public class StepTwoActivity extends Activity {
                         safetyTime = Integer.getInteger(safetyTimeText);
                         //Fixme Not saving Operating time yet
 
-                        PhoneTableAdapter phoneDb;
-                        phoneDb = DatabaseManager.getPhoneTableAdapter();
 
-                        String msisdn = ManagerFactory.getSessionManager().getUsername();
-
-                        Phone p = phoneDb.findByMsisdn(msisdn);
-                        p.setDrugLeadTime(leadTime);
-                        p.setDrugSafetyLevel(safetyTime);
-                        phoneDb.insertOrUpdate(p);
 
                         Intent stepThree = new Intent (StepTwoActivity.this, StepThreeActivity.class);
                         startActivity(stepThree);

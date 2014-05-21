@@ -38,10 +38,7 @@ public class StepOneActivity extends Activity {
             String msisdnText = msisdn.getText().toString();
             String pinText = pin.getText().toString();
 
-            Phone newPhone = GetUserMethod.getUserDetails(msisdnText, pinText);
-            DatabaseManager.getPhoneTableAdapter().insert(newPhone);
-
-            ManagerFactory.getSessionManager().authenticated(msisdnText, pinText);
+            ManagerFactory.getSetupManager().initialise(msisdnText, pinText);
 
             Intent stepTwo = new Intent (StepOneActivity.this, StepTwoActivity.class);
             startActivity(stepTwo);

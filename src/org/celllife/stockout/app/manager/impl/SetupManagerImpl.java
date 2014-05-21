@@ -26,14 +26,14 @@ public class SetupManagerImpl implements SetupManager {
     }
 
     @Override
-    public Phone initialise (String msisdn, String password){
-        SetupManager setupManager = ManagerFactory.getSetupManager();
-        Phone newPhone = GetUserMethod.getUserDetails(msisdn, password);
-        Phone savedPhone = null;
-        if (newPhone != null) {
-            savedPhone = setupManager.save(newPhone);
-         }
-        return savedPhone;
+    public Phone initialise(String msisdn, String password){
+		Phone newPhone = GetUserMethod.getUserDetails(msisdn, password);
+		Phone savedPhone = null;
+		if (newPhone != null) {
+			savedPhone = save(newPhone);
+		}
+		ManagerFactory.getSessionManager().authenticated(msisdn, password);
+		return savedPhone;
     }
 
     @Override
@@ -54,4 +54,17 @@ public class SetupManagerImpl implements SetupManager {
         Log.d("SetupManager", "Phone =" + phone + " Initialised =" + initialised );
         return initialised;
     }
+
+	@Override
+	public Phone setSafetyLevelSettings(Integer leadTime, Integer safetyTime) {
+        String msisdn = ManagerFactory.getSessionManager().getUsername();
+
+        PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
+        Phone p = phoneDb.findByMsisdn(msisdn);
+        p.setDrugLeadTime(leadTime);
+        p.setDrugSafetyLevel(safetyTime);
+        phoneDb.insertOrUpdate(p);
+        
+        return p;
+	}
 }
