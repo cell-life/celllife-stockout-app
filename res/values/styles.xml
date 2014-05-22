@@ -144,6 +144,10 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="edit_text_title_small" parent="edit_text_title">
+        <item name="android:textSize">18dip</item>
+    </style>
+
     <style name="stock_row_top">
         <item name="android:layout_width">180dip</item>
         <item name="android:padding">10sp</item>
