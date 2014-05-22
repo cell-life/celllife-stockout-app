@@ -61,20 +61,22 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/operating_days"/>
-
+        android:text="@string/operating_days"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/operating_days_bot"
         style="@style/edit_text_description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/operating_days_bot"/>
+        android:text="@string/operating_days_bot"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/operating_text"
         style="@style/EditBox.Small"
-        android:inputType="number" />
+        android:inputType="number"
+        android:visibility="gone" />
 
 
     <LinearLayout
