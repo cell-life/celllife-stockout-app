@@ -57,14 +57,11 @@ public class SetupManagerImpl implements SetupManager {
 
 	@Override
 	public Phone setSafetyLevelSettings(Integer leadTime, Integer safetyTime) {
-        String msisdn = ManagerFactory.getSessionManager().getUsername();
-
         PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
-        Phone p = phoneDb.findByMsisdn(msisdn);
+        Phone p = phoneDb.findOne();
         p.setDrugLeadTime(leadTime);
         p.setDrugSafetyLevel(safetyTime);
-        phoneDb.insertOrUpdate(p);
-        
+        phoneDb.insertOrUpdate(p);        
         return p;
 	}
 }

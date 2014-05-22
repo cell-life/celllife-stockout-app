@@ -1,6 +1,9 @@
 package org.celllife.stockout.app.ui.activities;
 
 import org.celllife.stockout.app.R;
+import org.celllife.stockout.app.database.PhoneTableAdapter;
+import org.celllife.stockout.app.domain.Phone;
+import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 
 import android.app.Activity;
@@ -8,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,26 +29,26 @@ public class StepTwoActivity extends Activity {
 		proceedButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				EditText leadtime = (EditText) findViewById(R.id.lead_text);
-				EditText safetytime = (EditText) findViewById(R.id.safety_text);
-				// EditText operatingdays = (EditText)
-				// findViewById(R.id.operating_text);
+				EditText leadTime = (EditText) findViewById(R.id.lead_text);
+				EditText safetyTime = (EditText) findViewById(R.id.safety_text);
+				// EditText operatingDays = (EditText)findViewById(R.id.operating_text);
 
-				String leadTimeText = leadtime.getText().toString();
-				String safetyTimeText = safetytime.getText().toString();
-				// String operatingTimeText =
-				// operatingdays.getText().toString();
-
-				Integer leadTime = null;
-				Integer safetyTime = null;
-				// Integer operatingTime = null;
+				String leadTimeText = leadTime.getText().toString();
+				String safetyTimeText = safetyTime.getText().toString();
+				Log.i("StepTwoActivity", "Got leadTime="+leadTimeText+", safetyTime="+safetyTimeText);
+				// String operatingTimeText = operatingdays.getText().toString();
 
 				try {
-					leadTime = Integer.getInteger(leadTimeText);
-					safetyTime = Integer.getInteger(safetyTimeText);
+					Integer leadTimeInt = Integer.parseInt(leadTimeText);
+					Integer safetyTimeInt = Integer.parseInt(safetyTimeText);
 					// FIXME Not saving Operating time yet
 
-					ManagerFactory.getSetupManager().setSafetyLevelSettings(leadTime, safetyTime);
+					ManagerFactory.getSetupManager().setSafetyLevelSettings(leadTimeInt, safetyTimeInt);
+					Log.i("StepTwoActivity", "Saving leadTime="+leadTimeInt+", safetyTime="+safetyTimeInt);
+					
+					PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
+			        Phone p = phoneDb.findOne();
+					Log.i("StepTwoActivity", "phone="+p);
 
 					Intent stepThree = new Intent(StepTwoActivity.this, StepThreeActivity.class);
 					startActivity(stepThree);
@@ -70,5 +74,4 @@ public class StepTwoActivity extends Activity {
 					}
 				}).show();
 	}
-
 }
