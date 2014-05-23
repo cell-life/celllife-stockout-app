@@ -19,7 +19,6 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +34,6 @@ public class MainActivity extends Activity {
 	private ScanFragment scanFrag;
 
 	private PendingIntent alertAlarmPendingIntent;
-	public static BroadcastReceiver receiver = new AlarmNotificationReceiver();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +44,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
         ManagerFactory.initialise(getApplicationContext());
+        startAlertAlarm();
 		setupManager();
-		startAlertAlarm();
 
 		final ActionBar tabBar = getActionBar();
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
