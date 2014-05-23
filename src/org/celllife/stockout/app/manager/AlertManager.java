@@ -16,16 +16,18 @@ public interface AlertManager {
 	/**
 	 * Adds the specified Alert to the database (cancelling any other Alerts on the same Drug)
 	 * @param alert
+	 * @return new Alert (with id number)
 	 */
-	void addAlert(Alert alert);
+	Alert addAlert(Alert alert);
 
 	/**
 	 * Checks to see if there is an alert already for the specified Drug
 	 * If there is, and more than 24 hours have passed then escalate the Alert (if it is level 1 or 2).
 	 * If there isn't, then create a new level 1 Alert.
 	 * @param drug
+	 * @return Alert generated (and inserted into the DB)
 	 */
-	void escalateAlert(Drug drug);
+	Alert escalateAlert(Drug drug);
 
 	/**
 	 * Cancels any Alert on the specified Drug
@@ -41,6 +43,7 @@ public interface AlertManager {
 
 	/**
 	 * Runs through the calculations and generates phone specific Alerts
+	 * @return List of Alerts generated (they have been inserted into the DB already)
 	 */
-	void generateAlerts();
+	List<Alert> generateAlerts();
 }

@@ -1,5 +1,6 @@
 package org.celllife.stockout.app.ui.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.celllife.stockout.app.R;
@@ -34,7 +35,23 @@ public class UpdateAlertService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-    	List<Alert> alerts = ManagerFactory.getAlertManager().updateAlerts();
+		
+    	// Generate alerts from the phone ADC calculation and generate alerts
+    	// FIXME: allow this to be turned off in the settings
+    	List<Alert> phoneAlerts = ManagerFactory.getAlertManager().generateAlerts();
+		
+		// Get the alerts from the server
+    	List<Alert> serverAlerts = ManagerFactory.getAlertManager().updateAlerts();
+    	
+    	// make a list of the final new alerts
+    	List<Alert> allAlerts = ManagerFactory.getAlertManager().getAlerts();
+    	List<Alert> alerts = new ArrayList<Alert>();
+    	for (Alert a : allAlerts) {
+    		if (phoneAlerts.contains(a) || serverAlerts.contains(a)) {
+    			alerts.add(a);
+    		} // else it is an existing alert, so don't need to notify the user
+    	}
+    	
     	Context context = this.getApplicationContext();
     	if (alerts != null && alerts.size() > 0) {
     		// Define the Notification Intent

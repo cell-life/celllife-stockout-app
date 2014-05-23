@@ -57,31 +57,35 @@ public class CalculationManagerImpl implements CalculationManager {
 		StockTakeTableAdapter stockTakeDb = DatabaseManager.getStockTakeTableAdapter();
 		StockTake lastStockTake = stockTakeDb.findByDrug(drug);
 		
-		StockHistoryTableAdapter stockHistoryDb = DatabaseManager.getStockHistoryTableAdapter();
-		StockHistory stockHistory = stockHistoryDb.findByDrug(drug);
+		if (lastStockTake != null) {
 		
-		// work out the number of days since the last stock take
-		long milliseconds = now.getTime() - lastStockTake.getDate().getTime();
-		int days = (int) Math.round(milliseconds/MILLISECONDS_IN_DAY);
-		Log.d("CalculationManager", "getEstimatedStock for "+drug+" days="+days);
-		
-		// work out how much stock you think you should have used (given adc)
-		int estimatedUsage = (int)days * stockHistory.getAverageDailyConsumption();
-		Log.d("CalculationManager", "getEstimatedStock estimatedUsage="+estimatedUsage);
-
-		// calculate how much stock you currently have
-		int stock = lastStockTake.getQuantity();
-		StockReceivedTableAdapter stockReceivedDb = DatabaseManager.getStockReceivedTableAdapter();
-		List<StockReceived> stockReceived = stockReceivedDb.findByDrug(drug);
-		for (StockReceived sr : stockReceived) {
-			stock = stock + sr.getQuantity();
+			StockHistoryTableAdapter stockHistoryDb = DatabaseManager.getStockHistoryTableAdapter();
+			StockHistory stockHistory = stockHistoryDb.findByDrug(drug);
+			
+			// work out the number of days since the last stock take
+			long milliseconds = now.getTime() - lastStockTake.getDate().getTime();
+			int days = (int) Math.round(milliseconds/MILLISECONDS_IN_DAY);
+			Log.d("CalculationManager", "getEstimatedStock for "+drug+" days="+days);
+			
+			// work out how much stock you think you should have used (given adc)
+			int estimatedUsage = (int)days * stockHistory.getAverageDailyConsumption();
+			Log.d("CalculationManager", "getEstimatedStock estimatedUsage="+estimatedUsage);
+	
+			// calculate how much stock you currently have
+			int stock = lastStockTake.getQuantity();
+			StockReceivedTableAdapter stockReceivedDb = DatabaseManager.getStockReceivedTableAdapter();
+			List<StockReceived> stockReceived = stockReceivedDb.findByDrug(drug);
+			for (StockReceived sr : stockReceived) {
+				stock = stock + sr.getQuantity();
+			}
+			
+			// calculate the estimated stock
+			int estimatedStock = stock - estimatedUsage;
+			Log.d("CalculationManager", "getEstimatedStock estimatedStock="+estimatedStock);
+			return estimatedStock;
 		}
-		
-		// calculate the estimated stock
-		int estimatedStock = stock - estimatedUsage;
-		Log.d("CalculationManager", "getEstimatedStock estimatedStock="+estimatedStock);
 
-		return estimatedStock;
+		return Integer.MAX_VALUE;
 	}
 
 	@Override
