@@ -120,6 +120,8 @@ public class ScanActivity extends Activity {
             return false;
 
         } else {
+        	// FIXME: this should be done in the SetupManager. The database should only
+        	// be accessed from the Managers, not directly from the Activities or Fragments.
             try {
                 Integer avd = Integer.parseInt(avdField.getText().toString());
                 StockHistory stockHistory = new StockHistory(drug, avd);
