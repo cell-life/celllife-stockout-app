@@ -19,7 +19,7 @@ public class StepThreeActivity extends Activity {
 		proceedButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent stepThree2 = new Intent(StepThreeActivity.this, StepThreeActivity2.class);
+				Intent stepThree2 = new Intent(StepThreeActivity.this, MainActivity.class);
 				startActivity(stepThree2);
 			}
 		});
