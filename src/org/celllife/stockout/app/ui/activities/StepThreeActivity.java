@@ -24,12 +24,12 @@ public class StepThreeActivity extends Activity {
 			}
 		});
 
-		cancelButton.setOnClickListener(new View.OnClickListener() {
+/*		cancelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				StepThreeActivity.this.finish();
 			}
-		});
+		});*/
 
 	}
 }
