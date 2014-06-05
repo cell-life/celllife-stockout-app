@@ -44,6 +44,8 @@
     <string name="step_one_note">Note all fields are compulsory in order to make use of the application</string>
     <string name="step_one_tp">Please enter your sims card\'s unique MSISDN number</string>
     <string name="step_one_bot">Please enter the unique 4 digit pin that was given to you</string>
+    <string name="authentication_error">Msisdn or pin is incorrect. Please check and try again, or contact Cell-Life support for assistance.</string>
+    <string name="communication_error">Could not communicate with the Stock App server. Please check that the device has an internet connection.</string>
 
     <string name="proceed">Proceed</string>
     <string name="back">Back</string>

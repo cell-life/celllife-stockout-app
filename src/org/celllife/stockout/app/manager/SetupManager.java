@@ -2,6 +2,8 @@ package org.celllife.stockout.app.manager;
 
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.Phone;
+import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 
 import java.util.List;
 
@@ -31,12 +33,14 @@ public interface SetupManager {
     List<Drug> getDrugList();
 
     /**
-     * Creates the Phone entity in the app database
+     * Authenticates the user and creates the Phone entity in the app database
      * @param msisdn
      * @param password
      * @return Phone, updated entity
+     * @throws RestAuthenticationException if there is a communication error with the server
+     * @throws RestAuthenticationException if there is an authentication error
      */
-    Phone initialise(String msisdn, String password);
+    Phone initialise(String msisdn, String password) throws RestCommunicationException, RestAuthenticationException;
     
     /**
      * Sets the app ADC related settings 

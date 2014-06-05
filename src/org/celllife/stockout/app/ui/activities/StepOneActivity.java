@@ -1,20 +1,19 @@
 package org.celllife.stockout.app.ui.activities;
 
+import org.celllife.stockout.app.R;
+import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
+import org.celllife.stockout.app.manager.ManagerFactory;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.database.PhoneTableAdapter;
-import org.celllife.stockout.app.domain.Phone;
-import org.celllife.stockout.app.integration.rest.GetUserMethod;
-import org.celllife.stockout.app.manager.DatabaseManager;
-import org.celllife.stockout.app.manager.ManagerFactory;
 
 public class StepOneActivity extends Activity {
 
@@ -36,7 +35,21 @@ public class StepOneActivity extends Activity {
 				String msisdnText = msisdn.getText().toString();
 				String pinText = pin.getText().toString();
 
-				ManagerFactory.getSetupManager().initialise(msisdnText, pinText);
+                try {
+                    ManagerFactory.getSetupManager().initialise(msisdnText, pinText);
+
+                    // only if all went fine, then move onto the next step
+                    Intent stepTwo = new Intent(StepOneActivity.this, StepTwoActivity.class);
+                    startActivity(stepTwo);
+
+                } catch (RestAuthenticationException e) {
+                    Log.e("StepOneActivity", "Could not authenticate the user.", e);
+                    displayErrorMessage(R.string.authentication_error);
+
+                } catch (RestCommunicationException e) {
+                    Log.e("StepOneActivity", "Server communication problem while authenticating the user.", e);
+                    displayErrorMessage(R.string.communication_error);
+                }
 
 				Intent stepTwo = new Intent(StepOneActivity.this, StepTwoActivity.class);
 				startActivity(stepTwo);
@@ -52,4 +65,12 @@ public class StepOneActivity extends Activity {
 
 	}
 
+    private void displayErrorMessage(int errorMessage) {
+        new AlertDialog.Builder(this).setMessage(errorMessage)
+                .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).show();
+    }
 }

@@ -6,6 +6,8 @@ import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.integration.rest.GetUserMethod;
+import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.SetupManager;
@@ -26,7 +28,7 @@ public class SetupManagerImpl implements SetupManager {
     }
 
     @Override
-    public Phone initialise(String msisdn, String password){
+    public Phone initialise(String msisdn, String password) throws RestCommunicationException, RestAuthenticationException {
 		Phone newPhone = GetUserMethod.getUserDetails(msisdn, password);
 		Phone savedPhone = null;
 		if (newPhone != null) {
