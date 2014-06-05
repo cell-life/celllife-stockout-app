@@ -20,6 +20,8 @@ public class StepThreeActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				Intent stepThree2 = new Intent(StepThreeActivity.this, MainActivity.class);
+				stepThree2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+				stepThree2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(stepThree2);
 			}
 		});
