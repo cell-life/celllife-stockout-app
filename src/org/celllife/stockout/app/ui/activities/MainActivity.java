@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.Calendar;
 
 import org.celllife.stockout.app.R;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.SetupManager;
 import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
@@ -16,10 +17,12 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -166,10 +169,17 @@ public class MainActivity extends Activity {
 			Toast.makeText(this, R.string.hello, Toast.LENGTH_LONG).show();
 			return true;
 		case R.id.action_sync:
-			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show(); 
-			ManagerFactory.getStockTakeManager().synch();
-			ManagerFactory.getAlertManager().updateAlerts();
-			scanFrag.refresh(scanFrag.getView());
+			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show();
+			try {
+    			ManagerFactory.getStockTakeManager().synch();
+    			ManagerFactory.getAlertManager().updateAlerts();
+    			scanFrag.refresh(scanFrag.getView());
+			} catch (RestCommunicationException e) {
+			    Log.e("MainActivity", "Communication error while trying to synch stock and alerts", e);
+			    String errorMessage = this.getApplicationContext().getString(R.string.communication_error) 
+			            + " Error: " + e.getMessage();
+			    displayErrorMessage(errorMessage);
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -203,9 +213,18 @@ public class MainActivity extends Activity {
     	Log.i("MainActivity","onActivityResult resultCode="+resultCode+" requestCode="+requestCode+" scanFrag="+scanFrag.getClass());
     	scanFrag.onActivityResult(requestCode, resultCode, intent);
     }
-    
+
     protected void onResume(){
     	super.onResume();
     	scanFrag.refresh(scanFrag.getView());
+    }
+
+    private void displayErrorMessage(String errorMessage) {
+        new AlertDialog.Builder(this).setMessage(errorMessage)
+                .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).show();
     }
 }
