@@ -1,10 +1,5 @@
 package org.celllife.stockout.app.manager.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-
 import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.integration.rest.GetUserMethod;
@@ -20,9 +15,9 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 	@Override
 	public boolean authenticate(String username, String password) {
 		// get the user cached in the app database
-		Phone currentUser = getCachedPhoneDetails();
+		Phone currentUser = getPhone();
 		Log.d("AuthenticationManager", "AM: found cache currentUser="+currentUser);
-		if (currentUser == null || currentUser.getEncryptedPassword() == null || currentUser.getSalt() == null) {
+		if (currentUser == null || currentUser.getPassword() == null) {
 			// retrieve the user details from the server (and cache the details in the database)
 			try {
 				currentUser = getUserDetailsFromServer(currentUser, username, password);
@@ -36,7 +31,7 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 			}
 			Log.d("AuthenticationManager", "AM: found server currentUser="+currentUser);
 		}
-		if (currentUser.getEncryptedPassword() != null && currentUser.getSalt() != null) {
+		if (currentUser.getPassword() != null) {
 			// check if the encrypted passwords match
 			boolean isValid = isValidUserPassword(currentUser, password);
 			if (!isValid) {
@@ -55,22 +50,12 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 			Log.d("AuthenticationManager", "AM: isValid="+isValid);
 			return isValid;
 		} else {
-			// if we still don't know the encrypted password & salt at this stage, just deny access
+			// if we still don't know the password, just deny access
 			// this shouldn't really happen due handling of communication exceptions above.
 			// it could be that the hash + salt are null on the server (?)
 			Log.d("AuthenticationManager", "AM: invalid password");
 			return false;
 		}
-	}
-	
-	private Phone getCachedPhoneDetails() {
-		PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
-		List<Phone> phones = phoneDb.findAll();
-		// assumption is that there is only ever 1 phone created in the database.
-		if (phones.size() > 0) {
-			return phones.get(0);
-		}
-		return null;
 	}
 	
 	private Phone getUserDetailsFromServer(Phone existingDetails, String username, String password) 
@@ -83,8 +68,7 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 		Phone newUserDetails = GetUserMethod.getUserDetails(username, password);
 		// merge details
 		if (newUserDetails != null) {
-			userDetails.setEncryptedPassword(newUserDetails.getEncryptedPassword());
-			userDetails.setSalt(newUserDetails.getSalt());
+			userDetails.setPassword(newUserDetails.getPassword());
 			userDetails.setClinicCode(newUserDetails.getClinicCode());
 			userDetails.setClinicName(newUserDetails.getClinicName());
 			DatabaseManager.getPhoneTableAdapter().insertOrUpdate(userDetails);
@@ -96,45 +80,7 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 	}
 
 	private Boolean isValidUserPassword(Phone user, String password) {
-		String encryptedPassword = user.getEncryptedPassword();
-		String salt = user.getSalt();
-
-		try {
-			String hashedPassword = encodeString(password + salt);
-			if (hashedPassword.equals(encryptedPassword)) {
-				return true;
-			}
-		} catch (NoSuchAlgorithmException e) {
-			Log.e("AuthenticationManager", "Could not encode the password. It will be marked as invalid. Error:"+e.getMessage(), e);
-		} catch (UnsupportedEncodingException e) {
-			Log.e("AuthenticationManager", "Could not encode the password. It will be marked as invalid. Error:"+e.getMessage(), e);
-		}
-		return false;
-	}
-
-	// copied from the server: FIXME: look into a shared library before editing this
-	private static String encodeString(String strToEncode) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		String algorithm = "SHA-256";
-		MessageDigest md = MessageDigest.getInstance(algorithm);
-		byte[] input = strToEncode.getBytes("UTF-8");
-		return hexString(md.digest(input));	
-	}
-
-	// copied from the server: FIXME: look into a shared library before editing this
-	private static String hexString(byte[] b) {
-		StringBuffer buf = new StringBuffer();
-		char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-		int len = b.length;
-		int high = 0;
-		int low = 0;
-		for (int i = 0; i < len; i++) {
-			high = ((b[i] & 0xf0) >> 4);
-			low = (b[i] & 0x0f);
-			buf.append(hexChars[high]);
-			buf.append(hexChars[low]);
-		}
-
-		return buf.toString();
+	    return (user.getPassword().equals(password));
 	}
 
 	@Override

@@ -2,13 +2,13 @@ package org.celllife.stockout.app.integration.rest;
 
 import java.text.SimpleDateFormat;
 
+import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
 import org.celllife.stockout.app.integration.rest.framework.RestClientRunner;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.integration.rest.framework.RestResponse;
 import org.celllife.stockout.app.manager.ManagerFactory;
-import org.celllife.stockout.app.manager.SessionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,11 +24,19 @@ public class PostStockReceivedMethod {
 			RestAuthenticationException {
 
 		// setup method + RestClient
-		SessionManager sessionMgr = ManagerFactory.getSessionManager();
-		String username = sessionMgr.getUsername();
-		String password = sessionMgr.getPassword();
+        Phone phone = ManagerFactory.getAuthenticationManager().getPhone();
+        if (phone == null) {
+            return false;
+        }
+        String username = phone.getMsisdn();
+        String password = phone.getPassword();
 		RestClientRunner restClientRunner = new RestClientRunner(username, password);
-		String url = ManagerFactory.getSettingManager().getServerBaseUrl() + "service/stocks/stockarrival";
+
+		String url = ManagerFactory.getSettingManager().getServerBaseUrl();
+        if (!url.endsWith("/")) {
+            url = url + "/"; 
+        }
+        url = url + "service/stocks/stockarrival";
 
 		// NOTE: expected JSON payload below
 		//{

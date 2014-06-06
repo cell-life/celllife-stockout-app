@@ -26,7 +26,7 @@ public class PhoneTableAdapterTest extends AndroidTestCase {
     }
 
     public void testAddEntryAndFindByMsisdn(){
-    	Phone p = new Phone("27768198075", "sdffffffffffffff", "1234", "0000", "Demo Clinic 1");
+    	Phone p = new Phone("27768198075", "1234", "0000", "Demo Clinic 1");
     	phoneDb.insert(p);
     	Phone p2 = phoneDb.findByMsisdn("27768198075");
     	Assert.assertNotNull(p2);
@@ -34,7 +34,7 @@ public class PhoneTableAdapterTest extends AndroidTestCase {
     }
 
     public void testFindById(){
-    	Phone p = new Phone("27768198076", "sdffffffffffffff", "1234", "0000", "Demo Clinic 1");
+    	Phone p = new Phone("27768198076", "1234", "0000", "Demo Clinic 1");
     	phoneDb.insert(p);
     	Phone p2 = phoneDb.findById(1l);
     	Assert.assertNotNull(p2);

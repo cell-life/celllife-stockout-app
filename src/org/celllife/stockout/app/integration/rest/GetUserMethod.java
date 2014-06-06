@@ -19,7 +19,11 @@ public class GetUserMethod {
 
 	public static Phone getUserDetails(String username, String password) throws RestCommunicationException, RestAuthenticationException {
 		RestClientRunner restClientRunner = new RestClientRunner(username, password);
-		String url = ManagerFactory.getSettingManager().getServerBaseUrl() + "service/users?msisdn="+username;
+		String url = ManagerFactory.getSettingManager().getServerBaseUrl();
+        if (!url.endsWith("/")) {
+            url = url + "/"; 
+        }
+        url = url + "service/users?msisdn="+username;
 
 		Phone userDetails = new Phone();
 		userDetails.setMsisdn(username);
@@ -28,8 +32,7 @@ public class GetUserMethod {
 			try {
 				JSONObject user;
 				user = new JSONObject(response.getData());
-				userDetails.setEncryptedPassword(user.getString("encryptedPassword"));
-				userDetails.setSalt(user.getString("salt"));
+				userDetails.setPassword(password);
 				userDetails.setClinicCode(user.getString("clinicCode"));
 				userDetails.setClinicName(user.getString("clinicName"));
 			} catch (JSONException e) {

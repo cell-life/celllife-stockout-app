@@ -13,9 +13,7 @@ public class Phone implements Entity {
 	
 	private String msisdn;
 	
-	private String encryptedPassword;
-	
-	private String salt;
+	private String password;
 	
 	private String clinicCode;
 	
@@ -29,11 +27,16 @@ public class Phone implements Entity {
 		
 	}
 
-	public Phone(String msisdn, String encryptedPassword, String salt, String clinicCode, String clinicName) {
+   public Phone(String msisdn, String password) {
+        super();
+        this.msisdn = msisdn;
+        this.password = password;
+    }
+
+	public Phone(String msisdn, String password, String clinicCode, String clinicName) {
 		super();
 		this.msisdn = msisdn;
-		this.encryptedPassword = encryptedPassword;
-		this.salt = salt;
+		this.password = password;
 		this.clinicCode = clinicCode;
 		this.clinicName = clinicName;
 	}
@@ -54,23 +57,15 @@ public class Phone implements Entity {
 		this.msisdn = msisdn;
 	}
 
-	public String getEncryptedPassword() {
-		return encryptedPassword;
-	}
+	public String getPassword() {
+        return password;
+    }
 
-	public void setEncryptedPassword(String encryptedPassword) {
-		this.encryptedPassword = encryptedPassword;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
-	public String getClinicCode() {
+    public String getClinicCode() {
 		return clinicCode;
 	}
 
@@ -133,10 +128,11 @@ public class Phone implements Entity {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Phone [id=" + id + ", msisdn=" + msisdn + ", encryptedPassword=" + encryptedPassword + ", salt=" + salt
-				+ ", clinicCode=" + clinicCode + ", clinicName=" + clinicName + ", drugLeadTime=" + drugLeadTime
-				+ ", drugSafetyLevel=" + drugSafetyLevel + "]";
-	}
+    @Override
+    public String toString() {
+        return "Phone [id=" + id + ", msisdn=" + msisdn + ", password=" + password + ", clinicCode=" + clinicCode
+                + ", clinicName=" + clinicName + ", drugLeadTime=" + drugLeadTime + ", drugSafetyLevel="
+                + drugSafetyLevel + "]";
+    }
+
 }

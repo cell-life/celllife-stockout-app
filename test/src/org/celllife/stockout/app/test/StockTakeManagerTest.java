@@ -6,6 +6,7 @@ import junit.framework.Assert;
 
 import org.celllife.stockout.app.database.DrugTableAdapter;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
@@ -19,7 +20,9 @@ public class StockTakeManagerTest extends AndroidTestCase {
     public void setUp(){
         RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "test_");
         ManagerFactory.initialise(context);
-        ManagerFactory.getSessionManager().authenticated("27768198075", "1234");
+        Phone p = new Phone("27768198075", "1234");
+        p.setId(1l); // ensure that we don't insert a new record
+        DatabaseManager.getPhoneTableAdapter().insertOrUpdate(p);
     }
 
     public void testSendAStockTake() {
@@ -29,6 +32,9 @@ public class StockTakeManagerTest extends AndroidTestCase {
     	stockTake.setQuantity(1);
     	stockTake.setDate(new Date());
     	stockTake.setSubmitted(false);
+    	Phone p = DatabaseManager.getPhoneTableAdapter().findOne();
+    	Assert.assertEquals("27768198075", p.getMsisdn());
+    	Assert.assertEquals("1234", p.getPassword());
     	stockTakeManager.newStockTake(stockTake);
     	Assert.assertTrue(stockTake.getSubmitted());
     }

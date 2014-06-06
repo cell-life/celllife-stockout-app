@@ -7,12 +7,12 @@ import java.util.List;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.AlertStatus;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
 import org.celllife.stockout.app.integration.rest.framework.RestClientRunner;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.integration.rest.framework.RestResponse;
 import org.celllife.stockout.app.manager.ManagerFactory;
-import org.celllife.stockout.app.manager.SessionManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,14 +25,23 @@ import android.util.Log;
 public class GetAlertMethod {
 
 	public static List<Alert> getLatestAlerts() throws RestCommunicationException, RestAuthenticationException {
-		SessionManager sessionMgr = ManagerFactory.getSessionManager();
-		String username = sessionMgr.getUsername();
-		String password = sessionMgr.getPassword();
+	    List<Alert> latestAlerts = new ArrayList<Alert>();
+
+	    Phone phone = ManagerFactory.getAuthenticationManager().getPhone();
+	    if (phone == null) {
+	        return latestAlerts;
+	    }
+		String username = phone.getMsisdn();
+		String password = phone.getPassword();
 		RestClientRunner restClientRunner = new RestClientRunner(username, password);
-		String url = ManagerFactory.getSettingManager().getServerBaseUrl() + "service/alerts?msisdn="+username;
+
+		String url = ManagerFactory.getSettingManager().getServerBaseUrl();
+		if (!url.endsWith("/")) {
+		    url = url + "/"; 
+		}
+		url = url + "service/alerts?msisdn="+username;
 
 		// FIXME: we need to confirm that we have received these alerts in order to properly mark them as sent
-		List<Alert> latestAlerts = new ArrayList<Alert>();
 		RestResponse response = restClientRunner.doGet(url);
 		if (response.getData() != null) {
 			try {

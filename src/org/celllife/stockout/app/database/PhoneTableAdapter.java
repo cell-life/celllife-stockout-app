@@ -22,8 +22,7 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 	// Phone Table Column Names
 	private static final String ID = "id";
 	private static final String MSISDN = "msisdn";
-	private static final String ENCRYPTED_PASSWORD = "encrypted_password";
-	private static final String SALT = "salt";
+	private static final String PASSWORD = "password";
 	private static final String CLINIC_CODE = "clinic_code";
 	private static final String CLINIC_NAME = "clinic_name";
 	private static final String DRUG_LEAD_TIME = "drug_lead_time";
@@ -36,8 +35,7 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 			"CREATE TABLE " + TABLE_PHONE +" ("
 			+ ID + " INTEGER PRIMARY KEY, " 
 			+ MSISDN + " TEXT, "
-			+ ENCRYPTED_PASSWORD + " TEXT, " 
-			+ SALT + " TEXT, "
+			+ PASSWORD + " TEXT, " 
 			+ CLINIC_CODE + " TEXT, "
 			+ CLINIC_NAME + " TEXT, "
 			+ DRUG_LEAD_TIME + " INTEGER, "
@@ -67,8 +65,7 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 	protected ContentValues createContentValues(Phone phone) {
 		ContentValues values = new ContentValues();
 		values.put(MSISDN, phone.getMsisdn());
-		values.put(ENCRYPTED_PASSWORD, phone.getEncryptedPassword());
-		values.put(SALT, phone.getSalt());
+		values.put(PASSWORD, phone.getPassword());
 		values.put(CLINIC_CODE, phone.getClinicCode());
 		values.put(CLINIC_NAME, phone.getClinicName());
 		values.put(DRUG_LEAD_TIME, phone.getDrugLeadTime());
@@ -82,8 +79,7 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 		    Phone p = new Phone();
 		    p.setId(c.getLong(c.getColumnIndex(ID)));
 		    p.setMsisdn((c.getString(c.getColumnIndex(MSISDN))));
-		    p.setEncryptedPassword(c.getString(c.getColumnIndex(ENCRYPTED_PASSWORD)));
-		    p.setSalt(c.getString(c.getColumnIndex(SALT)));
+		    p.setPassword(c.getString(c.getColumnIndex(PASSWORD)));
 		    p.setClinicCode(c.getString(c.getColumnIndex(CLINIC_CODE)));
 		    p.setClinicName(c.getString(c.getColumnIndex(CLINIC_NAME)));
 		    p.setDrugLeadTime(c.getInt(c.getColumnIndex(DRUG_LEAD_TIME)));
