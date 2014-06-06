@@ -1,19 +1,12 @@
 package org.celllife.stockout.app.ui.services;
 
-import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.ManagerFactory;
-import org.celllife.stockout.app.ui.activities.MainActivity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.IBinder;
+import android.util.Log;
 
 /**
  * This handles the background sending of stocks. If an error occurs, then a notification is displayed
@@ -21,10 +14,10 @@ import android.os.IBinder;
  */
 public class SendStockService extends Service {
 	
-	private static final int STOCK_NOTIFICATION_ID = 2;
+	//private static final int STOCK_NOTIFICATION_ID = 2;
 	
-    private static Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-    private static long[] mVibratePattern = { 0, 200, 200, 300 };
+    //private static Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    //private static long[] mVibratePattern = { 0, 200, 200, 300 };
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -38,6 +31,15 @@ public class SendStockService extends Service {
 		try {
 			ManagerFactory.getStockTakeManager().synch();
 		} catch (RestCommunicationException e) {
+		    // leave this off for now because it is generating a lot of alerts...
+		    Log.e("SendStockService", "Communication error while trying to synch stock", e);
+
+		    // See: http://stackoverflow.com/questions/12865337/repeating-notifications-on-android-4
+		    // we should take note of the date/time when the last notification was sent, and 
+		    // ensure we only send 1 notification a day (instead of a notification each time the
+		    // synch fails....
+
+		    /*
 			// notify the user that the stock synch was not successful
 			Context context = this.getApplicationContext();
 			Intent mainActivityIntent = new Intent(context, MainActivity.class);
@@ -55,13 +57,14 @@ public class SendStockService extends Service {
 			// display the notifications
 			Notification.Builder notificationBuilder = new Notification.Builder(
 					context).setTicker(tickerText)
-					.setSmallIcon(android.R.drawable.stat_sys_warning)
+					.setSmallIcon(R.drawable.ic_alert_icon)
 					.setAutoCancel(true).setContentTitle(contentTitle)
 					.setContentText(contentText).setContentIntent(mainActivityPendingIntent)
 					.setSound(soundUri).setVibrate(mVibratePattern);
 			NotificationManager mNotificationManager = (NotificationManager) context
 					.getSystemService(Context.NOTIFICATION_SERVICE);
 			mNotificationManager.notify(STOCK_NOTIFICATION_ID, notificationBuilder.build());
+			*/
 		}
     	
     	return START_STICKY;
