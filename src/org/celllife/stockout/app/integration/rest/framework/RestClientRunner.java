@@ -63,7 +63,7 @@ public class RestClientRunner {
 					throw new RestAuthenticationException("Invalid username or password.");
 				} else {
 					throw new RestCommunicationException("Error while communicating with the server " + url 
-					+ ". Error: " + restResponse.getErrorMessage());
+					+ ". Error: " + restResponse.getCode());
 				}
 			}
 			Log.d("RestClientRunner", "Finishing POST REST call with response: "+restResponse);
