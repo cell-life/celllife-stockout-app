@@ -50,9 +50,6 @@ public class StepOneActivity extends Activity {
                     Log.e("StepOneActivity", "Server communication problem while authenticating the user.", e);
                     displayErrorMessage(R.string.communication_error);
                 }
-
-				Intent stepTwo = new Intent(StepOneActivity.this, StepTwoActivity.class);
-				startActivity(stepTwo);
 			}
 		});
 
