@@ -9,6 +9,7 @@ import org.celllife.stockout.app.manager.impl.SetupManagerImpl;
 import org.celllife.stockout.app.manager.impl.StockTakeManagerImpl;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * This class is used to retrieve instances of the various Managers. It handles
@@ -27,6 +28,7 @@ public class ManagerFactory {
     private static SetupManager setupManager;
 	
 	public static void initialise(Context context) {
+	    Log.d("ManagerFactory", "Initalise with application context.");
 		ManagerFactory.context = context;
 		DatabaseManager.initialise(context);
 	}
