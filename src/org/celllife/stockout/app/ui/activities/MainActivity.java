@@ -176,9 +176,7 @@ public class MainActivity extends Activity {
     			scanFrag.refresh(scanFrag.getView());
 			} catch (RestCommunicationException e) {
 			    Log.e("MainActivity", "Communication error while trying to synch stock and alerts", e);
-			    String errorMessage = this.getApplicationContext().getString(R.string.communication_error) 
-			            + " Error: " + e.getMessage();
-			    displayErrorMessage(errorMessage);
+			    displayErrorMessage(e.getMessage());
 			}
 			return true;
 		default:
