@@ -46,11 +46,9 @@ public class RestClientTest extends AndroidTestCase {
 		Assert.assertNotNull(response.getCode());
 		Assert.assertEquals(200, response.getCode());
 		Assert.assertNotNull(response.getData());
-		Assert.assertEquals(
-				"{\"id\":1,\"msisdn\":\"27768198075\",\"encryptedPassword\":\"80c7fe24f5bf1a37fa46d80f3cc55e7fc6d528a14e905f5a71748aef072412e8\"" +
-				",\"password\":null,\"salt\":\"e7701b0a3f344e53a965911e3912c0330b195162c91a1917cf051b78b1b8de29\"" +
-				",\"clinicCode\":\"0000\",\"clinicName\":\"Demo Clinic 1\"}",
-				response.getData());
+		Assert.assertTrue(response.getData().contains("\"msisdn\":\"27768198075\""));
+		Assert.assertTrue(response.getData().contains("\"clinicCode\":\"0000\""));
+		Assert.assertTrue(response.getData().contains("\"clinicName\":\"Demo Clinic 1\""));
 	}
 
 	/*public void testPost() throws MalformedURLException {
