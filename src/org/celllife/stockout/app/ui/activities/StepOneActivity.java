@@ -44,11 +44,19 @@ public class StepOneActivity extends Activity {
 
                 } catch (RestAuthenticationException e) {
                     Log.e("StepOneActivity", "Could not authenticate the user.", e);
-                    displayErrorMessage(R.string.authentication_error);
+                    String errorMessage = getApplicationContext().getString(R.string.authentication_error);
+                    if (e.getResponse() != null) {
+                        errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                    }
+                    displayErrorMessage(errorMessage);
 
                 } catch (RestCommunicationException e) {
                     Log.e("StepOneActivity", "Server communication problem while authenticating the user.", e);
-                    displayErrorMessage(R.string.communication_error);
+                    String errorMessage = getApplicationContext().getString(R.string.communication_error);
+                    if (e.getResponse() != null) {
+                        errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                    }
+                    displayErrorMessage(errorMessage);
                 }
 			}
 		});
@@ -62,7 +70,7 @@ public class StepOneActivity extends Activity {
 
 	}
 
-    private void displayErrorMessage(int errorMessage) {
+    private void displayErrorMessage(String errorMessage) {
         new AlertDialog.Builder(this).setMessage(errorMessage)
                 .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

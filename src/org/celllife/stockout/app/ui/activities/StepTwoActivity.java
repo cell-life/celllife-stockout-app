@@ -49,7 +49,7 @@ public class StepTwoActivity extends Activity {
 				} catch (NumberFormatException e) {
 					displayErrorMessage(getApplicationContext().getString(R.string.number_error));
 				} catch (RestCommunicationException e) {
-                    Log.e("StepOneActivity", "Server communication problem while authenticating the user.", e);
+                    Log.e("StepTwoActivity", "Server communication problem while activating the user.", e);
                     String errorMessage = getApplicationContext().getString(R.string.communication_error);
                     if (e.getResponse() != null) {
                         errorMessage = errorMessage + " Error: " + e.getResponse().getCode();

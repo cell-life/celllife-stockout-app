@@ -34,7 +34,7 @@ public class RestResponse implements Serializable {
 	}
 
 	/**
-	 * HTTP error code (e.g. 404, 200, 500)
+	 * HTTP error code (e.g. 404, 200, 500, 503)
 	 * @return
 	 */
 	public int getCode() {

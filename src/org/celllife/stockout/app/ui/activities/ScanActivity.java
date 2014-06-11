@@ -14,7 +14,6 @@ import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.StockTakeManager;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
-import org.w3c.dom.Text;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,8 +25,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class ScanActivity extends Activity {
@@ -131,10 +128,18 @@ public class ScanActivity extends Activity {
                 displayQuantityErrorMessage(R.string.scan_quantity_number_error);
                 return false;
             } catch (RestAuthenticationException e) {
-                displayErrorMessage(e.getMessage());
+                String errorMessage = getApplicationContext().getString(R.string.authentication_error);
+                if (e.getResponse() != null) {
+                    errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                }
+                displayErrorMessage(errorMessage);
                 return false;
             } catch (RestCommunicationException e) {
-                displayErrorMessage(e.getMessage());
+                String errorMessage = getApplicationContext().getString(R.string.communication_error);
+                if (e.getResponse() != null) {
+                    errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                }
+                displayErrorMessage(errorMessage);
                 return false;
             }
         }
@@ -162,10 +167,18 @@ public class ScanActivity extends Activity {
 				displayQuantityErrorMessage(R.string.scan_quantity_number_error);
 				return false;
 			} catch (RestAuthenticationException e) {
-				displayErrorMessage(e.getMessage());
+			    String errorMessage = getApplicationContext().getString(R.string.authentication_error);
+                if (e.getResponse() != null) {
+                    errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                }
+                displayErrorMessage(errorMessage);
 				return false;
 			} catch (RestCommunicationException e) {
-				displayErrorMessage(e.getMessage());
+			    String errorMessage = getApplicationContext().getString(R.string.communication_error);
+                if (e.getResponse() != null) {
+                    errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                }
+                displayErrorMessage(errorMessage);
 				return false;
 			}
 		}
@@ -206,10 +219,18 @@ public class ScanActivity extends Activity {
 				displayQuantityErrorMessage(R.string.scan_quantity_number_error);
 				return false;
 			} catch (RestAuthenticationException e) {
-				displayErrorMessage(e.getMessage());
+                String errorMessage = getApplicationContext().getString(R.string.authentication_error);
+                if (e.getResponse() != null) {
+                    errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                }
+                displayErrorMessage(errorMessage);
 				return false;
 			} catch (RestCommunicationException e) {
-				displayErrorMessage(e.getMessage());
+                String errorMessage = getApplicationContext().getString(R.string.communication_error);
+                if (e.getResponse() != null) {
+                    errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                }
+                displayErrorMessage(errorMessage);
 				return false;
 			}
 		}

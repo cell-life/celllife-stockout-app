@@ -64,7 +64,7 @@ public class RestClientImpl implements RestClient {
 
 		} catch (IOException e) {
 			Log.e("RestClient", "Error while trying to connect to " + url.toString(), e);
-			response = new RestResponse(500);
+			response = new RestResponse(503);
 			response.setErrorMessage(e.getMessage());
 		}
 
@@ -94,7 +94,7 @@ public class RestClientImpl implements RestClient {
 
 		} catch (IOException e) {
 			Log.e("RestClient", "Error while trying to connect to " + url.toString(), e);
-			response = new RestResponse(500);
+			response = new RestResponse(503);
 			response.setErrorMessage(e.getMessage());
 		}
 		return response;

@@ -41,7 +41,7 @@ public class GetUserMethod {
 			}
 		} else {
 			Log.w("AuthenticationManager", "Did not get any response");
-			throw new RestCommunicationException("Error because there was no response from the server on " + url);
+			throw new RestCommunicationException("Error because there was no response from the server on " + url, response);
 		}
 		return userDetails;		
 	}
