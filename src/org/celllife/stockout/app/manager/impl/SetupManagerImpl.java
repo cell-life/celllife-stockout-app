@@ -6,6 +6,7 @@ import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.domain.Phone;
 import org.celllife.stockout.app.integration.rest.GetUserMethod;
+import org.celllife.stockout.app.integration.rest.PostActivateClinicMethod;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.DatabaseManager;
@@ -39,6 +40,16 @@ public class SetupManagerImpl implements SetupManager {
     }
 
     @Override
+    public boolean isActivated() {
+        PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
+        Phone p = phoneDb.findOne();
+        if (p != null && p.isActivated()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<Drug> getDrugList() {
         return DatabaseManager.getDrugTableAdapter().findAll();
     }
@@ -58,12 +69,20 @@ public class SetupManagerImpl implements SetupManager {
     }
 
 	@Override
-	public Phone setSafetyLevelSettings(Integer leadTime, Integer safetyTime) {
+	public Phone setSafetyLevelSettings(Integer leadTime, Integer safetyTime) throws RestCommunicationException {
         PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
+
         Phone p = phoneDb.findOne();
         p.setDrugLeadTime(leadTime);
         p.setDrugSafetyLevel(safetyTime);
-        phoneDb.insertOrUpdate(p);        
+        p.setActivated(false);
+        try {
+            PostActivateClinicMethod.activateClinic(p);
+            p.setActivated(true);
+        } finally {
+            phoneDb.insertOrUpdate(p);
+        }
+        
         return p;
 	}
 }

@@ -8,6 +8,8 @@ package org.celllife.stockout.app.integration.rest.framework;
 public class RestCommunicationException extends RuntimeException {
 
 	private static final long serialVersionUID = -759288549946383037L;
+	
+    private RestResponse response;
 
 	public RestCommunicationException() {
 		super();
@@ -21,7 +23,21 @@ public class RestCommunicationException extends RuntimeException {
 		super(detailMessage);
 	}
 
-	public RestCommunicationException(Throwable throwable) {
-		super(throwable);
-	}
+    public RestCommunicationException(String detailMessage, Throwable throwable, RestResponse response) {
+        super(detailMessage, throwable);
+        this.response = response; 
+    }
+
+    public RestCommunicationException(String detailMessage, RestResponse response) {
+        super(detailMessage);
+        this.response = response;
+    }
+
+    public RestResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(RestResponse response) {
+        this.response = response;
+    }
 }

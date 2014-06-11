@@ -1,9 +1,7 @@
 package org.celllife.stockout.app.ui.activities;
 
 import org.celllife.stockout.app.R;
-import org.celllife.stockout.app.database.PhoneTableAdapter;
-import org.celllife.stockout.app.domain.Phone;
-import org.celllife.stockout.app.manager.DatabaseManager;
+import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.ManagerFactory;
 
 import android.app.Activity;
@@ -43,18 +41,21 @@ public class StepTwoActivity extends Activity {
 					Integer safetyTimeInt = Integer.parseInt(safetyTimeText);
 					// FIXME Not saving Operating time yet
 
-					ManagerFactory.getSetupManager().setSafetyLevelSettings(leadTimeInt, safetyTimeInt);
-					Log.i("StepTwoActivity", "Saving leadTime="+leadTimeInt+", safetyTime="+safetyTimeInt);
-					
-					PhoneTableAdapter phoneDb = DatabaseManager.getPhoneTableAdapter();
-			        Phone p = phoneDb.findOne();
-					Log.i("StepTwoActivity", "phone="+p);
+				    ManagerFactory.getSetupManager().setSafetyLevelSettings(leadTimeInt, safetyTimeInt);
+				    Log.i("StepTwoActivity", "Saving leadTime="+leadTimeInt+", safetyTime="+safetyTimeInt);
 
 					Intent stepThree = new Intent(StepTwoActivity.this, StepThreeActivity.class);
 					startActivity(stepThree);
 				} catch (NumberFormatException e) {
-					displayErrorMessage();
-				}
+					displayErrorMessage(getApplicationContext().getString(R.string.number_error));
+				} catch (RestCommunicationException e) {
+                    Log.e("StepOneActivity", "Server communication problem while authenticating the user.", e);
+                    String errorMessage = getApplicationContext().getString(R.string.communication_error);
+                    if (e.getResponse() != null) {
+                        errorMessage = errorMessage + " Error: " + e.getResponse().getCode();
+                    }
+                    displayErrorMessage(errorMessage);
+                }
 			}
 		});
 
@@ -66,8 +67,8 @@ public class StepTwoActivity extends Activity {
 		});
 	}
 
-	private void displayErrorMessage() {
-		new AlertDialog.Builder(this).setMessage(R.string.number_error)
+	private void displayErrorMessage(String errorMessage) {
+		new AlertDialog.Builder(this).setMessage(errorMessage)
 				.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();

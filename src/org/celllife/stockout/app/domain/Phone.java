@@ -22,15 +22,18 @@ public class Phone implements Entity {
 	private Integer drugLeadTime;
 	
 	private Integer drugSafetyLevel;
+
+	private Boolean activated;
 	
 	public Phone() {
-		
+	    this.activated = Boolean.FALSE;
 	}
 
    public Phone(String msisdn, String password) {
         super();
         this.msisdn = msisdn;
         this.password = password;
+        this.activated = Boolean.FALSE;
     }
 
 	public Phone(String msisdn, String password, String clinicCode, String clinicName) {
@@ -39,6 +42,7 @@ public class Phone implements Entity {
 		this.password = password;
 		this.clinicCode = clinicCode;
 		this.clinicName = clinicName;
+		this.activated = Boolean.FALSE;
 	}
 
 	public Long getId() {
@@ -97,7 +101,19 @@ public class Phone implements Entity {
 		this.drugSafetyLevel = drugSafetyLevel;
 	}
 
-	@Override
+    public Boolean isActivated() {
+        return activated;
+    }
+
+	public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -132,7 +148,7 @@ public class Phone implements Entity {
     public String toString() {
         return "Phone [id=" + id + ", msisdn=" + msisdn + ", password=" + password + ", clinicCode=" + clinicCode
                 + ", clinicName=" + clinicName + ", drugLeadTime=" + drugLeadTime + ", drugSafetyLevel="
-                + drugSafetyLevel + "]";
+                + drugSafetyLevel + ", activated=" + activated + "]";
     }
 
 }

@@ -100,6 +100,10 @@ public class MainActivity extends Activity {
     		// run the SetupActivity
             Intent intent = new Intent (MainActivity.this, SetupActivity.class);
             startActivity(intent);
+        } else if (!setupManager.isActivated()) {
+            // run the SetupActivity step 2
+            Intent intent = new Intent (MainActivity.this, StepTwoActivity.class);
+            startActivity(intent);
         }
     }
 

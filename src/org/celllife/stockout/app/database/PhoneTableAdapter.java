@@ -27,6 +27,7 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 	private static final String CLINIC_NAME = "clinic_name";
 	private static final String DRUG_LEAD_TIME = "drug_lead_time";
 	private static final String DRUG_SAFETY_LEVEL = "drug_safety_level";
+	private static final String ACTIVATED = "activated";
 		
 	// Phone Queries
 	private static final String QUERY_FINDBY_MSISDN = "SELECT  * FROM " + TABLE_PHONE + " WHERE " + MSISDN + " = ?";
@@ -39,7 +40,8 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 			+ CLINIC_CODE + " TEXT, "
 			+ CLINIC_NAME + " TEXT, "
 			+ DRUG_LEAD_TIME + " INTEGER, "
-			+ DRUG_SAFETY_LEVEL + " INTEGER )";
+			+ DRUG_SAFETY_LEVEL + " INTEGER, "
+			+ ACTIVATED + " INTEGER )";
 
 	
 	public PhoneTableAdapter() {
@@ -70,6 +72,7 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 		values.put(CLINIC_NAME, phone.getClinicName());
 		values.put(DRUG_LEAD_TIME, phone.getDrugLeadTime());
 		values.put(DRUG_SAFETY_LEVEL, phone.getDrugSafetyLevel());
+		values.put(ACTIVATED, (phone.isActivated()) ? 1 : 0);
 		return values;
 	}
 
@@ -84,6 +87,8 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 		    p.setClinicName(c.getString(c.getColumnIndex(CLINIC_NAME)));
 		    p.setDrugLeadTime(c.getInt(c.getColumnIndex(DRUG_LEAD_TIME)));
 		    p.setDrugSafetyLevel(c.getInt(c.getColumnIndex(DRUG_SAFETY_LEVEL)));
+		    int activated = c.getInt(c.getColumnIndex(ACTIVATED));
+		    p.setActivated((activated == 1) ? true : false);
 		    return p;
 	    }
 	    return null;
@@ -103,5 +108,13 @@ public class PhoneTableAdapter extends TableAdapter<Phone> {
 			theOne = allPhones.get(0);
 		}
 		return theOne;
+	}
+
+	public boolean isActivated() {
+	    Phone phone = findOne();
+	    if (phone != null) {
+	        return phone.isActivated();
+	    }
+	    return false;
 	}
 }

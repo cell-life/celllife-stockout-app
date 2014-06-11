@@ -26,15 +26,15 @@ public class RestClientRunner {
 		Log.d("RestClientRunner", "Starting GET REST call to "+url);
 		RestClientGetAsyncTask task = new RestClientGetAsyncTask();
 		task.execute(new String[] { url });
-		RestResponse restResponse = new RestResponse(500);
+		RestResponse restResponse = new RestResponse(503);
 		try {
 			restResponse = task.get();
 			if (restResponse.getErrorMessage() != null) {
 				if (restResponse.getCode() == 401) {
-					throw new RestAuthenticationException("Invalid username or password.");
+					throw new RestAuthenticationException("Invalid username or password.", restResponse);
 				} else {
 					throw new RestCommunicationException("Error while communicating with the server " + url 
-					+ ". Error: " + restResponse.getErrorMessage());
+					+ ". Error: " + restResponse.getErrorMessage(), restResponse);
 				}
 			}
 			Log.d("RestClientRunner", "Finishing GET REST call with response: "+restResponse);
@@ -55,15 +55,15 @@ public class RestClientRunner {
 		Log.d("RestClientRunner", "Starting POST REST call to "+url+" with data "+string);
 		RestClientPostAsyncTask task = new RestClientPostAsyncTask();
 		task.execute(new String[] { url, string });
-		RestResponse restResponse = new RestResponse(500);
+		RestResponse restResponse = new RestResponse(503);
 		try {
 			restResponse = task.get();
 			if (restResponse.getErrorMessage() != null) {
 				if (restResponse.getCode() == 401) {
-					throw new RestAuthenticationException("Invalid username or password.");
+					throw new RestAuthenticationException("Invalid username or password.", restResponse);
 				} else {
 					throw new RestCommunicationException("Error while communicating with the server " + url 
-					+ ". Error: " + restResponse.getCode());
+					+ ". Error: " + restResponse.getCode(), restResponse);
 				}
 			}
 			Log.d("RestClientRunner", "Finishing POST REST call with response: "+restResponse);
@@ -98,7 +98,7 @@ public class RestClientRunner {
 				RestClient client = new RestClientImpl(username, password);
 				response = client.doGet(url);
 			} catch (MalformedURLException e) {
-				response = new RestResponse(500);
+				response = new RestResponse(404);
 				response.setErrorMessage("Invalid url '"+urls[0]+"'");
 			}
 			return response;
@@ -114,7 +114,7 @@ public class RestClientRunner {
 				RestClient client = new RestClientImpl(username, password);
 				response = client.doPost(new URL(url), data);
 			} catch (MalformedURLException e) {
-				response = new RestResponse(500);
+				response = new RestResponse(404);
 				response.setErrorMessage("Invalid url '"+url+"'");
 			}
 			return response;

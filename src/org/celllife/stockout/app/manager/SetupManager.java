@@ -20,6 +20,12 @@ public interface SetupManager {
     boolean isInitialised();
 
     /**
+     * Determines if the clinic has been activated (Step 2 of the setup wizard).
+     * @return true if the clinic has been activated
+     */
+    boolean isActivated();
+
+    /**
      * Saves the phone entity in the app database
      * @param phone Phone to save
      * @return Phone saved entity

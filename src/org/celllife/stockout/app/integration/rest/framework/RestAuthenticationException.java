@@ -11,15 +11,7 @@ public class RestAuthenticationException extends RestCommunicationException {
 		super();
 	}
 
-	public RestAuthenticationException(String detailMessage, Throwable throwable) {
-		super(detailMessage, throwable);
-	}
-
-	public RestAuthenticationException(String detailMessage) {
-		super(detailMessage);
-	}
-
-	public RestAuthenticationException(Throwable throwable) {
-		super(throwable);
+	public RestAuthenticationException(String detailMessage, RestResponse response) {
+		super(detailMessage, response);
 	}
 }
