@@ -78,5 +78,8 @@
     <string name="server_preferences">Server Preferences</string>
     <string name="server_preferences_url">Server Base URL</string>
     <string name="server_preferences_url_summary">The address of the server used by the Stock app to submit stocks and retrieve alerts.</string>
+    <string name="server_preferences_url_error_message_invalid">The specified URL is not valid.</string>
+    <string name="server_preferences_url_error_message_connection">Could not connect to the specified URL.</string>
+    <string name="server_preferences_url_error_message_authentication">Could not connect to the specified URL due to an authentication error. Please contact Cell-Life support for further assistance.</string>
 
 </resources>
