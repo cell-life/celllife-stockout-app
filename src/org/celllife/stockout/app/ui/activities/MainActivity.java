@@ -170,7 +170,8 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			Toast.makeText(this, R.string.hello, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
 			return true;
 		case R.id.action_sync:
 			Toast.makeText(this, R.string.syncing, Toast.LENGTH_LONG).show();

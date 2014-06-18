@@ -7,6 +7,9 @@ import java.net.MalformedURLException;
  */
 public interface SettingManager {
 
+    static final String SERVER_PREFERENCES_KEY = "server";
+    static final String BASE_URL = "baseUrl";
+
 	/**
 	 * Retrieves the server baseUrl - the url used for communications
 	 * @return String containing the server baseUrl (starting with http and ending with /)

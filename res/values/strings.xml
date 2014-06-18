@@ -73,6 +73,10 @@
     
     <string name="stockNotificationTicker">Stock Notification</string>
     <string name="stockNotificationTitle">Problem with stock synch</string>
-    <string name="stockNotificationText">The Stock app was unable to send the latest stock levels to the server. Please contact Cell-Life support if you need assistance. Error: </string>    
+    <string name="stockNotificationText">The Stock app was unable to send the latest stock levels to the server. Please contact Cell-Life support if you need assistance. Error: </string>
+    
+    <string name="server_preferences">Server Preferences</string>
+    <string name="server_preferences_url">Server Base URL</string>
+    <string name="server_preferences_url_summary">The address of the server used by the Stock app to submit stocks and retrieve alerts.</string>
 
 </resources>

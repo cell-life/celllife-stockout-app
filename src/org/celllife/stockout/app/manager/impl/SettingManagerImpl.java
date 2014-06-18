@@ -10,9 +10,6 @@ import android.content.SharedPreferences;
 
 public class SettingManagerImpl implements SettingManager {
 
-	private static final String SERVER_PREFERENCES_KEY = "server";
-	private static final String BASE_URL = "baseUrl";
-
 	private Context context;
 
 	public SettingManagerImpl(Context context) {
@@ -21,7 +18,7 @@ public class SettingManagerImpl implements SettingManager {
 
 	@Override
 	public String getServerBaseUrl() {
-		SharedPreferences settings = context.getSharedPreferences(SERVER_PREFERENCES_KEY, 0);
+		SharedPreferences settings = context.getSharedPreferences(SERVER_PREFERENCES_KEY, Context.MODE_PRIVATE);
 		String baseUrl = settings.getString(BASE_URL, "http://sol.cell-life.org/stock");
 		return baseUrl;
 	}
@@ -29,7 +26,7 @@ public class SettingManagerImpl implements SettingManager {
 	@SuppressWarnings("unused")
 	@Override
 	public void setServerBaseUrl(String url) throws MalformedURLException {
-		SharedPreferences settings = context.getSharedPreferences(SERVER_PREFERENCES_KEY, 0);
+		SharedPreferences settings = context.getSharedPreferences(SERVER_PREFERENCES_KEY, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		// test the URL for correctness
 		URL testUrl = new URL(url);
