@@ -65,18 +65,19 @@ public class UpdateAlertService extends Service {
 			StringBuilder contentText = new StringBuilder();
 			for (Alert a : alerts) {
 				if (contentText.length() != 0) {
-					contentText.append(", ");
+					contentText.append("\n");
 				}
-				contentText.append("Please scan the following:" +"\n"+ a.getDrug().getDescription());
+				contentText.append(a.getDrug().getDescription());
 			}
 	
 			Notification.Builder notificationBuilder = new Notification.Builder(context)
 			.setTicker(tickerText)
 			.setSmallIcon(R.drawable.ic_alert_icon)
 			.setAutoCancel(true).setContentTitle(contentTitle)
-			.setContentText(contentText)
 			.setContentIntent(mainActivityPendingIntent)
+			.setStyle(new Notification.BigTextStyle().bigText(contentText))
 			.setSound(soundUri).setVibrate(mVibratePattern);
+		
 	
 			// Pass the Notification to the NotificationManager:
 			NotificationManager mNotificationManager = (NotificationManager) context
