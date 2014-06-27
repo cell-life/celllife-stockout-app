@@ -13,6 +13,8 @@ import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
 
+import com.qs.samsungbadger.Badge;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -224,6 +226,8 @@ public class MainActivity extends Activity {
     protected void onResume(){
     	super.onResume();
     	scanFrag.refresh(scanFrag.getView());
+    	deleteBadgeInstance();
+    	clearBadgeCount();
     }
 
     private void displayErrorMessage(String errorMessage) {
@@ -233,5 +237,33 @@ public class MainActivity extends Activity {
                         dialog.cancel();
                     }
                 }).show();
+    }
+    
+    private void clearBadgeCount(){
+    	Context context = getApplicationContext();
+    	if (Badge.isBadgingSupported(context)) {
+    	    Badge badge = Badge.getBadge(context);
+    	    if (badge != null) {
+    	        badge.mBadgeCount = 0;
+    	        badge.update(context);
+    	    } else {
+    	        // Nothing to do as this means you don't have a badge record with the BadgeProvider
+    	        // Thus you shouldn't even have a badge count on your icon
+    	    }
+    	}
+    }
+    	
+    private void deleteBadgeInstance(){
+    	Context context = getApplicationContext();
+    	if (Badge.isBadgingSupported(context)) {
+    	    Badge badge = Badge.getBadge(context);
+    	    if (badge != null) {
+    	        if (badge.delete(context)) {
+    	            Log.d("Badge", "Successfully deleted badge record");
+    	        } else {
+    	            Log.d("Badge", "Failed to delete badge record");
+    	        }
+    	    }
+    	}
     }
 }

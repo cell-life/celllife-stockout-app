@@ -8,6 +8,8 @@ import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.ui.activities.MainActivity;
 
+import com.qs.samsungbadger.Badge;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -26,6 +28,8 @@ public class UpdateAlertService extends Service {
 	private static final int ALERT_NOTIFICATION_ID = 1;
     private static Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     private static long[] mVibratePattern = { 0, 200, 200, 300 };
+    private  int notificationCount = 0;
+    private String subTitleNotification;
     
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -54,6 +58,7 @@ public class UpdateAlertService extends Service {
     	
     	Context context = this.getApplicationContext();
     	if (alerts != null && alerts.size() > 0) {
+    		notificationCount = alerts.size();
     		// Define the Notification Intent
     		Intent mainActivityIntent = new Intent(context, MainActivity.class);
         	PendingIntent mainActivityPendingIntent = PendingIntent.getActivity(context, 0,
@@ -62,6 +67,13 @@ public class UpdateAlertService extends Service {
         	// Build the notification
 			String tickerText = context.getString(R.string.alertNotificationTicker);
 			String contentTitle = context.getString(R.string.alertNotificationTitle);
+			String subTitle = context.getString(R.string.alertNotificationSubTitle);
+			if(notificationCount == 1){
+				subTitleNotification = subTitle;
+			}
+			else{
+				subTitleNotification = subTitle+"s";
+			}
 			StringBuilder contentText = new StringBuilder();
 			for (Alert a : alerts) {
 				if (contentText.length() != 0) {
@@ -76,6 +88,8 @@ public class UpdateAlertService extends Service {
 			.setAutoCancel(true).setContentTitle(contentTitle)
 			.setContentIntent(mainActivityPendingIntent)
 			.setStyle(new Notification.BigTextStyle().bigText(contentText))
+			.setSubText(subTitleNotification)
+			.setNumber(notificationCount)
 			.setSound(soundUri).setVibrate(mVibratePattern);
 		
 	
@@ -84,9 +98,21 @@ public class UpdateAlertService extends Service {
 			.getSystemService(Context.NOTIFICATION_SERVICE);
 			mNotificationManager.notify(ALERT_NOTIFICATION_ID,
 			notificationBuilder.build());
+			getBadge();
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
     	} 
     	
     	return START_STICKY;
 	}
+	
+	private void getBadge(){
+	    Context context = this.getApplicationContext();
+	    if (Badge.isBadgingSupported(context)) {
+	        Badge badge = new Badge();
+	        badge.mPackage = context.getPackageName();
+	        badge.mClass = "org.celllife.stockout.app.ui.activities.MainActivity"; // This should point to Activity declared as android.intent.action.MAIN
+	        badge.mBadgeCount = notificationCount;
+	        badge.save(context);
+	    }
+    }
 }
