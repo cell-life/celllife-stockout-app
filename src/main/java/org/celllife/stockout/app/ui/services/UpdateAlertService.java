@@ -28,8 +28,6 @@ public class UpdateAlertService extends Service {
 	private static final int ALERT_NOTIFICATION_ID = 1;
     private static Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     private static long[] mVibratePattern = { 0, 200, 200, 300 };
-    private  int notificationCount = 0;
-    private String subTitleNotification;
     
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -58,7 +56,7 @@ public class UpdateAlertService extends Service {
     	
     	Context context = this.getApplicationContext();
     	if (alerts != null && alerts.size() > 0) {
-    		notificationCount = alerts.size();
+    		int notificationCount = alerts.size();
     		// Define the Notification Intent
     		Intent mainActivityIntent = new Intent(context, MainActivity.class);
         	PendingIntent mainActivityPendingIntent = PendingIntent.getActivity(context, 0,
@@ -68,11 +66,8 @@ public class UpdateAlertService extends Service {
 			String tickerText = context.getString(R.string.alertNotificationTicker);
 			String contentTitle = context.getString(R.string.alertNotificationTitle);
 			String subTitle = context.getString(R.string.alertNotificationSubTitle);
-			if(notificationCount == 1){
-				subTitleNotification = subTitle;
-			}
-			else{
-				subTitleNotification = subTitle+"s";
+			if (notificationCount > 1) {
+			    subTitle = context.getString(R.string.alertNotificationSubTitlePlural);
 			}
 			StringBuilder contentText = new StringBuilder();
 			for (Alert a : alerts) {
@@ -88,7 +83,7 @@ public class UpdateAlertService extends Service {
 			.setAutoCancel(true).setContentTitle(contentTitle)
 			.setContentIntent(mainActivityPendingIntent)
 			.setStyle(new Notification.BigTextStyle().bigText(contentText))
-			.setSubText(subTitleNotification)
+			.setSubText(subTitle)
 			.setNumber(notificationCount)
 			.setSound(soundUri).setVibrate(mVibratePattern);
 		
@@ -98,14 +93,14 @@ public class UpdateAlertService extends Service {
 			.getSystemService(Context.NOTIFICATION_SERVICE);
 			mNotificationManager.notify(ALERT_NOTIFICATION_ID,
 			notificationBuilder.build());
-			getBadge();
+			getBadge(notificationCount);
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
     	} 
     	
     	return START_STICKY;
 	}
 	
-	private void getBadge(){
+	private void getBadge(int notificationCount) {
 	    Context context = this.getApplicationContext();
 	    if (Badge.isBadgingSupported(context)) {
 	        Badge badge = new Badge();

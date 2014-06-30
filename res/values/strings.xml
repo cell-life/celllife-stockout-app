@@ -71,6 +71,7 @@
     <string name="alertNotificationTicker">Stock Take Notification</string>
     <string name="alertNotificationTitle">Scan Stock</string>
     <string name="alertNotificationSubTitle">New Alert</string>
+    <string name="alertNotificationSubTitlePlural">New Alerts</string>
     
     <string name="stockNotificationTicker">Stock Notification</string>
     <string name="stockNotificationTitle">Problem with stock synch</string>
