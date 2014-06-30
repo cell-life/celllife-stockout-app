@@ -223,6 +223,7 @@ public class MainActivity extends Activity {
     	scanFrag.onActivityResult(requestCode, resultCode, intent);
     }
 
+    @Override
     protected void onResume(){
     	super.onResume();
     	scanFrag.refresh(scanFrag.getView());
