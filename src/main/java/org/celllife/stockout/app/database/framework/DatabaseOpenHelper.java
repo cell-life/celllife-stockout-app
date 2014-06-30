@@ -137,8 +137,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	 * Finds some data from the specified table, given a query and the parameters
 	 */
 	public <T extends Serializable> T find(SQLiteDatabase db, TableHelper<T> table, String query, String[] values) {
+	    Cursor c = null;
 		try {
-			Cursor c = db.rawQuery(query, values);
+			c = db.rawQuery(query, values);
 		    if (c != null) {
 		        c.moveToFirst();
 		        return table.readFromCursor(c);
@@ -146,7 +147,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		    	return null;
 		    }
 		} finally {
-			//db.close();
+		    if (c != null) {
+		        c.close();
+		    }
 		}		
 	}
 
@@ -165,8 +168,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	 */
 	public <T extends Serializable> List<T> findMany(SQLiteDatabase db, TableHelper<T> table, String query, String[] values) {
 		List<T> entities = new ArrayList<T>();
+		Cursor c = null;
 		try {
-			Cursor c = db.rawQuery(query, values);
+			c = db.rawQuery(query, values);
 		    if (c != null) {
 		        if (c.moveToFirst()) {
 			        do {
@@ -176,7 +180,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		        }
 		    }
 		} finally {
-			//db.close();
+		    if (c != null) {
+                c.close();
+            }
 		}
 		return entities;
 	}
