@@ -198,7 +198,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		return entities;
 	}
 
-	// initialises the data for all the tables in the database
+	@Override
+    public String toString() {
+        return "DatabaseOpenHelper [tables=" + tables + ", database=" + database + "]";
+    }
+
+    // initialises the data for all the tables in the database
 	private <T extends Serializable> void initialise(SQLiteDatabase db, TableHelper<T> table) {
 		List<ContentValues> initialData = table.getInitialData();
 		for (ContentValues values : initialData) {
