@@ -54,20 +54,30 @@ public class DatabaseManager {
 	}
 	
 	public static void initialise(Context context) {
-	    Log.d("DatabaseManager", "Initalise with application context. db="+db);
-		List<TableHelper<?>> tables = new ArrayList<TableHelper<?>>();
-		phoneDb = new PhoneTableAdapter();
-		tables.add(phoneDb);
-		drugDb = new DrugTableAdapter();
-		tables.add(drugDb);
-		alertDb = new AlertTableAdapter(drugDb);
-		tables.add(alertDb);
-		stockTakeDb = new StockTakeTableAdapter(drugDb);
-		tables.add(stockTakeDb);
-		stockReceivedDb = new StockReceivedTableAdapter(drugDb);
-		tables.add(stockReceivedDb);
-		stockHistoryDb = new StockHistoryTableAdapter(drugDb);
-		tables.add(stockHistoryDb);
-		db = new DatabaseOpenHelper(context, tables);
+	    if (db == null) {
+	        Log.d("DatabaseManager", "Initalise with application context");
+    		List<TableHelper<?>> tables = new ArrayList<TableHelper<?>>();
+    		phoneDb = new PhoneTableAdapter();
+    		tables.add(phoneDb);
+    		drugDb = new DrugTableAdapter();
+    		tables.add(drugDb);
+    		alertDb = new AlertTableAdapter(drugDb);
+    		tables.add(alertDb);
+    		stockTakeDb = new StockTakeTableAdapter(drugDb);
+    		tables.add(stockTakeDb);
+    		stockReceivedDb = new StockReceivedTableAdapter(drugDb);
+    		tables.add(stockReceivedDb);
+    		stockHistoryDb = new StockHistoryTableAdapter(drugDb);
+    		tables.add(stockHistoryDb);
+    		db = new DatabaseOpenHelper(context, tables);
+	    } else {
+	        Log.d("DatabaseManager", "Already initialised db="+db);
+	    }
+	}
+
+	public static void shutdown(Context context) {
+	    if (db != null) {
+	        db.close();
+	    }
 	}
 }
