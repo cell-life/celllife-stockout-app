@@ -9,11 +9,10 @@ import org.celllife.stockout.app.integration.rest.framework.RestCommunicationExc
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.SetupManager;
 import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
+import org.celllife.stockout.app.ui.alarm.OfflineNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
-
-import com.qs.samsungbadger.Badge;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -32,6 +31,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.qs.samsungbadger.Badge;
+
 public class MainActivity extends Activity {
 
 	private UncaughtExceptionHandler exceptionHandler = new StockApplicationCrashExceptionHandler();
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
 	private ScanFragment scanFrag;
 
 	private PendingIntent alertAlarmPendingIntent;
+	private PendingIntent offlineAlarmPendingIntent;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
         ManagerFactory.initialise(getApplicationContext());
-        startAlertAlarm();
 		setupManager();
 
 		final ActionBar tabBar = getActionBar();
@@ -76,7 +77,11 @@ public class MainActivity extends Activity {
 		// restore previously set alarm, and set if it isn't known
 		if (savedInstanceState != null) {
 			alertAlarmPendingIntent = savedInstanceState.getParcelable("alertAlarmPendingIntent");
+			offlineAlarmPendingIntent = savedInstanceState.getParcelable("offlineAlarmPendingIntent");
 		}
+		// setup the alarms
+        startAlertAlarm();
+        startOfflineAlarm();
 		
 		// setup exception handling
 		Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
@@ -88,6 +93,7 @@ public class MainActivity extends Activity {
 	  // adds variables which are saved before an Activity is restarted 
 	  savedInstanceState.putString("selectedTab", scanFrag.getType());
 	  savedInstanceState.putParcelable("alertAlarmPendingIntent", alertAlarmPendingIntent);
+	  savedInstanceState.putParcelable("offlineAlarmPendingIntent", offlineAlarmPendingIntent);
 	}
 
     private void setupManager() {
@@ -128,6 +134,19 @@ public class MainActivity extends Activity {
   
     	}
     }
+
+   private void startOfflineAlarm() {
+       if (offlineAlarmPendingIntent == null) {
+           AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+           
+           Intent alertIntent = new Intent(MainActivity.this, OfflineNotificationReceiver.class);
+           offlineAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT );
+   
+           Calendar calendar = Calendar.getInstance();
+           calendar.setTimeInMillis(System.currentTimeMillis());
+           alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alertAlarmPendingIntent);
+       }
+   }
     
 	/**
 	 * Listener to handle tab switching

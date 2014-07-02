@@ -2,7 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory 
-        android:key="server" 
         android:title="@string/server_preferences" >
         
         <EditTextPreference
@@ -10,6 +9,17 @@
             android:key="baseUrl"
             android:summary="@string/server_preferences_url_summary"
             android:title="@string/server_preferences_url" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory 
+        android:title="@string/app_preferences" >
+        
+        <EditTextPreference
+            android:dialogTitle="@string/offline_days_preferences"
+            android:key="offlineDays"
+            android:summary="@string/offline_days_preferences_summary"
+            android:title="@string/offline_days_preferences" />
 
     </PreferenceCategory>
 

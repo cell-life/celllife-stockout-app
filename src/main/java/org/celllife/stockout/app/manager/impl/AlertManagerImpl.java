@@ -9,6 +9,7 @@ import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.AlertStatus;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.ServerCommunicationType;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.domain.comparator.AlertComparator;
@@ -18,6 +19,7 @@ import org.celllife.stockout.app.manager.AlertManager;
 import org.celllife.stockout.app.manager.CalculationManager;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.manager.ServerCommunicationLogManager;
 
 import android.util.Log;
 
@@ -62,7 +64,7 @@ public class AlertManagerImpl implements AlertManager {
 		// Retrieves the latest alerts from the server and saves them to the database
 		List<Alert> newAlerts = new ArrayList<Alert>();
 		try {
-			List<Alert> alerts = GetAlertMethod.getLatestAlerts();
+			List<Alert> alerts = getLatestAlertsMethod();
 			for (Alert a : alerts) {
 				a.getDate();
 				a.getLevel();
@@ -141,4 +143,15 @@ public class AlertManagerImpl implements AlertManager {
 		return false;
 	}
 
+    private List<Alert> getLatestAlertsMethod() {
+        ServerCommunicationLogManager logManager = ManagerFactory.getServerCommunicationLogManager();
+        try {
+            List<Alert> alerts = GetAlertMethod.getLatestAlerts();
+            logManager.createServerCommunicationLog(ServerCommunicationType.ALERT, true);
+            return alerts;
+        } catch (RuntimeException e) {
+            logManager.createServerCommunicationLog(ServerCommunicationType.ALERT, false);
+            throw e;
+        }
+    }
 }

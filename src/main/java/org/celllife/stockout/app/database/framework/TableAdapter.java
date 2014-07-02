@@ -72,4 +72,11 @@ public abstract class TableAdapter<T extends Entity> implements TableHelper<T> {
 	public void deleteById(Long id) {
 		db.deleteContent(this, id);
 	}
+
+	/**
+	 * Deletes all the content in the table. Warning (!!!) should only be used in a test situation
+	 */
+	public void deleteAll() {
+	    db.deleteAll(this);
+	}
 }

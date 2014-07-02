@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.database.DrugTableAdapter;
+import org.celllife.stockout.app.database.ServerCommunicationLogTableAdapter;
 import org.celllife.stockout.app.database.PhoneTableAdapter;
 import org.celllife.stockout.app.database.StockHistoryTableAdapter;
 import org.celllife.stockout.app.database.StockReceivedTableAdapter;
@@ -28,6 +29,7 @@ public class DatabaseManager {
 	private static StockTakeTableAdapter stockTakeDb;
 	private static StockReceivedTableAdapter stockReceivedDb;
 	private static StockHistoryTableAdapter stockHistoryDb;
+	private static ServerCommunicationLogTableAdapter serverCommunicationLogDb;
 	
 	public static DrugTableAdapter getDrugTableAdapter() {
 		return drugDb;
@@ -52,6 +54,10 @@ public class DatabaseManager {
 	public static StockHistoryTableAdapter getStockHistoryTableAdapter() {
 		return stockHistoryDb;
 	}
+
+	public static ServerCommunicationLogTableAdapter getServerCommunicationLogTableAdapter() {
+	    return serverCommunicationLogDb;
+	}
 	
 	public static void initialise(Context context) {
 	    if (db == null) {
@@ -69,13 +75,15 @@ public class DatabaseManager {
     		tables.add(stockReceivedDb);
     		stockHistoryDb = new StockHistoryTableAdapter(drugDb);
     		tables.add(stockHistoryDb);
+    		serverCommunicationLogDb = new ServerCommunicationLogTableAdapter();
+    		tables.add(serverCommunicationLogDb);
     		db = new DatabaseOpenHelper(context, tables);
 	    } else {
 	        Log.d("DatabaseManager", "Already initialised db="+db);
 	    }
 	}
 
-	public static void shutdown(Context context) {
+	public static void shutdown() {
 	    if (db != null) {
 	        db.close();
 	    }

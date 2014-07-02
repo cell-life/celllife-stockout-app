@@ -83,5 +83,14 @@
     <string name="server_preferences_url_error_message_invalid">The specified URL is not valid.</string>
     <string name="server_preferences_url_error_message_connection">Could not connect to the specified URL.</string>
     <string name="server_preferences_url_error_message_authentication">Could not connect to the specified URL due to an authentication error. Please contact Cell-Life support for further assistance.</string>
+    
+    <string name="app_preferences">App Preferences</string>
+    <string name="offline_days_preferences">Offline days</string>
+    <string name="offline_days_preferences_summary">The number of days the Stock app can be offline before a notification is generated.</string>
+    <string name="offline_days_preferences_error">Please enter a number for the offline days.</string>
+
+    <string name="offlineNotificationTicker">Stock app is offline</string>
+    <string name="offlineNotificationTitle">Stock app is offline</string>
+    <string name="offlinekNotificationText">The Stock app has been unable to communicate with the server for some time. Please check your network connection and airtime and then perform a manual sync.</string>
 
 </resources>

@@ -10,6 +10,7 @@ import org.celllife.stockout.app.database.StockReceivedTableAdapter;
 import org.celllife.stockout.app.database.StockTakeTableAdapter;
 import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.ServerCommunicationType;
 import org.celllife.stockout.app.domain.StockHistory;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
@@ -20,6 +21,7 @@ import org.celllife.stockout.app.integration.rest.PostStockTakeMethod;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.DatabaseManager;
 import org.celllife.stockout.app.manager.ManagerFactory;
+import org.celllife.stockout.app.manager.ServerCommunicationLogManager;
 import org.celllife.stockout.app.manager.StockTakeManager;
 
 import android.util.Log;
@@ -73,7 +75,7 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		// because a RestCommunicationException is thrown, and the background task
 		// should pick it up and try resend later.
 		try {
-			boolean submitted = PostStockTakeMethod.submitStockTake(stockTake);
+			boolean submitted = postStockTake(stockTake);
 			stockTake.setSubmitted(submitted);
 		} finally {
 			// Inserts new StockTake
@@ -91,7 +93,7 @@ public class StockTakeManagerImpl implements StockTakeManager {
         }
 		List<StockTake> stocks = stockAdapter.findUnsubmittedStockTakes();
 		for (StockTake s : stocks) {
-			boolean submitted = PostStockTakeMethod.submitStockTake(s);
+			boolean submitted = postStockTake(s);
 			s.setSubmitted(submitted);
 			stockAdapter.update(s.getId(), s);
 		}
@@ -99,7 +101,7 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		StockReceivedTableAdapter arrivalAdapter = DatabaseManager.getStockReceivedTableAdapter();
 		List<StockReceived> arrivals = arrivalAdapter.findUnsubmittedStockReceived();
 		for (StockReceived a : arrivals) {
-			boolean submitted = PostStockReceivedMethod.submitStockReceived(a);
+			boolean submitted = postStockReceived(a);
 			a.setSubmitted(submitted);
 			arrivalAdapter.update(a.getId(), a);
 		}
@@ -110,7 +112,7 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		// Sends the StockTake to the server (this method is to be used by the background job)
 		boolean success = false;
 		try {
-			success = PostStockTakeMethod.submitStockTake(stockTake);
+			success = postStockTake(stockTake);
 			if (success) {
 				stockTake.setSubmitted(true);
 				DatabaseManager.getStockTakeTableAdapter().update(stockTake.getId(), stockTake);
@@ -135,7 +137,7 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		StockReceivedTableAdapter stockReceivedAdapter = DatabaseManager.getStockReceivedTableAdapter();
 		try {
 			// submits to the server (note: will sent RestCommunicationException on error which should be displayed)
-			boolean submitted = PostStockReceivedMethod.submitStockReceived(stockReceived);
+			boolean submitted = postStockReceived(stockReceived);
 			stockReceived.setSubmitted(submitted);
 		} finally {
 			// Inserts new StockTake
@@ -148,7 +150,7 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		// Sends the StockTake to the server (this method is to be used by the background job)
 		boolean success = false;
 		try {
-			success = PostStockReceivedMethod.submitStockReceived(stockReceived);
+			success = postStockReceived(stockReceived);
 			if (success) {
 				stockReceived.setSubmitted(true);
 				DatabaseManager.getStockReceivedTableAdapter().update(stockReceived.getId(), stockReceived);
@@ -168,4 +170,29 @@ public class StockTakeManagerImpl implements StockTakeManager {
 		return stocks;
 	}
 
+    private boolean postStockTake(StockTake stockTake) {
+        ServerCommunicationLogManager logManager = ManagerFactory.getServerCommunicationLogManager();
+        boolean success = false;
+        try {
+            success = PostStockTakeMethod.submitStockTake(stockTake);
+            logManager.createServerCommunicationLog(ServerCommunicationType.STOCK, success);
+        } catch (RuntimeException e) {
+            logManager.createServerCommunicationLog(ServerCommunicationType.STOCK, false);
+            throw e;
+        }
+        return success;
+    }
+
+    private boolean postStockReceived(StockReceived stockReceived) {
+        ServerCommunicationLogManager logManager = ManagerFactory.getServerCommunicationLogManager();
+        boolean success = false;
+        try {
+            success = PostStockReceivedMethod.submitStockReceived(stockReceived);
+            logManager.createServerCommunicationLog(ServerCommunicationType.STOCK, success);
+        } catch (RuntimeException e) {
+            logManager.createServerCommunicationLog(ServerCommunicationType.STOCK, false);
+            throw e;
+        }
+        return success;
+    }
 }

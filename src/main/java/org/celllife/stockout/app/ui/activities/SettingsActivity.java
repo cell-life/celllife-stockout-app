@@ -18,12 +18,21 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
+import android.util.Log;
 
+/**
+ * Activity that manages the preferences/app settings.
+ */
 public class SettingsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // setting defaults
+        int offlineDays = ManagerFactory.getSettingManager().getOfflineDays();
+        ManagerFactory.getSettingManager().setOfflineDays(offlineDays);
+        Log.d("SettingsActivity","Setting offlineDays to "+offlineDays);
 
         // Display the fragment as the main content.
         FragmentManager mFragmentManager = getFragmentManager();
@@ -50,7 +59,7 @@ public class SettingsActivity extends Activity {
             super.onCreate(savedInstanceState);
 
             // load the existing preferences
-            this.getPreferenceManager().setSharedPreferencesName(SettingManager.SERVER_PREFERENCES_KEY);
+            this.getPreferenceManager().setSharedPreferencesName(SettingManager.APP_PREFERENCES_KEY);
             // Load the preferences layout from an XML resource
             addPreferencesFromResource(R.xml.preference);
 
@@ -63,23 +72,54 @@ public class SettingsActivity extends Activity {
                     try {
                         ManagerFactory.getSettingManager().testServerBaseUrl((String) newValue);
                     } catch (MalformedURLException e) {
-                        activity.displayErrorMessage(activity.getApplicationContext()
-                                .getString(R.string.server_preferences_url_error_message_invalid));
+                        activity.displayErrorMessage(activity.getApplicationContext().getString(
+                                R.string.server_preferences_url_error_message_invalid));
                         return false;
                     } catch (RestAuthenticationException e) {
-                        String errorMessage = activity.getApplicationContext()
-                                .getString(R.string.server_preferences_url_error_message_authentication)
-                                + " Error: "+e.getResponse().getCode();
+                        String errorMessage = activity.getApplicationContext().getString(
+                                R.string.server_preferences_url_error_message_authentication)
+                                + " Error: " + e.getResponse().getCode();
                         activity.displayErrorMessage(errorMessage);
                         return false;
                     } catch (RestCommunicationException e) {
-                        String errorMessage = activity.getApplicationContext()
-                                .getString(R.string.server_preferences_url_error_message_connection)
-                                + " Error: "+e.getResponse().getCode();
+                        String errorMessage = activity.getApplicationContext().getString(
+                                R.string.server_preferences_url_error_message_connection)
+                                + " Error: " + e.getResponse().getCode();
                         activity.displayErrorMessage(errorMessage);
                         return false;
                     }
                     return true; // and save the newValue
+                }
+            });
+
+            // ensure that offline days is a number and not null
+            EditTextPreference offlineDaysPref = (EditTextPreference) getPreferenceScreen().findPreference(
+                    SettingManager.OFFLINE_DAYS);
+            offlineDaysPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    boolean invalid = false;
+                    if (newValue != null && newValue instanceof String) {
+                        String offlineDays = (String) newValue;
+                        if (offlineDays.trim().equals("")) {
+                            invalid = true;
+                        } else {
+                            try {
+                                Integer.parseInt(offlineDays);
+                            } catch (NumberFormatException e) {
+                                invalid = true;
+                            }
+                        }
+                        
+                    } else {
+                        invalid = true;
+                    }
+                    if (invalid) {
+                        activity.displayErrorMessage(activity.getApplicationContext().getString(R.string.offline_days_preferences_error));
+                        return false;
+                    } else {
+                        return true; // and save the newValue
+                    }
                 }
             });
         }

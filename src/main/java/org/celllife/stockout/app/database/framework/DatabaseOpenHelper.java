@@ -100,6 +100,15 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 			db.endTransaction();
 		}
 	}
+	
+	/**
+	 * Deletes everything in the table. Please note that this should only be used in a test situation!
+	 */
+	public <T extends Serializable> void deleteAll(TableHelper<T> table) {
+	    if (database != null) {
+	        database.delete(table.getTableName(), "", new String[] {});
+	    }
+	}
 
 	/**
 	 * Deletes the specified content from the specified table, into the known database (if it is available)

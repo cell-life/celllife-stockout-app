@@ -10,8 +10,9 @@ import org.celllife.stockout.app.integration.rest.framework.RestCommunicationExc
  */
 public interface SettingManager {
 
-    static final String SERVER_PREFERENCES_KEY = "server";
+    static final String APP_PREFERENCES_KEY = "app";
     static final String BASE_URL = "baseUrl";
+    static final String OFFLINE_DAYS = "offlineDays";
 
 	/**
 	 * Retrieves the server baseUrl - the url used for communications
@@ -35,4 +36,17 @@ public interface SettingManager {
 	 * @throws RestAuthenticationException if there was an authentication exception when communicating with the server
 	 */
 	boolean testServerBaseUrl(String url) throws MalformedURLException, RestAuthenticationException, RestCommunicationException;
+
+	
+	/**
+	 * Sets the number of days the app is allowed to be offline
+	 * @param days int, 0 to ignore 
+	 */
+	void setOfflineDays(int days);
+	
+	/**
+	 * Get the number of days the app is allowed to be offline before a notification is created. 
+	 * @return int, if 0 then the check never happens
+	 */
+	int getOfflineDays();
 }

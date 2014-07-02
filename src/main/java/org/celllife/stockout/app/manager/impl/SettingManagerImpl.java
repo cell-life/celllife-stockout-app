@@ -23,7 +23,7 @@ public class SettingManagerImpl implements SettingManager {
 
 	@Override
 	public String getServerBaseUrl() {
-		SharedPreferences settings = context.getSharedPreferences(SERVER_PREFERENCES_KEY, Context.MODE_PRIVATE);
+		SharedPreferences settings = context.getSharedPreferences(APP_PREFERENCES_KEY, Context.MODE_PRIVATE);
 		String baseUrl = settings.getString(BASE_URL, "http://sol.cell-life.org/stock");
 		return baseUrl;
 	}
@@ -31,7 +31,7 @@ public class SettingManagerImpl implements SettingManager {
 	@SuppressWarnings("unused")
 	@Override
 	public void setServerBaseUrl(String url) throws MalformedURLException {
-		SharedPreferences settings = context.getSharedPreferences(SERVER_PREFERENCES_KEY, Context.MODE_PRIVATE);
+		SharedPreferences settings = context.getSharedPreferences(APP_PREFERENCES_KEY, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		// test the URL for correctness
 		URL testUrl = new URL(url);
@@ -57,5 +57,24 @@ public class SettingManagerImpl implements SettingManager {
             return true; 
         }
         return false; // not possible to test since there is no phone entity in the database (unlikely)
+    }
+
+    @Override
+    public int getOfflineDays() {
+        SharedPreferences settings = context.getSharedPreferences(APP_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        String offlineDays = settings.getString(OFFLINE_DAYS, "5");
+        try {
+            return Integer.parseInt(offlineDays);
+        } catch (NumberFormatException e) {
+            return 5;
+        }
+    }
+
+    @Override
+    public void setOfflineDays(int days) {
+        SharedPreferences settings = context.getSharedPreferences(APP_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(OFFLINE_DAYS, String.valueOf(days));
+        editor.commit();
     }
 }
