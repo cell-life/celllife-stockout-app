@@ -55,14 +55,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		for (TableHelper<?> table: tables) {
-			// Drop older table if existed
-	        db.execSQL("DROP TABLE IF EXISTS " + table.getTableName());
-	        
-	        // Create tables again
-	        db.execSQL(table.getCreateTableSql());
-			
-	        // Initialise the database
-	        initialise(db, table);
+			if (oldVersion == 1) {
+			    table.upgrade1To2(db);
+			    table.upgrade2To3(db);
+			} else if (oldVersion == 2) {
+			    table.upgrade2To3(db);
+			}
 		}
 	}
 	

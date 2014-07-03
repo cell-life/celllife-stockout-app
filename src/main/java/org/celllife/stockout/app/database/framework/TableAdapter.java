@@ -3,6 +3,7 @@ package org.celllife.stockout.app.database.framework;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Abstract class that defines the basic CRUD operations necessary to interact 
@@ -79,4 +80,22 @@ public abstract class TableAdapter<T extends Entity> implements TableHelper<T> {
 	public void deleteAll() {
 	    db.deleteAll(this);
 	}
+
+    @Override
+    public void upgrade1To2(SQLiteDatabase db) {
+        // does nothing, please override in your table specific class to perform some magic when the database is upgraded
+
+        // This is an example implementation for PhoneTableAdapter override of this method:
+        //Log.i("PhoneTableAdapter","Adding activated column");
+        //final String UPGRADE_ADD_ACTIVATED_COLUMN = "ALTER TABLE phone ADD activated INTEGER";
+        //db.execSQL(UPGRADE_ADD_ACTIVATED_COLUMN);
+        //Log.i("PhoneTableAdapter","Dropping activated column");
+        //final String DROP_ACTIVATED_COLUMN = "ALTER TABLE phone DROP COLUMN activated";
+        //db.execSQL(DROP_ACTIVATED_COLUMN);        
+    }
+
+    @Override
+    public void upgrade2To3(SQLiteDatabase db) {
+        // does nothing, please override in your table specific class to perform some magic when the database is upgraded
+    }
 }
