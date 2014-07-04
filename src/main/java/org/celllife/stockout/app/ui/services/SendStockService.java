@@ -27,6 +27,8 @@ public class SendStockService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
+		
+		ManagerFactory.initialise(this.getApplicationContext());
 
 		try {
 			ManagerFactory.getStockTakeManager().synch();

@@ -1,6 +1,5 @@
 package org.celllife.stockout.app.ui.alarm;
 
-import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.ui.services.OfflineService;
 
 import android.content.BroadcastReceiver;
@@ -18,7 +17,6 @@ public class OfflineNotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ManagerFactory.initialise(context);
         Intent offlineService = new Intent(context, OfflineService.class);
         context.startService(offlineService);
     }

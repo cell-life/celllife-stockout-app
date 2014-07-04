@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.celllife.stockout.app.database.AlertTableAdapter;
 import org.celllife.stockout.app.database.DrugTableAdapter;
-import org.celllife.stockout.app.database.ServerCommunicationLogTableAdapter;
 import org.celllife.stockout.app.database.PhoneTableAdapter;
+import org.celllife.stockout.app.database.ServerCommunicationLogTableAdapter;
 import org.celllife.stockout.app.database.StockHistoryTableAdapter;
 import org.celllife.stockout.app.database.StockReceivedTableAdapter;
 import org.celllife.stockout.app.database.StockTakeTableAdapter;
@@ -23,6 +23,7 @@ import android.util.Log;
 public class DatabaseManager {
 
 	private static DatabaseOpenHelper db;
+	
 	private static PhoneTableAdapter phoneDb;
 	private static DrugTableAdapter drugDb;
 	private static AlertTableAdapter alertDb;
@@ -78,6 +79,7 @@ public class DatabaseManager {
     		serverCommunicationLogDb = new ServerCommunicationLogTableAdapter();
     		tables.add(serverCommunicationLogDb);
     		db = new DatabaseOpenHelper(context, tables);
+    		Log.d("DatabaseManager", "Finished initalise with application context");
 	    } else {
 	        Log.d("DatabaseManager", "Already initialised db="+db);
 	    }

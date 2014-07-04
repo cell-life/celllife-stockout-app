@@ -35,6 +35,8 @@ public class OfflineService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        ManagerFactory.initialise(this.getApplicationContext());
+
         if (ManagerFactory.getServerCommunicationLogManager().displayOfflineNotification()) {
 
             // notify the user that the stock synch was not successful

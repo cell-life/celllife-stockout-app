@@ -1,6 +1,5 @@
 package org.celllife.stockout.app.ui.alarm;
 
-import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.ui.services.SendStockService;
 import org.celllife.stockout.app.ui.services.UpdateAlertService;
 
@@ -17,9 +16,7 @@ import android.content.Intent;
 public class AlarmNotificationReceiver extends BroadcastReceiver {
 
     @Override
-	public void onReceive(Context context, Intent intent) {
-    	ManagerFactory.initialise(context);
-    	
+	public void onReceive(Context context, Intent intent) {    	
     	// Get the alerts from the server
     	Intent alertService = new Intent(context, UpdateAlertService.class);
         context.startService(alertService);
