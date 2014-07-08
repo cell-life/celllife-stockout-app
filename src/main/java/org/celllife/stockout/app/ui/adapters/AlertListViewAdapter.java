@@ -33,7 +33,7 @@ public class AlertListViewAdapter extends ArrayAdapter<Alert> {
 
 		Alert alert = values[position];
 		if (alert != null) {
-			textView.setText(values[position].getMessage());
+			textView.setText(alert.getDrug().getDescription());
 			Integer level = values[position].getLevel();
 			// change the icon for the different alert
 			switch (level) {
