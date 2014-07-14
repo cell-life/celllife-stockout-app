@@ -87,10 +87,6 @@ public class StockTakeManagerImpl implements StockTakeManager {
 	public void synch() throws RestCommunicationException {
 		// submit stock takes
 		StockTakeTableAdapter stockAdapter = DatabaseManager.getStockTakeTableAdapter();
-        if (stockAdapter == null) {
-            Log.w("StockTakeManager","Stock table is unavailable, so cannot synch stock data with the server.");
-            return;
-        }
 		List<StockTake> stocks = stockAdapter.findUnsubmittedStockTakes();
 		for (StockTake s : stocks) {
 			boolean submitted = postStockTake(s);
