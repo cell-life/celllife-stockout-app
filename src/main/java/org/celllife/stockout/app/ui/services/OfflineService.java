@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.util.Log;
 
 /**
  * This handles the background task to check when the last successful server
@@ -34,6 +35,8 @@ public class OfflineService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        
+        Log.i("OfflineService", "Running service to check when last the phone connected");
 
         ManagerFactory.initialise(this.getApplicationContext());
 

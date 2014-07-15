@@ -28,6 +28,8 @@ public class SendStockService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
 		
+		Log.i("SendStockService", "Running service to submit latest stock levels");
+		
 		ManagerFactory.initialise(this.getApplicationContext());
 
 		try {

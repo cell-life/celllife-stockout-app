@@ -38,6 +38,8 @@ public class UpdateAlertService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
 		
+		Log.i("UpdateAlertService", "Running service to retrieve latest alerts");
+		
 		ManagerFactory.initialise(this.getApplicationContext());
 		
     	// Generate alerts from the phone ADC calculation and generate alerts
