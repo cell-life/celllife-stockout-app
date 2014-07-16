@@ -3,6 +3,7 @@ package org.celllife.stockout.app.ui.activities;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
@@ -117,10 +118,12 @@ public class MainActivity extends Activity {
 
    private void startAlertAlarm() {
     	if (alertAlarmPendingIntent == null) {
+    	    Log.d("MainActivity","Start Alert Alarm");
 	        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 	        
 	        Intent alertIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
-	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT );
+	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, 
+	                PendingIntent.FLAG_UPDATE_CURRENT);
 	
 	        // FIXME: we need to think of a clever way to stagger the requests so they don't all try access the server at once
 	        // See: http://developer.android.com/training/scheduling/alarms.html - Best practices section
@@ -137,14 +140,15 @@ public class MainActivity extends Activity {
 
    private void startOfflineAlarm() {
        if (offlineAlarmPendingIntent == null) {
+           Log.d("MainActivity","Start Offline Alarm");
            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
            
            Intent alertIntent = new Intent(MainActivity.this, OfflineNotificationReceiver.class);
-           offlineAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT );
+           offlineAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, 
+                   PendingIntent.FLAG_UPDATE_CURRENT);
    
-           Calendar calendar = Calendar.getInstance();
-           calendar.setTimeInMillis(System.currentTimeMillis());
-           alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alertAlarmPendingIntent);
+           alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), 
+                   AlarmManager.INTERVAL_DAY, offlineAlarmPendingIntent);
        }
    }
     

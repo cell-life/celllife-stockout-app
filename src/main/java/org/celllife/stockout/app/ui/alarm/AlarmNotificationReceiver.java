@@ -6,6 +6,7 @@ import org.celllife.stockout.app.ui.services.UpdateAlertService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 
 /**
@@ -16,7 +17,10 @@ import android.content.Intent;
 public class AlarmNotificationReceiver extends BroadcastReceiver {
 
     @Override
-	public void onReceive(Context context, Intent intent) {    	
+	public void onReceive(Context context, Intent intent) {   
+        
+        Log.i("AlarmNotificationReceiver","Received Alarm for synch.");
+        
     	// Get the alerts from the server
     	Intent alertService = new Intent(context, UpdateAlertService.class);
         context.startService(alertService);
