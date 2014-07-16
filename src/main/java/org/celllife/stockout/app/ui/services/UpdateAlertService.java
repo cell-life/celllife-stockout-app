@@ -101,8 +101,10 @@ public class UpdateAlertService extends Service {
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
     	} 
     	
-    	return START_STICKY;
-	}
+        stopSelf();
+        Log.i("UpdateAlertService", "Finished running service to retrieve latest alerts");
+        return START_NOT_STICKY;
+    }
 	
 	private void getBadge(int notificationCount) {
 	    Context context = this.getApplicationContext();

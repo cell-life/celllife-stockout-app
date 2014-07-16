@@ -63,6 +63,8 @@ public class OfflineService extends Service {
             mNotificationManager.notify(OFFLINE_NOTIFICATION_ID, notificationBuilder.build());
         }
 
-        return START_STICKY;
+        stopSelf();
+        Log.i("OfflineService", "Finished running service to check when last the phone connected");
+        return START_NOT_STICKY;
     }
 }

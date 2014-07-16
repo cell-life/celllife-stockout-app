@@ -71,6 +71,8 @@ public class SendStockService extends Service {
 			*/
 		}
     	
-    	return START_STICKY;
-	}
+        stopSelf();
+        Log.i("SendStockService", "Finished running service to submit latest stock levels");
+        return START_NOT_STICKY;
+    }
 }

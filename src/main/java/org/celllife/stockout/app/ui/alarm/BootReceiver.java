@@ -1,24 +1,36 @@
 package org.celllife.stockout.app.ui.alarm;
 
-import org.celllife.stockout.app.ui.services.OfflineService;
-import org.celllife.stockout.app.ui.services.UpdateAlertService;
+import java.util.Date;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class BootReceiver extends BroadcastReceiver {
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
-	    	Intent alertService = new Intent(context, UpdateAlertService.class);
-	        context.startService(alertService);
-	        
-	        Intent offlineService = new Intent(context, OfflineService.class);
-	        context.startService(offlineService);
-	    	}
-		
-	}
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+            
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            
+            Log.d("BootReceiver","Start Alert Alarm");
+            Intent alertIntent = new Intent(context, AlarmNotificationReceiver.class);
+            PendingIntent alertAlarmPendingIntent = PendingIntent.getBroadcast(context, 1, alertIntent, 
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), 1*60*1000, alertAlarmPendingIntent);
+            
+            Log.d("BootReceiver","Start Offline Alarm");
+            Intent offlineAlertIntent = new Intent(context, OfflineNotificationReceiver.class);
+            PendingIntent offlineAlarmPendingIntent = PendingIntent.getBroadcast(context, 1, offlineAlertIntent, 
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), 
+                    AlarmManager.INTERVAL_DAY, offlineAlarmPendingIntent);
+        }
+
+    }
 
 }
