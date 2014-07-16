@@ -77,7 +77,9 @@
          
 	     <service android:name="org.celllife.stockout.app.ui.services.UpdateAlertService" />
 	     <service android:name="org.celllife.stockout.app.ui.services.SendStockService" />
+         <service android:name="org.celllife.stockout.app.ui.services.OfflineService" />
 	     <receiver android:name="org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver" />
+         <receiver android:name="org.celllife.stockout.app.ui.alarm.OfflineNotificationReceiver" />
 	     <receiver android:name="org.celllife.stockout.app.ui.alarm.BootReceiver" >
 	         <intent-filter>
              	<action android:name="android.intent.action.BOOT_COMPLETED"></action>
