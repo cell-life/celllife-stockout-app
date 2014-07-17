@@ -3,6 +3,7 @@ package org.celllife.stockout.app.manager.impl;
 import java.util.Date;
 
 import org.celllife.stockout.app.manager.SessionManager;
+import org.celllife.stockout.app.ui.activities.MainActivity;
 
 public class SessionManagerImpl implements SessionManager {
 
@@ -10,6 +11,8 @@ public class SessionManagerImpl implements SessionManager {
 
 	private String username;
 	private String password;
+	
+	private MainActivity mainActivity;
 
 	private Date sessionStart;
 	private static Date lastInteraction;
@@ -69,4 +72,14 @@ public class SessionManagerImpl implements SessionManager {
 //		username = null;
 //		password = null;
 	}
+
+    @Override
+    public void setMainActivity(MainActivity mainActivity) {
+        this.mainActivity = mainActivity; 
+    }
+
+    @Override
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
 }

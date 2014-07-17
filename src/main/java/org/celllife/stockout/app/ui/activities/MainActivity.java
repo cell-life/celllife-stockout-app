@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
         ManagerFactory.initialise(getApplicationContext());
+        ManagerFactory.getSessionManager().setMainActivity(this);
 		setupManager();
 
 		final ActionBar tabBar = getActionBar();
@@ -203,7 +204,7 @@ public class MainActivity extends Activity {
 			try {
     			ManagerFactory.getStockTakeManager().synch();
     			ManagerFactory.getAlertManager().updateAlerts();
-    			scanFrag.refresh(scanFrag.getView());
+    			refresh();
 			} catch (RestCommunicationException e) {
 			    Log.e("MainActivity", "Communication error while trying to synch stock and alerts", e);
                 String errorMessage = getApplicationContext().getString(R.string.communication_error);
@@ -216,6 +217,13 @@ public class MainActivity extends Activity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	/**
+	 * Refreshes the necessary displayed screen
+	 */
+	public void refresh() {
+	    scanFrag.refresh(scanFrag.getView());
 	}
 
    	/**

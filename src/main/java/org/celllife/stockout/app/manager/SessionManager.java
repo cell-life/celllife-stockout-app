@@ -2,6 +2,8 @@ package org.celllife.stockout.app.manager;
 
 import java.util.Date;
 
+import org.celllife.stockout.app.ui.activities.MainActivity;
+
 
 /**
  * Manages the user's session and is able to determine when their session has expired
@@ -50,4 +52,19 @@ public interface SessionManager {
 	 * @return String clear text pin
 	 */
 	String getPassword();
+	
+	/**
+	 * Sets a reference to the current MainActivity so that we are able to refresh the screen at a
+	 * later date. Should be set during onCreate method of MainActivity
+	 * 
+	 * @param mainActivity MainActivity currently displayed to the user
+	 */
+	void setMainActivity(MainActivity mainActivity);
+
+	/**
+	 * Retrieve the current MainActivity being displayed to the user.
+	 * 
+	 * @return MainActivity, can be null
+	 */
+	MainActivity getMainActivity();
 }

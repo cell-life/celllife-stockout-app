@@ -99,7 +99,13 @@ public class UpdateAlertService extends Service {
 			notificationBuilder.build());
 			getBadge(notificationCount);
 	        Log.i("AlarmNotificationReceiver", "Created an alert notification "+tickerText+" "+contentTitle+" "+contentText);
-    	} 
+    	}
+    	
+    	// refresh the main activity after the new alerts have arrived
+    	MainActivity mainActivity = ManagerFactory.getSessionManager().getMainActivity();
+    	if (mainActivity != null) {
+    	    mainActivity.refresh();
+    	}
     	
         stopSelf();
         Log.i("UpdateAlertService", "Finished running service to retrieve latest alerts");
