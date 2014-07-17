@@ -1,20 +1,27 @@
 package org.celllife.stockout.app.ui.activities;
 
 import java.net.MalformedURLException;
+import java.util.Date;
 
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.integration.rest.framework.RestAuthenticationException;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.ManagerFactory;
 import org.celllife.stockout.app.manager.SettingManager;
+import org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
@@ -33,6 +40,9 @@ public class SettingsActivity extends Activity {
         int offlineDays = ManagerFactory.getSettingManager().getOfflineDays();
         ManagerFactory.getSettingManager().setOfflineDays(offlineDays);
         Log.d("SettingsActivity","Setting offlineDays to "+offlineDays);
+        int autoSyncPeriod = ManagerFactory.getSettingManager().getAutoSyncMinutes();
+        ManagerFactory.getSettingManager().setAutoSyncMinutes(autoSyncPeriod);
+        Log.d("SettingsActivity","Setting autoSyncPeriod to "+autoSyncPeriod);
 
         // Display the fragment as the main content.
         FragmentManager mFragmentManager = getFragmentManager();
@@ -120,6 +130,23 @@ public class SettingsActivity extends Activity {
                     } else {
                         return true; // and save the newValue
                     }
+                }
+            });
+            
+            // Reset the Background synch alarm
+            ListPreference autoSyncPref = (ListPreference) getPreferenceScreen().findPreference(
+                    SettingManager.AUTO_SYNC_MINUTES);
+            autoSyncPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Context context = PrefsFragment.this.getActivity().getApplicationContext();
+                    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    Intent alertIntent = new Intent(context, AlarmNotificationReceiver.class);
+                    PendingIntent alertAlarmPendingIntent = PendingIntent.getBroadcast(context, 1, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    int mins = Integer.parseInt((String)newValue); // assuming since it's a list, it has to be a valid number
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), mins*60*1000, alertAlarmPendingIntent);
+                    Log.i("SettingsActivity","Reset the Alert Alarm to be triggered every "+mins+" minutes.");
+                    return true; // not validating, so always accept newValue by returning true
                 }
             });
         }

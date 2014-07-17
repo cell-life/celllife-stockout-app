@@ -13,6 +13,7 @@ public interface SettingManager {
     static final String APP_PREFERENCES_KEY = "app";
     static final String BASE_URL = "baseUrl";
     static final String OFFLINE_DAYS = "offlineDays";
+    static final String AUTO_SYNC_MINUTES = "autoSyncMinutes";
 
 	/**
 	 * Retrieves the server baseUrl - the url used for communications
@@ -49,4 +50,24 @@ public interface SettingManager {
 	 * @return int, if 0 then the check never happens
 	 */
 	int getOfflineDays();
+
+	/**
+	 * Sets the number of minutes between auto syncs - where the app requests new alerts from the
+	 * app server and sends unsubmitted stock levels.
+	 * 
+	 * Options are:
+	 *  - 5 (every 5 minutes)
+	 *  - 60 (every hour)
+	 *  - 720 (twice a day)
+	 *  - 1440 (once a day)
+	 *
+	 * @param minutes
+	 */
+	void setAutoSyncMinutes(int minutes);
+
+	/**
+	 * Get the number of minutes between auto syncs. Default is once a day (1440)
+	 * @return int, if 0 then the sync never happens
+	 */
+	int getAutoSyncMinutes();
 }

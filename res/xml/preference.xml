@@ -9,6 +9,14 @@
             android:key="baseUrl"
             android:summary="@string/server_preferences_url_summary"
             android:title="@string/server_preferences_url" />
+        
+        <ListPreference
+            android:dialogTitle="@string/server_preferences_auto_sync_period"
+            android:entries="@array/auto_synch_period"
+            android:entryValues="@array/auto_synch_period_values"
+            android:key="autoSyncMinutes"
+            android:summary="@string/server_preferences_auto_sync_period_summary"
+            android:title="@string/server_preferences_auto_sync_period" />
 
     </PreferenceCategory>
 

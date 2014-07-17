@@ -77,4 +77,23 @@ public class SettingManagerImpl implements SettingManager {
         editor.putString(OFFLINE_DAYS, String.valueOf(days));
         editor.commit();
     }
+
+    @Override
+    public void setAutoSyncMinutes(int minutes) {
+        SharedPreferences settings = context.getSharedPreferences(APP_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(AUTO_SYNC_MINUTES, String.valueOf(minutes));
+        editor.commit();
+    }
+
+    @Override
+    public int getAutoSyncMinutes() {
+        SharedPreferences settings = context.getSharedPreferences(APP_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        String autoSyncPeriod = settings.getString(AUTO_SYNC_MINUTES, "1440");
+        try {
+            return Integer.parseInt(autoSyncPeriod);
+        } catch (NumberFormatException e) {
+            return 1440;
+        }
+    }
 }

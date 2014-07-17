@@ -2,7 +2,6 @@ package org.celllife.stockout.app.ui.activities;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.celllife.stockout.app.R;
@@ -125,17 +124,9 @@ public class MainActivity extends Activity {
 	        Intent alertIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
 	        alertAlarmPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, alertIntent, 
 	                PendingIntent.FLAG_UPDATE_CURRENT);
-	
-	        // FIXME: we need to think of a clever way to stagger the requests so they don't all try access the server at once
-	        // See: http://developer.android.com/training/scheduling/alarms.html - Best practices section
-	        Calendar calendar = Calendar.getInstance();
-	        calendar.setTimeInMillis(System.currentTimeMillis());
-//	        calendar.set(Calendar.HOUR_OF_DAY, 14);
-//	        calendar.set(Calendar.MINUTE,20);
-	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1*60*1000, alertAlarmPendingIntent);
-	        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-	        //alertAlarmPendingIntent);
-  
+
+	        int mins = ManagerFactory.getSettingManager().getAutoSyncMinutes();
+	        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), mins*60*1000, alertAlarmPendingIntent);
     	}
     }
 
