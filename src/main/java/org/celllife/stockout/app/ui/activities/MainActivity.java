@@ -13,6 +13,7 @@ import org.celllife.stockout.app.ui.alarm.OfflineNotificationReceiver;
 import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
+import org.celllife.stockout.app.ui.services.UpdateAlertService;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -21,6 +22,7 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,6 +55,7 @@ public class MainActivity extends Activity {
         ManagerFactory.initialise(getApplicationContext());
         ManagerFactory.getSessionManager().setMainActivity(this);
 		setupManager();
+        cancelNotification();
 
 		final ActionBar tabBar = getActionBar();
 		tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -142,6 +145,13 @@ public class MainActivity extends Activity {
            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), 
                    AlarmManager.INTERVAL_DAY, offlineAlarmPendingIntent);
        }
+   }
+
+   private void cancelNotification() {
+       Context ctxt = this.getApplicationContext();
+       int ALERT_NOTIFICATION_ID = UpdateAlertService.ALERT_NOTIFICATION_ID;
+       NotificationManager cMgr = (NotificationManager) ctxt.getSystemService(Context.NOTIFICATION_SERVICE);
+       cMgr.cancel(ALERT_NOTIFICATION_ID);
    }
     
 	/**
@@ -251,6 +261,7 @@ public class MainActivity extends Activity {
     	scanFrag.refresh(scanFrag.getView());
     	deleteBadgeInstance();
     	clearBadgeCount();
+        cancelNotification();
     }
 
     private void displayErrorMessage(String errorMessage) {
@@ -289,4 +300,5 @@ public class MainActivity extends Activity {
     	    }
     	}
     }
+
 }
