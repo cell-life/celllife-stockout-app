@@ -25,7 +25,7 @@ import android.util.Log;
  */
 public class UpdateAlertService extends Service {
 	
-	private static final int ALERT_NOTIFICATION_ID = 1;
+	public static final int ALERT_NOTIFICATION_ID = 1;
     private static Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     private static long[] mVibratePattern = { 0, 200, 200, 300 };
     
