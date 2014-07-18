@@ -166,4 +166,60 @@
     <style name="alert_row_sty">
         <item name="android:padding">10sp</item>
     </style>
+
+    <style name="drug_alert_title_main">
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">28dip</item>
+    </style>
+
+    <style name="drug_alert_title">
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">23dip</item>
+    </style>
+
+    <style name="drug_description">
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">13dip</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="title_divide">
+    <item name="android:layout_marginTop">4dp</item>
+    <item name="android:layout_height">1.3dp</item>
+    <item name="android:background">#ffffff</item>
+    </style>
+
+    <style name="line_divide">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_width">320dp</item>
+        <item name="android:layout_height">0.1dp</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="drug_name">
+        <item name="android:paddingTop">15dip</item>
+        <item name="android:textSize">22dip</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="alert_level_text">
+        <item name="android:paddingTop">15dip</item>
+        <item name="android:textSize">25dip</item>
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

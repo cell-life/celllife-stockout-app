@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/drugstock_title"
+        style="@style/drug_alert_title_main"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/drugstock_title" />
+
+    <View
+        android:layout_width="fill_parent"
+        style="@style/title_divide"
+        />
+
+    <TextView
+        android:id="@+id/drugstock_name_title"
+        style="@style/drug_alert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/drugstock_name_title"/>
+
+    <TextView
+        android:id="@+id/drugstock_name"
+        style="@style/edit_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/drugstock_name"/>
+
+    <View
+        style="@style/line_divide"/>
+
+    <TextView
+        android:id="@+id/laststock_date_title"
+        style="@style/drug_alert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/laststock_date_title"/>
+
+    <TextView
+        android:id="@+id/laststock_date"
+        style="@style/edit_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/laststock_date"/>
+
+    <View
+        style="@style/line_divide"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/laststocklvl_title"
+        style="@style/drug_alert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/laststocklvl_title"/>
+
+    <TextView
+        android:id="@+id/laststocklvl_text"
+        style="@style/edit_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/laststocklvl_text"/>
+
+    <View
+        style="@style/line_divide"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/avgdaily_title"
+        style="@style/drug_alert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/avgdaily_title"/>
+
+    <TextView
+        android:id="@+id/avgdaily_text"
+        style="@style/edit_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/avgdaily_text"/>
+
+    <View
+        style="@style/line_divide"
+        android:layout_gravity="center_horizontal" />
+
+
+    <TextView
+        android:id="@+id/eststock_title"
+        style="@style/drug_alert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/eststock_title"/>
+
+
+    <TextView
+        android:id="@+id/eststock_text"
+        style="@style/edit_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/eststock_text"/>
+
+    <View
+        style="@style/line_divide"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/stockreceived_date_title"
+        style="@style/drug_alert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stockreceived_date_title"/>
+
+
+    <TextView
+        android:id="@+id/stockreceived_date"
+        style="@style/edit_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stockreceived_date"/>
+
+    <View
+        style="@style/line_divide"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/stocklvlscan_title"
+        style="@style/drug_alert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stocklvlscan_title"/>
+
+
+    <TextView
+        android:id="@+id/stocklvlscan_text"
+        style="@style/edit_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stocklvlscan_text"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back"/>
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>

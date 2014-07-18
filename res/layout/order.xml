@@ -62,7 +62,8 @@
                 style="@style/main_pad_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"></ListView>
+                android:scrollbars="vertical">
+            </ListView>
 
         </LinearLayout>
 
@@ -119,7 +120,9 @@
                 style="@style/main_bot_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"></ListView>
+                android:scrollbars="vertical">
+                </ListView>
+
         </LinearLayout>
 
 

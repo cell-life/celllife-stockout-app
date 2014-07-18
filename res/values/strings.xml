@@ -96,4 +96,30 @@
     <string name="offlineNotificationTitle">Stock app is offline</string>
     <string name="offlinekNotificationText">The Stock app has been unable to communicate with the server for some time. Please check your network connection and airtime and then perform a manual sync.</string>
 
+    <string name="drug_alert_title">Drug Alert Details</string>
+    <string name="drug__description">Drug Description</string>
+    <string name="drug_name">Panado 500 MG</string>
+    <string name="bar_code">Barcode</string>
+    <string name="code_no">600 152 04</string>
+    <string name="alert_date">Alert Date</string>
+    <string name="alert_date_num">14 April 2014</string>
+    <string name="alert_level_title">Alert Level</string>
+    <string name="alert_level_text">RED</string>
+
+    <string name="drugstock_title">Drug Stock Information</string>
+    <string name="drugstock_name_title">Drug Name</string>
+    <string name="drugstock_name">Accolate</string>
+    <string name="laststock_date_title">Date of Last Stock Take</string>
+    <string name="laststock_date">25 May 2014</string>
+    <string name="laststocklvl_title">Last Stock Level(Units)</string>
+    <string name="laststocklvl_text">554</string>
+    <string name="avgdaily_title">Average Daily Consumption (Units)</string>
+    <string name="avgdaily_text">11</string>
+    <string name="eststock_title">Estimated Stock Level (Units)</string>
+    <string name="eststock_text">543</string>
+    <string name="stockreceived_date_title">Date of last stock received</string>
+    <string name="stockreceived_date">1 May 2014</string>
+    <string name="stocklvlscan_title">Stock level scanned on date received (Units)</string>
+    <string name="stocklvlscan_text">818</string>
+
 </resources>
