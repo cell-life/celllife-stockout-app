@@ -18,6 +18,10 @@
     <string name="received">Received</string>
     <string name="stock_received_instruction">Please begin scanning of stock received</string>
     <string name="completed_stock_received_heading">Completed Stock Received</string>
+    
+     <string name="stock">Stock</string>
+    <string name="drug_stock_list_heading">Drug Stock List</string>
+    
 
     <string name="hello">Hello</string>
     <string name="empty"></string>
