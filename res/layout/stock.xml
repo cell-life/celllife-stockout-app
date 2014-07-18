@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/stock_tab_list_linear_layout"
+        style="@style/main_screen_top"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/stock_tab_list_heading"
+                style="@style/main_head_marg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/drug_stock_list_heading"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:id="@+id/drug_stock_list_underline"
+                style="@style/main_under_lay" />
+
+            <ListView
+                android:id="@+id/drug_stock_list"
+                style="@style/main_pad_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" >
+            </ListView>
+
+</LinearLayout>
+
+  
