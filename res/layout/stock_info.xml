@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
 <LinearLayout
+    android:id="@+id/stock_info_fragment"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -33,7 +34,7 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/drugstock_name"/>
+        android:text="@string/empty"/>
 
     <View
         style="@style/line_divide"/>
@@ -50,7 +51,7 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/laststock_date"/>
+        android:text="@string/empty"/>
 
     <View
         style="@style/line_divide"
@@ -68,7 +69,7 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/laststocklvl_text"/>
+        android:text="@string/empty"/>
 
     <View
         style="@style/line_divide"
@@ -86,7 +87,7 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/avgdaily_text"/>
+        android:text="@string/empty"/>
 
     <View
         style="@style/line_divide"
@@ -106,7 +107,7 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/eststock_text"/>
+        android:text="@string/empty"/>
 
     <View
         style="@style/line_divide"
@@ -125,7 +126,7 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/stockreceived_date"/>
+        android:text="@string/empty"/>
 
     <View
         style="@style/line_divide"
@@ -144,7 +145,7 @@
         style="@style/edit_text_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/stocklvlscan_text"/>
+        android:text="@string/empty"/>
 
 
 

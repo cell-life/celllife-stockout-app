@@ -3,6 +3,7 @@ package org.celllife.stockout.app.manager;
 import java.util.List;
 
 import org.celllife.stockout.app.domain.Drug;
+import org.celllife.stockout.app.domain.StockHistory;
 import org.celllife.stockout.app.domain.StockReceived;
 import org.celllife.stockout.app.domain.StockTake;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
@@ -65,4 +66,25 @@ public interface StockTakeManager {
 	 * @throws RestCommunicationException when the first communication error occurs
 	 */
 	void synch() throws RestCommunicationException;	
+	
+	/**
+	 * Retrieves the last stock take details for a specific drug
+	 * @param drug
+	 * @return
+	 */
+	StockTake getDrugLastStockTake(Drug drug);
+	
+	/**
+	 * Retrieves details of when stock of a specific drug was last received
+	 * @param drug
+	 * @return
+	 */
+	StockReceived getDrugLastStockReceived(Drug drug);
+	
+	/**
+	 * Retrieves the stock history for a specific drug
+	 * @param drug
+	 * @return
+	 */
+	StockHistory getDrugStockHistory(Drug drug);
 }

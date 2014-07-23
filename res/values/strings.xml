@@ -125,5 +125,8 @@
     <string name="stockreceived_date">1 May 2014</string>
     <string name="stocklvlscan_title">Stock level scanned on date received (Units)</string>
     <string name="stocklvlscan_text">818</string>
+    <string name="no_date">-</string>
+    <string name="no_stock_estimate">N/A</string>
+    <string name="no_stock">-</string>
 
 </resources>

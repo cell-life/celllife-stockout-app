@@ -3,7 +3,6 @@ package org.celllife.stockout.app.ui.activities;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
 import java.util.Date;
-
 import org.celllife.stockout.app.R;
 import org.celllife.stockout.app.integration.rest.framework.RestCommunicationException;
 import org.celllife.stockout.app.manager.ManagerFactory;
@@ -14,7 +13,7 @@ import org.celllife.stockout.app.ui.fragments.OrderFragment;
 import org.celllife.stockout.app.ui.fragments.ReceivedFragment;
 import org.celllife.stockout.app.ui.fragments.ScanFragment;
 import org.celllife.stockout.app.ui.services.UpdateAlertService;
-
+import org.celllife.stockout.app.ui.fragments.StockFragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -71,11 +70,16 @@ public class MainActivity extends Activity {
 		ReceivedFragment receivedFrag = new ReceivedFragment();
 		tabBar.addTab(tabBar.newTab().setText(R.string.received).setTabListener(new ScanTabListener(receivedFrag)));
 		
+		StockFragment stockFragment = new StockFragment();
+		tabBar.addTab(tabBar.newTab().setText(R.string.stock).setTabListener(new ScanTabListener(stockFragment)));
+		
 		// restore previous selected tab
 		if (OrderFragment.TYPE.equals(selectedTab)) {
 			tabBar.setSelectedNavigationItem(0);
 		} else if (ReceivedFragment.TYPE.equals(selectedTab)) {
 			tabBar.setSelectedNavigationItem(1);
+		}else if(StockFragment.TYPE.equals(selectedTab)){
+			tabBar.setSelectedNavigationItem(2);
 		}
 		
 		// restore previously set alarm, and set if it isn't known
@@ -174,7 +178,7 @@ public class MainActivity extends Activity {
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
 			Log.i("ScanTabListener", "onTabSelected "+mFragment+" tab="+tab+" ft="+ft);
 			if (mFragment !=  null) {
-				ft.replace(R.id.main_tabs, mFragment);
+			    ft.replace(R.id.main_tabs, mFragment);
 			}
 			MainActivity.this.scanFrag = (ScanFragment)mFragment;
 		}
@@ -185,6 +189,8 @@ public class MainActivity extends Activity {
 			if (mFragment !=  null)
 				ft.remove(mFragment);
 		}
+		
+		
 	}
 
 	@Override

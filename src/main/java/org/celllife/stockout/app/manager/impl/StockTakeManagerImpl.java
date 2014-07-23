@@ -191,4 +191,27 @@ public class StockTakeManagerImpl implements StockTakeManager {
         }
         return success;
     }
+    
+    @Override
+	public StockTake getDrugLastStockTake(Drug drug) {
+		StockTakeTableAdapter stockTake = DatabaseManager.getStockTakeTableAdapter();
+		StockTake drugStockTake = stockTake.findByDrug(drug);
+		return drugStockTake;
+	}
+
+	@Override
+	public StockReceived getDrugLastStockReceived(Drug drug) {
+		StockReceivedTableAdapter stockReceived = DatabaseManager.getStockReceivedTableAdapter();
+		StockReceived drugStockReceived = stockReceived.findBySingleDrug(drug);
+		return drugStockReceived;
+	}
+
+	@Override
+	public StockHistory getDrugStockHistory(Drug drug) {
+		StockHistoryTableAdapter stockHistory = DatabaseManager.getStockHistoryTableAdapter();
+		StockHistory drugStockHistory = stockHistory.findByDrug(drug);
+		return drugStockHistory;
+	}
 }
+	
+	

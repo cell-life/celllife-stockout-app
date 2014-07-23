@@ -3,6 +3,7 @@ package org.celllife.stockout.app.manager;
 import org.celllife.stockout.app.manager.impl.AlertManagerImpl;
 import org.celllife.stockout.app.manager.impl.AuthenticationManagerImpl;
 import org.celllife.stockout.app.manager.impl.CalculationManagerImpl;
+import org.celllife.stockout.app.manager.impl.DrugManagerImpl;
 import org.celllife.stockout.app.manager.impl.ServerCommunicationLogManagerImpl;
 import org.celllife.stockout.app.manager.impl.SessionManagerImpl;
 import org.celllife.stockout.app.manager.impl.SettingManagerImpl;
@@ -28,6 +29,7 @@ public class ManagerFactory {
 	private static CalculationManager calculationManager;
     private static SetupManager setupManager;
     private static ServerCommunicationLogManager serverCommunicationLogManager;
+    private static DrugManager drugManager;
 	
 	public static void initialise(Context context) {
 	    Log.d("ManagerFactory", "Initalise with application context.");
@@ -94,5 +96,13 @@ public class ManagerFactory {
             serverCommunicationLogManager = new ServerCommunicationLogManagerImpl();
         }
         return serverCommunicationLogManager;
+    }
+    
+    public static DrugManager getDrugManager() {
+		if (drugManager == null) {
+			drugManager = new DrugManagerImpl();
+		}
+		getSessionManager().markInteraction();
+		return drugManager;
     }
 }

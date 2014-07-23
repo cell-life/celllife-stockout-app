@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="fill_horizontal"
     android:layout_gravity="top">
-   
+    
+
+
     <TextView
         android:id="@+id/drug_name"
         style="@style/stock_row_top"
-        android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:text="@string/empty"
-        android:layout_weight="1"/>
+        android:textAlignment="viewStart"
+        android:singleLine="true"
+        android:layout_centerVertical="true" />
 
      <TextView
-         android:id="@+id/drug_amount"
+        android:id="@+id/drug_amount"
          style="@style/stock_row_bot"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_weight="0.16" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        android:textAlignment="viewEnd"
+        android:singleLine="true"
+        android:layout_toRightOf="@+id/drug_name"
+        android:layout_centerVertical="true" />
 	     
-</LinearLayout>
+</RelativeLayout>

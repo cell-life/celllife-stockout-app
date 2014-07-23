@@ -102,6 +102,11 @@ public class StockReceivedTableAdapter extends TableAdapter<StockReceived> {
 	public List<StockReceived> findByDrug(Drug drug) {
 		return db.findMany(this, QUERY_FINDBY_DRUG, new String[] { drug.getId().toString() });
 	}
+	
+	public StockReceived findBySingleDrug(Drug drug) {
+		return db.find(this, QUERY_FINDBY_DRUG, new String[] { drug.getId().toString() });
+	}
+	
 
 	public List<StockReceived> findLatestStockReceived() {
 		Calendar cal = Calendar.getInstance();
