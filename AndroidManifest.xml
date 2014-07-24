@@ -70,8 +70,13 @@
             android:name="org.celllife.stockout.app.ui.activities.StockInfoActivty"
             android:label="@string/app_name" >
          </activity>
-         
-	     <service android:name="org.celllife.stockout.app.ui.services.UpdateAlertService" />
+        <activity
+             android:name="org.celllife.stockout.app.ui.activities.DrugDetailActivity"
+             android:label="@string/app_name" >
+        </activity>
+
+
+    <service android:name="org.celllife.stockout.app.ui.services.UpdateAlertService" />
 	     <service android:name="org.celllife.stockout.app.ui.services.SendStockService" />
          <service android:name="org.celllife.stockout.app.ui.services.OfflineService" />
 	     <receiver android:name="org.celllife.stockout.app.ui.alarm.AlarmNotificationReceiver" />
