@@ -14,26 +14,27 @@
         android:contentDescription="@string/empty"
         android:layout_centerVertical="true" />
 
-
     <TextView
         android:id="@+id/drug_name"
         style="@style/stock_row_top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/empty"
-        android:textAlignment="viewStart"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
+        android:layout_toLeftOf="@+id/drug_amount"
         android:singleLine="true"
-        android:layout_toRightOf="@+id/stock_icon"
-        android:layout_centerVertical="true" />
+        android:text="@string/empty"
+        android:textAlignment="viewStart" />
 
      <TextView
         android:id="@+id/drug_amount"
-         style="@style/stock_row_bot"
-        android:layout_width="wrap_content"
+        android:layout_width="50dip"
         android:layout_height="wrap_content"
         android:text="@string/empty"
-        android:textAlignment="viewEnd"
         android:singleLine="true"
-        android:layout_toRightOf="@+id/drug_name"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true" 
+        android:layout_alignParentRight="true"
+        android:paddingRight="15dp"
+        android:gravity="right"/>
 	     
 </RelativeLayout>

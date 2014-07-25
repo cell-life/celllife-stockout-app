@@ -11,22 +11,23 @@
     <TextView
         android:id="@+id/drug_name"
         style="@style/stock_row_top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/empty"
         android:textAlignment="viewStart"
         android:singleLine="true"
+        android:layout_toLeftOf="@+id/drug_amount"
         android:layout_centerVertical="true" />
 
      <TextView
          android:id="@+id/drug_amount"
-         style="@style/stock_row_bot"
-         android:layout_width="wrap_content"
+         android:layout_width="50dip"
          android:layout_height="wrap_content"
          android:layout_alignParentRight="true"
          android:layout_centerVertical="true"
-         android:layout_toRightOf="@+id/drug_name"
-         android:gravity="center"
+         android:gravity="right"
+         android:paddingRight="15dp"
          android:singleLine="true"
-         android:text="@string/empty" />
+         android:text="@string/ok" />
 	     
 </RelativeLayout>
