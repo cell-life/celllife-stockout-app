@@ -40,7 +40,7 @@ public class DrugStockListAdapter extends ArrayAdapter<Drug> {
             textView.setText(drug.getDescription());
             int invalidEstimatedStock = Integer.MAX_VALUE;
             if (estimatedStock == invalidEstimatedStock) {
-                quantityView.setText(this.getContext().getString(R.string.no_stock_estimate));
+                quantityView.setText(this.getContext().getString(R.string.no_stock));
             } else {
                 quantityView.setText(Integer.toString(estimatedStock));
             }

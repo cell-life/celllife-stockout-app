@@ -18,14 +18,15 @@
         android:layout_centerVertical="true" />
 
      <TextView
-        android:id="@+id/drug_amount"
+         android:id="@+id/drug_amount"
          style="@style/stock_row_bot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/empty"
-        android:textAlignment="viewEnd"
-        android:singleLine="true"
-        android:layout_toRightOf="@+id/drug_name"
-        android:layout_centerVertical="true" />
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_centerVertical="true"
+         android:layout_toRightOf="@+id/drug_name"
+         android:gravity="center"
+         android:singleLine="true"
+         android:text="@string/empty" />
 	     
 </RelativeLayout>
