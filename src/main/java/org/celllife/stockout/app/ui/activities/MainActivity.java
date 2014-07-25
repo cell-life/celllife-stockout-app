@@ -78,9 +78,9 @@ public class MainActivity extends Activity {
 			tabBar.setSelectedNavigationItem(0);
 		} else if (ReceivedFragment.TYPE.equals(selectedTab)) {
 			tabBar.setSelectedNavigationItem(1);
-		}else if(StockFragment.TYPE.equals(selectedTab)){
-			tabBar.setSelectedNavigationItem(2);
-		}
+        } else if (StockFragment.TYPE.equals(selectedTab)) {
+            tabBar.setSelectedNavigationItem(2);
+        }
 		
 		// restore previously set alarm, and set if it isn't known
 		if (savedInstanceState != null) {

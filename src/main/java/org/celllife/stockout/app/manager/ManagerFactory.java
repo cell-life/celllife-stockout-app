@@ -99,10 +99,10 @@ public class ManagerFactory {
     }
     
     public static DrugManager getDrugManager() {
-		if (drugManager == null) {
-			drugManager = new DrugManagerImpl();
-		}
-		getSessionManager().markInteraction();
-		return drugManager;
+        if (drugManager == null) {
+            drugManager = new DrugManagerImpl();
+        }
+        getSessionManager().markInteraction();
+        return drugManager;
     }
 }
