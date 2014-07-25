@@ -139,7 +139,9 @@
     </style>
 
     <style name="edit_text_title">
-        <item name="android:paddingTop">15dip</item>
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingLeft">20dip</item>
+        <item name="android:paddingRight">20dip</item>
         <item name="android:textSize">24dip</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:gravity">center</item>
@@ -170,7 +172,8 @@
 
     <style name="drug_alert_title_main">
         <item name="android:paddingTop">10dip</item>
-        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingLeft">30dip</item>
+        <item name="android:paddingRight">30dip</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">18dip</item>
@@ -178,10 +181,11 @@
 
     <style name="drug_alert_title">
         <item name="android:paddingTop">10dip</item>
-        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingLeft">30dip</item>
+        <item name="android:paddingRight">30dip</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">15dip</item>
+
     </style>
 
     <style name="drug_description">
@@ -195,16 +199,19 @@
     <style name="title_divide">
     <item name="android:layout_marginTop">4dp</item>
     <item name="android:layout_height">1.3dp</item>
+    <item name="android:paddingLeft">20dip</item>
+    <item name="android:paddingRight">20dip</item>
     <item name="android:background">#ffffff</item>
     </style>
 
     <style name="line_divide">
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:layout_width">320dp</item>
         <item name="android:layout_height">0.1dp</item>
         <item name="android:background">#808080</item>
         <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
     </style>
 
     <style name="drug_name">
@@ -220,5 +227,7 @@
         <item name="android:textColor">#FF0000</item>
         <item name="android:gravity">center</item>
     </style>
+
+
 
 </resources>

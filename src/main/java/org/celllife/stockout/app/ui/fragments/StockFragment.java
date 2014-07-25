@@ -21,14 +21,17 @@ import android.widget.ListView;
  * This fragment manages the stock tab view which contains a list of drugs and their estimated stock levels
  */
 public class StockFragment extends ScanFragment {
+
     View stockView = null;
 
-    public static final String TYPE = "Drug";
+    //Allows scanning as order
+    public static final String TYPE = "StockTake";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         stockView = inflater.inflate(R.layout.stock, container, false);
         refresh(stockView); // setup the view
+        setupScanButton(stockView);
 
         return stockView;
     }

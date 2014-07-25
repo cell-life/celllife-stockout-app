@@ -43,6 +43,7 @@
                 android:text="@string/drugstock_name"/>
 
             <View
+                android:layout_width="fill_parent"
                 style="@style/line_divide"/>
 
             <TextView
@@ -60,6 +61,7 @@
                 android:text="@string/laststock_date"/>
 
             <View
+                android:layout_width="fill_parent"
                 style="@style/line_divide"
                 android:layout_gravity="center_horizontal"/>
 
@@ -78,6 +80,7 @@
                 android:text="@string/laststocklvl_text"/>
 
             <View
+                android:layout_width="fill_parent"
                 style="@style/line_divide"
                 android:layout_gravity="center_horizontal"/>
 
@@ -96,6 +99,7 @@
                 android:text="@string/avgdaily_text"/>
 
             <View
+                android:layout_width="fill_parent"
                 style="@style/line_divide"
                 android:layout_gravity="center_horizontal"/>
 
@@ -116,6 +120,7 @@
                 android:text="@string/eststock_text"/>
 
             <View
+                android:layout_width="fill_parent"
                 style="@style/line_divide"
                 android:layout_gravity="center_horizontal"/>
 
@@ -135,6 +140,7 @@
                 android:text="@string/stockreceived_date"/>
 
             <View
+                android:layout_width="fill_parent"
                 style="@style/line_divide"
                 android:layout_gravity="center_horizontal"/>
 
