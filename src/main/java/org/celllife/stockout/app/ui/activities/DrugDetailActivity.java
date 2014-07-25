@@ -13,6 +13,9 @@ import org.celllife.stockout.app.domain.Alert;
 import org.celllife.stockout.app.domain.Drug;
 import org.celllife.stockout.app.manager.DatabaseManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Details Drug Information when Alert is clicked
  */
@@ -34,7 +37,8 @@ public class DrugDetailActivity extends Activity {
         //Display Details
         drugName.setText(alert.getDrug().getDescription());
         barCode.setText(alert.getDrug().getBarcode());
-        alertDate.setText(alert.getDate().toString());
+        Date date = alert.getDate();
+        alertDate.setText(formatDate(date));
         alertLevel.setText(alert.getLevel().toString());
 
         final Button backButton = (Button) findViewById(R.id.cancel_button);
@@ -45,6 +49,12 @@ public class DrugDetailActivity extends Activity {
             }
         });
 
+    }
+
+    private String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        String formatedDate = sdf.format(date);
+        return formatedDate;
     }
 }
 
