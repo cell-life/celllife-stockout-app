@@ -39,6 +39,10 @@ Scanning is done using the Zxing app. Please use these barcodes to test:
  - [Testing barcodes](docs/barcodes.pdf)
  - [Testing labels](docs/Testing%20labels.pdf)
  
+## Server
+
+In order to test the app, a Stock Server will need to be installed and running on a public IP address. Please see: [Cell-Life Stock server](https://github.com/cell-life/celllife-stock)
+ 
 ## Technical documentation
 
 [CLS-0003-StockOutApp](docs/CLS-0003-StockOutApp-260214-1323-14.pdf)
