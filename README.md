@@ -2,7 +2,7 @@
 
 This Android app is designed to be used by Facilities to manage their drug stocks.
 
-[Stock Out Overview PPT](docs/Stock Out Overview.pptx)
+[Stock Out Overview PPT](docs/Stock%20Out%20Overview.pptx)
 
 ## Screen designs
 
@@ -37,7 +37,7 @@ stock take at any time.
 Scanning is done using the Zxing app. Please use these barcodes to test:
 
  - [Testing barcodes](docs/barcodes.pdf)
- - [Testing labels](docs/Testing labels.pdf)
+ - [Testing labels](docs/Testing%20labels.pdf)
  
 ## Technical documentation
 
